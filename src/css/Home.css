@@ -1,0 +1,20 @@
+
+* {
+    margin: 0 auto;
+    padding: 0;
+    box-sizing: border-box;
+}
+.Home {
+    display: flex;
+    flex-direction: row;
+    height: auto;
+    background: #232323;
+}
+.Menu {
+
+}
+.Conteudo {
+    display: flex;
+    flex: 80%;
+    background: #1C1C1C;
+}
