@@ -5,7 +5,6 @@ import Aba from "./Menu/Aba";
 import Logo from "./Menu/Imagens/LogoTexto.png";
 import "./Css/Menu.css"
 import { House,Search,Mail,User,TriangleAlert,Settings,Bell} from 'lucide-react';
-
 export default () => {
 
     const [abaSelecionada, setAbaSelecionada] = useState("Inicio");

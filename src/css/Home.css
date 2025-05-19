@@ -4,6 +4,12 @@
     padding: 0;
     box-sizing: border-box;
 }
+p {
+    color: white;
+    font-size: 20px;
+    font-family: Roboto, serif;
+    text-align: left;
+}
 .Home {
     display: flex;
     flex-direction: row;
@@ -13,8 +19,19 @@
 .Menu {
 
 }
+
+/* Configuração do Conteudo */
+
+
 .Conteudo {
     display: flex;
+    flex-direction: column;
     flex: 80%;
     background: #1C1C1C;
+}
+
+.btnAnunciar{
+    width: 100%;
+    height: 100px;
+
 }
