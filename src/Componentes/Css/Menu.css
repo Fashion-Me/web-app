@@ -128,3 +128,19 @@ hr {
     font-family: Roboto, serif;
     text-align: left;
 }
+
+/* Menu Simples */
+
+
+
+/* Hamburger */
+
+
+@media (max-width: 500px){
+    .hamburger {
+        position: absolute;
+        top: 10px; /* Ajuste conforme necessário */
+        left: 10px; /* Ajuste conforme necessário */
+        z-index: 1000; /* Garante que fique acima de outros elementos */
+    }
+}

@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
-import Anuncio from './ConjAnuncio/Anuncio';
-import Logo from "./Menu/Imagens/LogoTexto.png";
-import Aba from "./Menu/Aba";
+import Anuncio from './Anuncio';
+import Logo from "../Menu/Imagens/LogoTexto.png";
+import Aba from "../Menu/Aba";
 import {Bell, House, Mail, Search, Settings, TriangleAlert, User} from "lucide-react";
 
 export default (params) => {
@@ -25,8 +25,7 @@ export default (params) => {
             <div className="Inferior">
                 <Anuncio
                     preco={12}
-                    //selecionado={abaSelecionada === "Inicio"}
-                    //onClick={() => handleSelecionarAba("Inicio")}
+                    imgFundo={Logo}
                 />
             </div>
         </div>

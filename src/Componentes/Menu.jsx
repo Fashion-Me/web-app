@@ -3,65 +3,71 @@ import Aba from "./Menu/Aba";
 //Por enquanto a exportação é assim
 // import iconeInicio from "./Menu/Imagens/Icone Home.png";
 import Logo from "./Menu/Imagens/LogoTexto.png";
+// import logoSimples from "./Menu/Imagens/LogoSimples.png";
 import "./Css/Menu.css"
-import { House,Search,Mail,User,TriangleAlert,Settings,Bell} from 'lucide-react';
+import {House, Search, Mail, User, TriangleAlert, Settings, Bell} from 'lucide-react';
+// import {useNavigate} from "react-router-dom";
+import Hamburger from "./Menu/Hamburger";
+
 export default () => {
+    // const navigate = useNavigate();
 
     const [abaSelecionada, setAbaSelecionada] = useState("Inicio");
 
     const handleSelecionarAba = (titulo) => {
         setAbaSelecionada(titulo);
     };
-    return(
+    return (
         <div className="Menu">
             <div className="Superior">
                 <div className="logo partMenu">
-                    <img src={Logo} alt="Logo Fashion-me" />
+                    <img src={Logo} alt="Logo Fashion-me"/>
                 </div>
                 <div className="Cadastro partMenu">
                     <div className="CadEntrar"><p>Entrar</p></div>
                     <div className="CadCad"><p>Cadastrar</p></div>
                 </div>
                 <div className="conjAba partMenu">
-                    <hr />
+                    <hr/>
                     <Aba
                         titulo="Inicio"
                         selecionado={abaSelecionada === "Inicio"}
-                        onClick={() => handleSelecionarAba("Inicio")}
+                        onClick={() => {
+                            handleSelecionarAba("Inicio")
+                        }}
                     >
-                        <House />
+                        <House/>
                     </Aba>
-                    <hr />
+                    <hr/>
                     <Aba
                         titulo="Pesquisar"
                         selecionado={abaSelecionada === "Pesquisar"}
-                        onClick={() => handleSelecionarAba("Pesquisar")}
                     >
-                        <Search />
+                        <Search/>
                     </Aba>
-                    <hr />
+                    <hr/>
                     <Aba
                         titulo="Mensagens"
                         selecionado={abaSelecionada === "Mensagens"}
                         onClick={() => handleSelecionarAba("Mensagens")}
                     >
-                        <Mail />
+                        <Mail/>
                     </Aba>
-                    <hr />
+                    <hr/>
                     <Aba
                         titulo="Perfil"
                         selecionado={abaSelecionada === "Perfil"}
                         onClick={() => handleSelecionarAba("Perfil")}
                     >
-                        <User />
+                        <User/>
                     </Aba>
-                    <hr />
+                    <hr/>
                     <Aba
                         titulo="Moderação"
                         selecionado={abaSelecionada === "Moderação"}
                         onClick={() => handleSelecionarAba("Moderação")}
                     >
-                        <TriangleAlert />
+                        <TriangleAlert/>
                     </Aba>
                 </div>
             </div>
@@ -71,18 +77,21 @@ export default () => {
                     selecionado={abaSelecionada === "Notificação"}
                     onClick={() => handleSelecionarAba("Notificação")}
                 >
-                <Bell />
+                    <Bell/>
                 </Aba>
-                <hr />
+                <hr/>
                 <Aba
                     titulo="Configuração"
                     selecionado={abaSelecionada === "Configuração"}
                     onClick={() => handleSelecionarAba("Configuração")}
                 >
-                    <Settings />
+                    <Settings/>
                 </Aba>
             </div>
+
         </div>
-        );
+    );
 };
+
+
 
