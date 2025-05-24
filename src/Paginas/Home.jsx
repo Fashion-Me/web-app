@@ -9,12 +9,11 @@ import {MapPinned, ShoppingCart} from 'lucide-react';
 import { useState, useEffect } from 'react';
 import HamburgerComponent from '../Componentes/Menu/Hamburger';
 
-//Puxar do Banco
+// Puxar do Banco
 import fotoPerfil from "../Imagens/FotoPerfil.png"
-import Hamburger from "../Componentes/Menu/Hamburger";
 
 const LocalCli = 'Rua Jacinto Lucas n849, Roseira Pinto São Paulo - SP'
-
+const tipoUsuario = "convidado"; // Pode ser 'convidado', 'adm' ou 'padrao'
 
 export default () => {
 
@@ -38,13 +37,11 @@ export default () => {
     <div className='Home'>
         <div>
             {isMobile ? (
-                <HamburgerComponent menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
+                <HamburgerComponent user={tipoUsuario} menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
             ) : (
-                <Menu />
+                <Menu user={tipoUsuario}/>
             )}
         </div>
-        {/*<Menu className='Menu-G'/>*/}
-        {/*<Hamburger/>*/}
         <div className="Conteudo">
             <ConteudoHomePadrao local={LocalCli} tituloAnuncio="Calças" />
 

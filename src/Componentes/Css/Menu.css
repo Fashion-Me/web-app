@@ -4,7 +4,7 @@
     align-items: flex-start;
     justify-content: space-between;
     height: 100vh;
-    min-height: 650px;
+    min-height: 550px;
     max-width: 350px;
     flex: 20%;
     min-width: 250px;
@@ -12,7 +12,8 @@
     padding: 10px;
     gap: 10px;
 }
-.partMenu{
+
+.partMenu {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -21,13 +22,22 @@
     padding: 10px 0px;
     gap: 10px;
 }
-.partMenu img{
+
+.partMenu img {
     max-width: 100%;
     height: auto;
     overflow: hidden;
 }
+
 .conjAba {
     gap: 2px;
+}
+
+/* Textos */
+p {
+    color: white;
+    font-size: clamp(20px, 2vw, 24px);
+    font-family: Roboto, serif;
 }
 
 /* Logo */
@@ -38,26 +48,28 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: max(12vh,90px);
-    padding: max(3vh,22px);
-    }
+    height: max(12vh, 90px);
+    padding: max(2.5vh, 18px);
+    box-sizing: border-box;
+}
 
 
 /* Configuração da parte cadastro */
 
 .Cadastro {
+    width: 100%;
+    height: max(13vh, 80px);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 100%;
-    height: max(13vh,80px);
     background: linear-gradient(-75deg, #3A3A3A, #A1A1A1, #3A3A3A);
     gap: 0.5vh;
     padding: 5px;
     border-radius: 20px;
 }
-.Cadastro .CadEntrar{
+
+.Cadastro .CadEntrar {
     flex: 1;
     display: flex;
     align-items: center;
@@ -65,6 +77,7 @@
     width: 100%;
     border-radius: 20px;
 }
+
 .Cadastro .CadCad {
     flex: 1;
     display: flex;
@@ -73,12 +86,6 @@
     width: 100%;
     background-color: #4066FF;
     border-radius: 20px;
-}
-
-.Cadastro p{
-    color: white;
-    font-size: 18px;
-    font-family: Roboto, serif;
 }
 
 
@@ -97,10 +104,11 @@ hr {
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: max(7vh,40px);
+    height: max(7vh, 40px);
     transition: background 0.3s ease, border-left 0.3s ease;
     /* border-left: 1px solid #005ada; */
 }
+
 .Aba .divAbaIcone {
     display: flex;
     flex: 1;
@@ -109,38 +117,58 @@ hr {
     width: 10%;
     height: 100%;
 }
-.Aba .divAbaTexto{
+
+.Aba .divAbaTexto {
     flex: 2;
 }
 
 .Aba:hover {
     background: #232323;
     cursor: pointer;
- }
-.Aba img{
-    height: 45px;
 }
 
-
-.Aba p{
-    color: white;
-    font-size: 20px;
-    font-family: Roboto, serif;
-    text-align: left;
+.Aba img {
+    height: 45px;
 }
 
 /* Menu Simples */
 
 
-
 /* Hamburger */
 
 
-@media (max-width: 500px){
+@media (max-width: 600px) {
     .hamburger {
         position: absolute;
-        top: 10px; /* Ajuste conforme necessário */
-        left: 10px; /* Ajuste conforme necessário */
-        z-index: 1000; /* Garante que fique acima de outros elementos */
+        z-index: 1;
+    }
+
+    .hamburgerIcon {
+        position: relative;
+    }
+
+    .menu {
+        width: 100%;
+    }
+
+    .logo {
+        padding: 0px;
+    }
+
+    .divLogoHamburger {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        width: 100%;
+        height: max(12vh, 90px);
+        padding: max(3vh, 22px) max(1vh, 8px);
+        box-sizing: border-box;
+    }
+
+    .divLogoHamburger img {
+        object-fit: contain;
+        max-height: max(8vh, 50px);
     }
 }

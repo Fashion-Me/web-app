@@ -7,9 +7,9 @@ import Logo from "./Menu/Imagens/LogoTexto.png";
 import "./Css/Menu.css"
 import {House, Search, Mail, User, TriangleAlert, Settings, Bell} from 'lucide-react';
 // import {useNavigate} from "react-router-dom";
-import Hamburger from "./Menu/Hamburger";
+// import Hamburger from "./Menu/Hamburger";
 
-export default () => {
+export default (props) => {
     // const navigate = useNavigate();
 
     const [abaSelecionada, setAbaSelecionada] = useState("Inicio");
@@ -21,12 +21,15 @@ export default () => {
         <div className="Menu">
             <div className="Superior">
                 <div className="logo partMenu">
-                    <img src={Logo} alt="Logo Fashion-me"/>
+                    {!props.children && <img src={Logo} alt="Logo Fashion-me"/>}
+                    {props.children && <div className="divLogoHamburger"><div>{props.children}</div> <div><img src={Logo} alt="Logo Fashion-me"/></div></div>}
                 </div>
-                <div className="Cadastro partMenu">
-                    <div className="CadEntrar"><p>Entrar</p></div>
-                    <div className="CadCad"><p>Cadastrar</p></div>
-                </div>
+                {props.user == 'convidado' &&
+                    <div className="Cadastro partMenu">
+                        <div className="CadEntrar"><p>Entrar</p></div>
+                        <div className="CadCad"><p>Cadastrar</p></div>
+                    </div>
+                }
                 <div className="conjAba partMenu">
                     <hr/>
                     <Aba
@@ -42,6 +45,9 @@ export default () => {
                     <Aba
                         titulo="Pesquisar"
                         selecionado={abaSelecionada === "Pesquisar"}
+                        onClick={() => {
+                            handleSelecionarAba("Pesquisar")
+                        }}
                     >
                         <Search/>
                     </Aba>
@@ -61,14 +67,18 @@ export default () => {
                     >
                         <User/>
                     </Aba>
-                    <hr/>
-                    <Aba
-                        titulo="Moderação"
-                        selecionado={abaSelecionada === "Moderação"}
-                        onClick={() => handleSelecionarAba("Moderação")}
-                    >
-                        <TriangleAlert/>
-                    </Aba>
+                    {props.user === 'adm' && (
+                        <>
+                            <hr/>
+                            <Aba
+                                titulo="Moderação"
+                                selecionado={abaSelecionada === "Moderação"}
+                                onClick={() => handleSelecionarAba("Moderação")}
+                            >
+                                <TriangleAlert/>
+                            </Aba>
+                        </>
+                    )}
                 </div>
             </div>
             <div className="conjAba partMenu inferior">
@@ -88,7 +98,6 @@ export default () => {
                     <Settings/>
                 </Aba>
             </div>
-
         </div>
     );
 };

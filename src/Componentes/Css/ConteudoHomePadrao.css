@@ -1,0 +1,64 @@
+p {
+    color: white;
+    font-family: Roboto, serif;
+}
+
+divHomePadrao{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    background-color: lightgray;
+}
+.divLocal{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 60%;
+}
+.divLocal p {
+        color: white;
+        font-size: clamp(10px, 2vw, 12px);
+        font-family: Roboto, serif;
+}
+.divCarinho {
+    display: flex;
+    flex-direction: column; /* Alinha os elementos verticalmente */
+    justify-content: center;
+    align-items: center;
+    gap: 10px; /* Espaçamento entre os elementos */
+    background-color: #3C3C3C; /* Cor de fundo */
+    position: absolute; /* Torna o elemento absoluto */
+    top: 0; /* Posiciona no canto superior */
+    right: 0; /* Posiciona no canto esquerdo */
+    border-radius: 10px; /* Adiciona bordas arredondadas */
+    padding: 10px; /* Adiciona espaçamento interno */
+    width: auto; /* Ajusta a largura automaticamente */
+}
+
+.imgPerfil img {
+    width: 35px; /* Ajusta a largura da imagem ao tamanho do div */
+    height: 100%; /* Ajusta a altura da imagem ao tamanho do div */
+    object-fit: cover; /* Garante que a imagem se ajuste sem distorção */
+}
+
+@media (max-width: 600px) {
+    .divCarinho {
+        display: flex;
+        flex-direction: row; /* Alinha os elementos verticalmente */
+        justify-content: center;
+        align-items: center;
+        gap: 10px; /* Espaçamento entre os elementos */
+        background-color: #3C3C3C; /* Cor de fundo */
+        position: absolute; /* Torna o elemento absoluto */
+        top: 0; /* Posiciona no canto superior */
+        right: 0; /* Posiciona no canto esquerdo */
+        border-radius: 10px; /* Adiciona bordas arredondadas */
+        padding: 10px; /* Adiciona espaçamento interno */
+        width: auto; /* Ajusta a largura automaticamente */
+
+    }
+
+}
