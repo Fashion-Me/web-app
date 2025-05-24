@@ -1,12 +1,10 @@
 import React from 'react';
 import Menu from '../Componentes/Menu';
-import ConjAnuncio from "../Componentes/ConjAnuncio/ConjAnuncio";
+import {BrowserRouter as Router, Routes} from 'react-router-dom'
 import "../css/Home.css"
 import ConteudoHomePadrao from "../Componentes/ConteudoHomePadrao";
 import "@radix-ui/themes/styles.css";
-import iconeInicio from "../Imagens/Fundo-Btn.png";
-import {MapPinned, ShoppingCart} from 'lucide-react';
-import { useState, useEffect } from 'react';
+import {useState, useEffect} from 'react';
 import HamburgerComponent from '../Componentes/Menu/Hamburger';
 
 // Puxar do Banco
@@ -34,40 +32,15 @@ export default () => {
 
 
     return (
-    <div className='Home'>
-        <div>
-            {isMobile ? (
-                <HamburgerComponent user={tipoUsuario} menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
-            ) : (
-                <Menu user={tipoUsuario}/>
-            )}
+        <div className='Home'>
+                        {isMobile ? (
+                            <HamburgerComponent user={tipoUsuario} menuOpen={menuOpen} setMenuOpen={setMenuOpen}/>
+                        ) : (
+                            <Menu user={tipoUsuario}/>
+                        )}
+                        <ConteudoHomePadrao local={LocalCli} tituloAnuncio="Calças"/>
         </div>
-        <div className="Conteudo">
-            <ConteudoHomePadrao local={LocalCli} tituloAnuncio="Calças" />
-
-
-
-
-            {/*<div className="divLocal">*/}
-            {/*    <MapPinned stroke={"#4066FF"}/>*/}
-            {/*    <p> {LocalCli} </p>*/}
-            {/*</div>*/}
-            {/*<div*/}
-            {/*    className="btnAnunciar"*/}
-            {/*    style={{backgroundImage: `url(${iconeInicio})`}}*/}
-            {/*>*/}
-            {/*    <p>ANUNCIE AQUI SUAS ROUPAS NA FASHION</p>*/}
-            {/*</div>*/}
-            {/*<div className='divCarinho'>*/}
-            {/*    <div className="imgPerfil"><img src={fotoPerfil} alt="Foto de Perfil"/></div>*/}
-            {/*    <div className="IconeCarinho"><ShoppingCart/></div>*/}
-            {/*</div>*/}
-            {/*<ConjAnuncio*/}
-            {/*    titulo="Calças"*/}
-            {/*/>*/}
-        </div>
-    </div>
-);
+    );
 };
 
 //alt+shift+f

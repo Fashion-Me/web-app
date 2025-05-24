@@ -6,11 +6,33 @@ import Logo from "./Menu/Imagens/LogoTexto.png";
 // import logoSimples from "./Menu/Imagens/LogoSimples.png";
 import "./Css/Menu.css"
 import {House, Search, Mail, User, TriangleAlert, Settings, Bell} from 'lucide-react';
-// import {useNavigate} from "react-router-dom";
+import { Link, Routes, useNavigate} from "react-router-dom";
 // import Hamburger from "./Menu/Hamburger";
 
 export default (props) => {
-    // const navigate = useNavigate();
+     const navigate = useNavigate();
+
+     function onNavegacao(titulo) {
+         if (titulo === "Inicio") {
+             navigate("/");
+         } else if (titulo === "Pesquisar") {
+             navigate("/pesquisar");
+         } else if (titulo === "Mensagens") {
+             navigate("/mensagens");
+         } else if (titulo === "Perfil") {
+             navigate("/perfil");
+         } else if (titulo === "Moderação") {
+             navigate("/moderação");
+         } else if (titulo === "Notificação") {
+             navigate("/notificacao");
+         } else if (titulo === "Configuração") {
+             navigate("/configuracao");
+         } else if (titulo === "Entrar") {
+             navigate("/login");
+         } else if (titulo === "Cadastrar") {
+             navigate("/cadastro");
+         }
+     }
 
     const [abaSelecionada, setAbaSelecionada] = useState("Inicio");
 
@@ -26,8 +48,8 @@ export default (props) => {
                 </div>
                 {props.user == 'convidado' &&
                     <div className="Cadastro partMenu">
-                        <div className="CadEntrar"><p>Entrar</p></div>
-                        <div className="CadCad"><p>Cadastrar</p></div>
+                        <div onClick={() => {onNavegacao("Entrar")}} className="CadEntrar"><p>Entrar</p></div>
+                        <div onClick={() => {onNavegacao("Cadastrar")}} className="CadCad"><p>Cadastrar</p></div>
                     </div>
                 }
                 <div className="conjAba partMenu">
@@ -37,6 +59,7 @@ export default (props) => {
                         selecionado={abaSelecionada === "Inicio"}
                         onClick={() => {
                             handleSelecionarAba("Inicio")
+                            onNavegacao("Inicio")
                         }}
                     >
                         <House/>

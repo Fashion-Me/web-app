@@ -7,7 +7,7 @@ import "./Css/ConteudoHomePadrao.css"
 
 const ConteudoHomePadrao = ({ local, tituloAnuncio }) => {
     return (
-        <div className="divHomePadrao">
+        <main className="Conteudo divHomePadrao">
             <div className="divLocal">
                 <MapPinned stroke={"#4066FF"} />
                 <p> {local} </p>
@@ -23,7 +23,7 @@ const ConteudoHomePadrao = ({ local, tituloAnuncio }) => {
                 <p>ANUNCIE AQUI SUAS ROUPAS NA FASHION</p>
             </div>
             <ConjAnuncio titulo={tituloAnuncio} />
-        </div>
+        </main>
     );
 };
 

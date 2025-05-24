@@ -1,9 +1,9 @@
 import React from 'react';
 
-const Cadastro = () => {
+const Login = () => {
     return (
-        <div className="divCadLogin">
-            <h1>Cadastro</h1>
+        <div className="Login">
+            <h1>Login</h1>
             <form>
                 <label htmlFor="nome">Nome:</label>
                 <input type="text" id="nome" name="nome" required />
@@ -20,4 +20,4 @@ const Cadastro = () => {
     );
 }
 
-export default Cadastro;
+export default Login;

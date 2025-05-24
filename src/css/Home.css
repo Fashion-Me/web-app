@@ -1,4 +1,3 @@
-
 * {
     margin: 0 auto;
     padding: 0;
@@ -23,16 +22,3 @@ p {
 /* Configuração do Conteudo */
 
 
-.Conteudo {
-    display: flex;
-    flex-direction: column;
-    height: 100%; /* Depende da altura do pai */
-    flex: 80%; /* Ocupa 80% do espaço disponível */
-    overflow: auto;
-    background: #1C1C1C;
-}
-
-.btnAnunciar{
-    width: 100%;
-    height: 100px;
-}
