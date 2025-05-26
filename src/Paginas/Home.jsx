@@ -1,19 +1,18 @@
 import React from 'react';
 import Menu from '../Componentes/Menu';
-import {BrowserRouter as Router, Routes} from 'react-router-dom'
 import "../css/Home.css"
 import ConteudoHomePadrao from "../Componentes/ConteudoHomePadrao";
 import "@radix-ui/themes/styles.css";
 import {useState, useEffect} from 'react';
 import HamburgerComponent from '../Componentes/Menu/Hamburger';
+// import {BrowserRouter as Router, Routes} from 'react-router-dom'
 
 // Puxar do Banco
-import fotoPerfil from "../Imagens/FotoPerfil.png"
 
 const LocalCli = 'Rua Jacinto Lucas n849, Roseira Pinto São Paulo - SP'
 const tipoUsuario = "convidado"; // Pode ser 'convidado', 'adm' ou 'padrao'
 
-export default () => {
+const Home = () => {
 
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 500);
     const [menuOpen, setMenuOpen] = useState(false);
@@ -42,5 +41,7 @@ export default () => {
         </div>
     );
 };
+
+export default Home;
 
 //alt+shift+f

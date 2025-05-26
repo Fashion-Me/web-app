@@ -1,0 +1,155 @@
+@import "tailwindcss";
+
+main.divCadLogin{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 100vh;
+    height: auto;
+    background: #232323;
+    background-image: url("../Imagens/DetalheFundo.png");
+    background-repeat: repeat;
+    background-size: unset;
+}
+
+main .divFormulario{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    width: clamp(300px,95vw ,450px);
+    min-height: 550px;
+    height:  95vh;
+    background: #2B2B2B;
+    padding: 40px;
+    border-radius: 25px;
+    gap: 0;
+    box-sizing: border-box;
+}
+
+/* Configuração do Logo */
+
+.divFormulario .divLogo{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    flex: 0 0 15%; /* 20% da altura */
+}
+.divFormulario .divLogo img{
+    max-width: 100%;
+    width: 220px;
+    height: auto;
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+
+/* Configuração do Titulo */
+
+main.divCadLogin h1 {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    color: white;
+    font-family: Roboto, serif;
+    text-align: start;
+    font-size: clamp(20px, 20vw, 25px);
+    flex: 0 0 10%; /* 10% da altura */
+}
+
+/* Configuração do Subtitulos */
+
+.formCad .divFormulario p {
+    width: 100%;
+    color: white;
+    font-size: 18px;
+    font-family: Roboto, serif;
+    text-align: right;
+}
+
+
+
+.formCad p {
+    width: 100%;
+    color: white;
+    font-family: Roboto, serif;
+    font-size: 17px;
+    text-align: right;
+    cursor: pointer;
+}
+.formCad p:hover {
+    color: #4066FF;
+}
+
+/* Configuração do Formulário */
+
+.divFormulario .formCad{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: space-around;
+    width: 100%;
+    gap: 2vh;
+    box-sizing: border-box;
+    flex: 0 0 75%; /* 70% da altura */
+}
+
+
+.CadLogInput {
+    background-color: #4C4C4C;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 10px;
+    width: 100%;
+    font-size: 16px;
+}
+
+.CadLogInput::placeholder {
+    color: #B3B3B3;
+}
+
+.CadLogButton {
+    background-color: #4066FF;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 5px;
+    font-size: 18px;
+    font-family: Roboto, serif;
+    cursor: pointer;
+    text-align: center;
+    width: 100%;
+}
+
+.CadLogButton:hover {
+    background-color: #3050CC;
+}
+
+input[type="date"] {
+    color: #BEBEBE; /* Define a cor do texto obrigatório no campo de data */
+}
+
+
+
+@media (max-width: 450px) {
+
+    main .divFormulario{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+        width: clamp(300px,95vw ,550px);
+        height: clamp(500px, 90vh, auto);
+        background: #00000000;
+        padding: 20px;
+        gap: 0;
+    }
+
+
+}
+

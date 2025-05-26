@@ -1,0 +1,120 @@
+/*
+    Flex
+*/
+.divFormulario .divLogo {
+    flex: 10%; /* 20% da altura */
+}
+
+main.divCadLogin h1 {
+    flex: 10%; /* 10% da altura */
+}
+
+.divFormulario .formLogin {
+    justify-content: start;
+    flex: 40%; /* 30% da altura */
+}
+
+.divFacaLogin {
+    flex: 15%; /* 10% da altura */
+}
+
+.divbtnCadastrar {
+    flex: 20%; /* 10% da altura */
+}
+
+/* fontes */
+
+.formLogin p {
+    width: 100%;
+    color: white;
+    font-size: 18px;
+    font-family: Roboto, serif;
+    text-align: right;
+    cursor: pointer;
+}
+
+.formLogin p:hover {
+    color: #4066FF;
+}
+
+
+.divbtnCadastrar p {
+    width: 100%;
+    color: white;
+    font-size: 18px;
+    font-family: Roboto, serif;
+    text-align: center;
+}
+
+
+
+
+.divFormulario .formLogin {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+    gap: 2vh;
+    box-sizing: border-box;
+}
+
+
+.divFormulario hr {
+    width: 100%;
+    height: 1px;
+    border: none;
+    background-color: #535353;
+}
+
+.divFacaLogin {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.divFacaLogin .divLinha {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.divFacaLogin .divIcones img {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+}
+
+.divFacaLogin p {
+    width: 100%;
+    color: white;
+    font-size: 18px;
+    text-align: center;
+}
+
+.divFacaLogin {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.divFormulario .divbtnCadastrar {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    width: 100%;
+    font-family: Roboto, serif;
+    text-align: center;
+}
+
+
+

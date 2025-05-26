@@ -1,23 +1,37 @@
 import React from 'react';
+import "../css/Cadastro.css"
+
+
+/* Puxar do Banco */
+import Logo from "../Componentes/Menu/Imagens/LogoTexto.png";
+import {useNavigate} from "react-router-dom";
 
 const Cadastro = () => {
+    const navigate = useNavigate();
     return (
-        <div className="divCadLogin">
-            <h1>Cadastro</h1>
-            <form>
-                <label htmlFor="nome">Nome:</label>
-                <input type="text" id="nome" name="nome" required />
-
-                <label htmlFor="email">Email:</label>
-                <input type="email" id="email" name="email" required />
-
-                <label htmlFor="senha">Senha:</label>
-                <input type="password" id="senha" name="senha" required />
-
-                <button type="submit">Cadastrar</button>
-            </form>
-        </div>
+        <main className="divCadLogin">
+            <div className="divFormulario">
+                <div className="divLogo">
+                    <img src={Logo} alt="Logo Fashion-me"/>
+                </div>
+                    <h1>Crie sua conta</h1>
+                <form className="formCad">
+                    <input className="CadLogInput" type="text" id="nome" name="nome" placeholder="Nome" required/>
+                    <input className="CadLogInput" type="text" id="apelido" name="apelido" placeholder="Apelido"
+                           required/>
+                    <input className="CadLogInput" type="date" id="dataNasc" required/>
+                    <input className="CadLogInput" type="email" id="email" name="email" placeholder="Email" required/>
+                    <input className="CadLogInput" type="tel" id="telefone" name="telefone"
+                           placeholder="Número de Telefone" required/>
+                    <input className="CadLogInput" type="password" id="senha" name="senha" placeholder="Senha"
+                           required/>
+                    <button className="CadLogButton" type="submit">Cadastrar</button>
+                    <p onClick={() => {navigate("/login")}}>Já possui uma conta?</p>
+                </form>
+            </div>
+        </main>
     );
 }
 
 export default Cadastro;
+
