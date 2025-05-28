@@ -1,0 +1,154 @@
+.divCarrinhoAberto {
+    position: absolute;
+    max-width: 550px;
+    width: 100vw;
+    min-width: 300px;
+    height: 100vh;
+    background-color: #2B2B2B;
+    display: flex;
+    flex-direction: column;
+    top: 0;
+    right: 0;
+    z-index: 3;
+}
+
+.divEscurecerFundo{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(43, 43, 43, 0.2);
+    top: 0;
+    right: 0;
+    z-index: 2;
+}
+
+/* Fontes */
+
+.TituloCarinho h1 {
+    font-size: 20px;
+    font-family: Roboto, serif;
+}
+
+.ResultadoCarrinho h2,.ItemCarrinho h3 {
+    font-size: 16px;
+    font-family: Roboto, serif;
+}
+
+
+/* Estilo para o Título do Carrinho */
+.TituloCarinho {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    color: white;
+    border-bottom: 1px solid #404040;
+}
+
+
+
+.TituloCarinho svg {
+    cursor: pointer;
+    color: white;
+}
+
+/* Estilo para os Itens do Carrinho */
+.ItensCarrinho {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    gap: 10px;
+}
+
+.ItemCarrinho {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: #3C3C3C;
+    padding: 10px;
+    border-radius: 10px;
+    gap: 10px;
+    color: white;
+}
+
+.ItemCarrinho img {
+    width: 50px;
+    height: 50px;
+    border-radius: 5px;
+}
+
+.DetalhesAnuncio {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+/* Estilo para o Resultado do Carrinho */
+
+.ResultadoCarrinho {
+    padding: 20px;
+    color: white;
+    border-top: 1px solid #404040;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.ResultadoCarrinho div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    color: white;
+    font-size: 16px;
+    font-family: Roboto, serif;
+}
+
+.ResultadoCarrinho button {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 70%;
+    background-color: #4066FF;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    border-radius: 15px;
+    cursor: pointer;
+    text-align: center;
+    margin: auto;
+    position: relative;
+}
+
+.ResultadoCarrinho button:hover {
+    background-color: #3050CC;
+}
+
+/* Estilo para o btnComprarAgora do Carrinho */
+
+.btnComprarAgora {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 90%;
+    background-color: #4066FF;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    margin: auto;
+    position: relative;
+    margin-bottom: 10px;
+}
+
+.btnComprarAgora:hover {
+    background-color: #3050CC;
+}

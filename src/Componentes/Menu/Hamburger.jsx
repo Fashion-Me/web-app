@@ -26,10 +26,6 @@ export default function HamburgerComponent({ user, menuOpen, setMenuOpen }) {
                 </div>
 
             }
-
-
-
-
         </div>
     );
 }

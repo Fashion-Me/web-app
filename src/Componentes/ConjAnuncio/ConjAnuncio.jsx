@@ -26,26 +26,26 @@ export default (params) => {
                     </div>
                     <div className="ConjAnuncioAnuncios">
                         <div className="ConjAnuncioAnunciosEsquerda">
-                            <Anuncio imgFundo={AnuncioTituloCamisa_1}/>
-                            <Anuncio imgFundo={AnuncioTituloCamisa_1}/>
+                            <Anuncio imgFundo={params.imgTitulo}/>
+                            <Anuncio imgFundo={params.imgTitulo}/>
                         </div>
                         <div className="ConjAnuncioAnunciosDireita">
-                            <Anuncio imgFundo={AnuncioTituloCamisa_1}/>
+                            <Anuncio imgFundo={params.imgTitulo}/>
                         </div>
                     </div>
                 </div>
             )}
             <div className="Inferior">
                 <Anuncio preco={12} imgFundo={params.imgAnuncio}/>
-                <Anuncio preco={12} imgFundo={params.imgAnuncio}/>
-                <Anuncio preco={12} imgFundo={params.imgAnuncio}/>
-                <Anuncio preco={12} imgFundo={params.imgAnuncio}/>
-                <Anuncio preco={12} imgFundo={params.imgAnuncio}/>
-                <Anuncio preco={12} imgFundo={params.imgAnuncio}/>
-                <Anuncio preco={12} imgFundo={params.imgAnuncio}/>
-                <Anuncio preco={12} imgFundo={params.imgAnuncio}/>
-                <Anuncio preco={12} imgFundo={params.imgAnuncio}/>
-                <Anuncio preco={12} imgFundo={params.imgAnuncio}/>
+                <Anuncio preco={40} imgFundo={params.imgAnuncio}/>
+                <Anuncio preco={200} imgFundo={params.imgAnuncio}/>
+                <Anuncio preco={25} imgFundo={params.imgAnuncio}/>
+                <Anuncio preco={80} imgFundo={params.imgAnuncio}/>
+                <Anuncio preco={1200} imgFundo={params.imgAnuncio}/>
+                <Anuncio preco={2} imgFundo={params.imgAnuncio}/>
+                <Anuncio preco={7} imgFundo={params.imgAnuncio}/>
+                <Anuncio preco={600} imgFundo={params.imgAnuncio}/>
+                <Anuncio preco={370} imgFundo={params.imgAnuncio}/>
             </div>
         </div>
     );
