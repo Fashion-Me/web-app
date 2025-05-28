@@ -8,6 +8,9 @@ import {useNavigate} from "react-router-dom";
 
 const Cadastro = () => {
     const navigate = useNavigate();
+
+
+
     return (
         <main className="divCadLogin">
             <div className="divFormulario">
@@ -15,7 +18,14 @@ const Cadastro = () => {
                     <img src={Logo} alt="Logo Fashion-me"/>
                 </div>
                     <h1>Crie sua conta</h1>
-                <form className="formCad">
+                <form
+                    className="formCad"
+                    onSubmit={(e) => {
+                        e.preventDefault();
+                        alert("Formulário enviado com sucesso!");
+                    navigate("/login");
+                    }}
+                >
                     <input className="CadLogInput" type="text" id="nome" name="nome" placeholder="Nome" required/>
                     <input className="CadLogInput" type="text" id="apelido" name="apelido" placeholder="Apelido"
                            required/>

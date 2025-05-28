@@ -4,18 +4,18 @@ import "../css/Home.css"
 import ConteudoHomePadrao from "../Componentes/ConteudoHomePadrao";
 import "@radix-ui/themes/styles.css";
 import {useState, useEffect} from 'react';
-import {useSearchParams} from "react-router-dom";
 import HamburgerComponent from '../Componentes/Menu/Hamburger';
+import {useSearchParams} from "react-router-dom";
 
 // Puxar do Banco
 
 const LocalCli = 'Rua Jacinto Lucas n849, Roseira Pinto São Paulo - SP'
+const tipoUsuario = "convidado"; // Pode ser 'convidado', 'adm' ou 'padrao'
 
 const Home = () => {
+
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 500);
     const [menuOpen, setMenuOpen] = useState(false);
-    const [searchParams] = useSearchParams();
-    const tipoUsuario = searchParams.get("tipoUsuario") || "convidado";
 
     useEffect(() => {
         const handleResize = () => {
@@ -28,21 +28,19 @@ const Home = () => {
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, []);
-
-
+    const [searchParams] = useSearchParams();
+    const tipoEspecifico = searchParams.get("titulo");
 
     return (
         <div className='Home'>
-                        {isMobile ? (
-                            <HamburgerComponent user={tipoUsuario} menuOpen={menuOpen} setMenuOpen={setMenuOpen}/>
-                        ) : (
-                            <Menu user={tipoUsuario}/>
-                        )}
-                        <ConteudoHomePadrao local={LocalCli} tipo=""/>
+            {isMobile ? (
+                <HamburgerComponent user={tipoUsuario} menuOpen={menuOpen} setMenuOpen={setMenuOpen}/>
+            ) : (
+                <Menu user={tipoUsuario}/>
+            )}
+            <ConteudoHomePadrao local={LocalCli} tipo="Especifica" tipoEspecifico={tipoEspecifico}/>
         </div>
     );
 };
 
 export default Home;
-
-//alt+shift+f

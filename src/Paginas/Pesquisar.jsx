@@ -11,7 +11,7 @@ import HamburgerComponent from '../Componentes/Menu/Hamburger';
 
 const LocalCli = 'Rua Jacinto Lucas n849, Roseira Pinto São Paulo - SP'
 
-const Home = () => {
+const Pesquisar = () => {
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 500);
     const [menuOpen, setMenuOpen] = useState(false);
     const [searchParams] = useSearchParams();
@@ -33,16 +33,14 @@ const Home = () => {
 
     return (
         <div className='Home'>
-                        {isMobile ? (
-                            <HamburgerComponent user={tipoUsuario} menuOpen={menuOpen} setMenuOpen={setMenuOpen}/>
-                        ) : (
-                            <Menu user={tipoUsuario}/>
-                        )}
-                        <ConteudoHomePadrao local={LocalCli} tipo=""/>
+            {isMobile ? (
+                <HamburgerComponent user={tipoUsuario} menuOpen={menuOpen} setMenuOpen={setMenuOpen}/>
+            ) : (
+                <Menu user={tipoUsuario}/>
+            )}
+            <ConteudoHomePadrao local={LocalCli} tipo=""/>
         </div>
     );
 };
 
-export default Home;
-
-//alt+shift+f
+export default Pesquisar;

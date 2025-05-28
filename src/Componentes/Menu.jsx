@@ -6,33 +6,36 @@ import Logo from "./Menu/Imagens/LogoTexto.png";
 // import logoSimples from "./Menu/Imagens/LogoSimples.png";
 import "./Css/Menu.css"
 import {House, Search, Mail, User, TriangleAlert, Settings, Bell} from 'lucide-react';
-import { Link, Routes, useNavigate} from "react-router-dom";
+import {Link, Routes, useNavigate} from "react-router-dom";
 // import Hamburger from "./Menu/Hamburger";
 
 export default (props) => {
-     const navigate = useNavigate();
+    const navigate = useNavigate();
+    const queryParams = new URLSearchParams(window.location.search);
+    const tipoUsuario = queryParams.get("tipoUsuario") || "convidado";
 
-     function onNavegacao(titulo) {
-         if (titulo === "Inicio") {
-             navigate("/");
-         } else if (titulo === "Pesquisar") {
-             navigate("/pesquisar");
-         } else if (titulo === "Mensagens") {
-             navigate("/mensagens");
-         } else if (titulo === "Perfil") {
-             navigate("/perfil");
-         } else if (titulo === "Moderação") {
-             navigate("/moderação");
-         } else if (titulo === "Notificação") {
-             navigate("/notificacao");
-         } else if (titulo === "Configuração") {
-             navigate("/configuracao");
-         } else if (titulo === "Entrar") {
-             navigate("/login");
-         } else if (titulo === "Cadastrar") {
-             navigate("/cadastro");
-         }
-     }
+    function onNavegacao(titulo) {
+
+        if (titulo === "Inicio") {
+            navigate(`/?tipoUsuario=${props.user}`);
+        } else if (titulo === "Pesquisar") {
+            navigate("/pesquisar");
+        } else if (titulo === "Mensagens") {
+            navigate("/mensagens");
+        } else if (titulo === "Perfil") {
+            navigate("/perfil");
+        } else if (titulo === "Moderação") {
+            navigate("/moderação");
+        } else if (titulo === "Notificação") {
+            navigate("/notificacao");
+        } else if (titulo === "Configuração") {
+            navigate("/configuracao");
+        } else if (titulo === "Entrar") {
+            navigate("/login");
+        } else if (titulo === "Cadastrar") {
+            navigate("/cadastro");
+        }
+    }
 
     const [abaSelecionada, setAbaSelecionada] = useState("Inicio");
 
@@ -44,12 +47,19 @@ export default (props) => {
             <div className="Superior">
                 <div className="logo partMenu">
                     {!props.children && <img src={Logo} alt="Logo Fashion-me"/>}
-                    {props.children && <div className="divLogoHamburger"><div>{props.children}</div> <div><img src={Logo} alt="Logo Fashion-me"/></div></div>}
+                    {props.children && <div className="divLogoHamburger">
+                        <div>{props.children}</div>
+                        <div><img src={Logo} alt="Logo Fashion-me"/></div>
+                    </div>}
                 </div>
-                {props.user == 'convidado' &&
+                {tipoUsuario == 'convidado' &&
                     <div className="Cadastro partMenu">
-                        <div onClick={() => {onNavegacao("Entrar")}} className="CadEntrar"><p>Entrar</p></div>
-                        <div onClick={() => {onNavegacao("Cadastrar")}} className="CadCad"><p>Cadastrar</p></div>
+                        <div onClick={() => {
+                            onNavegacao("Entrar")
+                        }} className="CadEntrar"><p>Entrar</p></div>
+                        <div onClick={() => {
+                            onNavegacao("Cadastrar")
+                        }} className="CadCad"><p>Cadastrar</p></div>
                     </div>
                 }
                 <div className="conjAba partMenu">
@@ -75,22 +85,28 @@ export default (props) => {
                         <Search/>
                     </Aba>
                     <hr/>
-                    <Aba
-                        titulo="Mensagens"
-                        selecionado={abaSelecionada === "Mensagens"}
-                        onClick={() => handleSelecionarAba("Mensagens")}
-                    >
-                        <Mail/>
-                    </Aba>
-                    <hr/>
-                    <Aba
-                        titulo="Perfil"
-                        selecionado={abaSelecionada === "Perfil"}
-                        onClick={() => handleSelecionarAba("Perfil")}
-                    >
-                        <User/>
-                    </Aba>
-                    {props.user === 'adm' && (
+                    {tipoUsuario !== 'convidado' &&
+                        <>
+                            <Aba
+                                titulo="Mensagens"
+                                selecionado={abaSelecionada === "Mensagens"}
+                                onClick={() => handleSelecionarAba("Mensagens")}
+                            >
+                                <Mail/>
+                            </Aba>
+                            <hr/>
+
+
+                            <Aba
+                                titulo="Perfil"
+                                selecionado={abaSelecionada === "Perfil"}
+                                onClick={() => handleSelecionarAba("Perfil")}
+                            >
+                                <User/>
+                            </Aba>
+                        </>
+                    }
+                    {tipoUsuario === 'adm' && (
                         <>
                             <hr/>
                             <Aba
@@ -105,6 +121,7 @@ export default (props) => {
                 </div>
             </div>
             <div className="conjAba partMenu inferior">
+
                 <Aba
                     titulo="Notificação"
                     selecionado={abaSelecionada === "Notificação"}

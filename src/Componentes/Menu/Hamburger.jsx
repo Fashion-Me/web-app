@@ -7,8 +7,8 @@ export default function HamburgerComponent({ user, menuOpen, setMenuOpen }) {
     return (
         <div className="hamburger">
             {!menuOpen && <Hamburger
-                size={24}
-                color="#00ff00"
+                size={28}
+                color="#ffffff"
                 toggled={menuOpen}
                 toggle={setMenuOpen}
             />}

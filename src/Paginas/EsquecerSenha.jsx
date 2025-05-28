@@ -3,7 +3,6 @@ import Logo from "../Componentes/Menu/Imagens/LogoTexto.png";
 import "../css/Cadastro.css";
 import "../css/EsquecerSenha.css"
 import {useNavigate} from "react-router-dom";
-import Menu from "../Componentes/Menu";
 
 
 const EsquecerSenha = () => {
@@ -31,7 +30,12 @@ const EsquecerSenha = () => {
                         Telefone
                     </button>
                 </div>
-                <form className="formLogin">
+                <form className="formLogin"
+                      onSubmit={(e) => {
+                          e.preventDefault();
+                          navigate("/novaSenha");
+                      }}
+                >
                     {selectedButton === "Email" ? (
                         <input className="CadLogInput" type="email" id="email" name="email" placeholder="Email" required/>
                     )  : (

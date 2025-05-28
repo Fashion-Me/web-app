@@ -153,10 +153,6 @@ hr {
         width: 100%;
     }
 
-    .logo {
-        padding: 0px;
-    }
-
     .divLogoHamburger {
         display: flex;
         flex-direction: row;

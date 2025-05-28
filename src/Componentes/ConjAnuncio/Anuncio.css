@@ -1,0 +1,122 @@
+.ConjAnuncio{
+    display: flex;
+    flex-direction: column;
+    width: 60vw;
+    height: auto;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    gap: 20px;
+}
+
+.ConjAnuncio .Superior {
+    display: flex;
+    width: 100%;
+    margin: 0 auto;
+    gap: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 18vh;
+    flex-shrink: 0;
+    border-radius: 10px;
+
+}
+
+.ConjAnuncio .Superior .ConjAnuncioTitulo {
+    flex: 6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.ConjAnuncio .Superior .ConjAnuncioTitulo h2 {
+    color: white;
+    font-size: clamp(18px, 2.5vw, 24px);
+    font-family: Roboto, serif;
+    font-weight: bold;
+    letter-spacing: 2px;
+    text-align: center;
+}
+
+.ConjAnuncio .Superior .ConjAnuncioAnuncios {
+    flex: 4;
+    display: flex;
+    max-width: 180px;
+    height: 100%;
+    flex-direction: row;
+    justify-content: center;
+    gap: 10px;
+}
+.ConjAnuncio .Superior .ConjAnuncioAnuncios .ConjAnuncioAnunciosEsquerda{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+}
+.ConjAnuncio .Superior .ConjAnuncioAnuncios .ConjAnuncioAnunciosDireita{
+    flex: 2;
+    display: flex;
+    justify-content: center;
+}
+
+
+.ConjAnuncio .Superior .ConjAnuncioAnuncios .Anuncio {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-end;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background-size: cover;
+    background-position: center;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+
+/* Estilo para a parte Inferior */
+
+.ConjAnuncio .Inferior {
+    display: flex;
+    height: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.ConjAnuncio .Inferior .Anuncio {
+    display: flex;
+    align-items: flex-end;
+    width: 143px;
+    height: 220px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 10px;
+    overflow: hidden; /* Garante que o conteúdo não ultrapasse os limites */
+}
+.ConjAnuncio .Inferior .Anuncio p {
+    background: #ffffff;
+    color: #3050CC;
+    width: fit-content;
+    margin: 5px;
+    padding: 3px 7px;
+    border-radius: 10px;
+
+}
+
+/* Responsividade */
+
+@media (max-width: 500px) {
+    .ConjAnuncio {
+        width: 90%;
+    }
+    .ConjAnuncio .Superior {
+        height: 15vh;
+    }
+    .ConjAnuncio .Inferior .Anuncio {
+        width: 117px;
+        height: 180px;
+    }
+
+}
