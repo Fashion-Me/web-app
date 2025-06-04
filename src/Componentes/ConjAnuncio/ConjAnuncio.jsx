@@ -18,20 +18,11 @@ export default (params) => {
     }
 
     return(
-        <div className="ConjAnuncio">
+        <div className="ConjAnuncio" >
             {params.func !== "add" && (
-                <div className="Superior" style={{ backgroundImage: `url(${params.imgFundoTitulo})` }} onClick={() => onNavegacaoConjAnuncio()}>
+                <div className="Superior Clicavel" style={{ backgroundImage: `url(${params.imgFundoTitulo})` }} onClick={() => onNavegacaoConjAnuncio()}>
                     <div className="ConjAnuncioTitulo">
-                        <h2> {params.titulo} </h2>
-                    </div>
-                    <div className="ConjAnuncioAnuncios">
-                        <div className="ConjAnuncioAnunciosEsquerda">
-                            <Anuncio imgFundo={params.imgTitulo}/>
-                            <Anuncio imgFundo={params.imgTitulo}/>
-                        </div>
-                        <div className="ConjAnuncioAnunciosDireita">
-                            <Anuncio imgFundo={params.imgTitulo}/>
-                        </div>
+                        <h2 className="bold"> {params.titulo} </h2>
                     </div>
                 </div>
             )}

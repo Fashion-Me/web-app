@@ -33,7 +33,6 @@
 .ConjAnuncio .Superior .ConjAnuncioTitulo h2 {
     color: white;
     font-size: clamp(18px, 2.5vw, 24px);
-    font-family: Roboto, serif;
     font-weight: bold;
     letter-spacing: 2px;
     text-align: center;

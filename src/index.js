@@ -19,7 +19,7 @@ const router = createBrowserRouter([
     {   path: "/login",     element: <Login/>},
     {   path: "/esquecerSenha", element: <EsquecerSenha/> },
     {   path: "/homeEspecifica", element: <HomeEspecifica/> },
-    {   path : "/novaSenha", element: <NovaSenha/> },
+    {   path: "/novaSenha", element: <NovaSenha/> },
 ]);
 const root = ReactDOM.createRoot(document.getElementById('menu'));
 root.render(

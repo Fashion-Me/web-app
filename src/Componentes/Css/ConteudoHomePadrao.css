@@ -19,7 +19,6 @@
 .divHomePadrao p {
     color: white;
     font-size: clamp(13px, 2.5vw, 18px);
-    font-family: Roboto, serif;
 }
 
 /* Botão Anunciar */
@@ -38,11 +37,11 @@
 .divCarinho {
     display: flex;
     width: auto;
-    flex-direction: column; /* Alinha os elementos verticalmente */
     justify-content: center;
     align-items: center;
-    gap: 25px;
-    background-color: #3C3C3C;
+    gap: 20px;
+    background-color: #1c1c1c;
+    border: 1px solid #606060;
     position: absolute;
     top: 10px;
     right: 10px;
@@ -53,6 +52,10 @@
     width: 35px;
     height: 100%;
     object-fit: cover;
+}
+.IconeCarinho {
+    padding: 3px;
+    padding-right: 5px !important;
 }
 
 /* Programar Localização */
@@ -68,7 +71,6 @@
 .divLocal p {
     color: white;
     font-size: clamp(10px, 2vw, 12px);
-    font-family: Roboto, serif;
 }
 
 
@@ -81,7 +83,6 @@
 .divLocal p {
     color: white;
     font-size: clamp(10px, 2.5vw, 18px);
-    font-family: Roboto, serif;
 }
 
 /* Responsividade para telas menores */
@@ -97,7 +98,6 @@
     padding: 8px 20px;
     border-radius: 5px;
     font-size: 18px;
-    font-family: Roboto, serif;
     cursor: pointer;
     text-align: center;
     width: 80%;
@@ -155,7 +155,7 @@
         align-items: center;
         color: white;
         font-size: clamp(10px, 2.5vw, 18px);
-        font-family: Roboto, serif;
+
     }
 
 }

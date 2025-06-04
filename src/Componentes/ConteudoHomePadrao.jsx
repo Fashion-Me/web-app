@@ -8,9 +8,9 @@ import {useNavigate} from "react-router-dom";
 // Importar do banco
 import FundoHome from "../Imagens/DetalheFundo.png";
 import iconeInicio from "../Imagens/Fundo-Btn.png";
-import imgFundoTituloCamisetas from "../Imagens/FundoConjCamisetas.png";
-import imgFundoTituloCasacos from "../Imagens/FundoConjCasacos.png";
-import imgFundoTituloCalcas from "../Imagens/FundoConjCalcas.png";
+import imgFundoTituloCamisetas from "../Imagens/FundoConjCamisetas2.png";
+import imgFundoTituloCasacos from "../Imagens/FundoConjCasacos2.png";
+import imgFundoTituloCalcas from "../Imagens/FundoConjCalcas2.png";
 import imgFundoTituloCalcados from "../Imagens/FundoConjCalcados.png";
 import imgFundoTituloAcessorios from "../Imagens/FundoConjAcessorios.png";
 
@@ -47,11 +47,7 @@ const ConteudoHomePadrao = ({local, tipo, tipoEspecifico}) => {
         <main className="Conteudo divHomePadrao" style={{backgroundImage: `url(${FundoHome})`}}>
             <div className="FundoHamburguerCarrinho">
             </div>
-            <div className="divLocal">
-                <MapPinned className="iconelocal" stroke={"#4066FF"}/>
-                <p> {local} </p>
-            </div>
-            <Carrinho/>
+            <Carrinho className="Clicavel"/>
             {tipo === "" &&
                 <>
                     <div
@@ -61,7 +57,7 @@ const ConteudoHomePadrao = ({local, tipo, tipoEspecifico}) => {
                             navigate("/")
                         }}
                     >
-                        <p>ANUNCIE AQUI SUAS ROUPAS NA FASHION</p>
+                        <p className="bold">ANUNCIE AQUI SUAS ROUPAS NA FASHION</p>
                     </div>
                     <ConjAnuncio titulo="CAMISETAS" imgFundoTitulo={imgFundoTituloCamisetas}    imgTitulo={imgTituloCamisetas}    imgAnuncio={imgAnuncioCamiseta}/>
                     <ConjAnuncio titulo="CASACOS"   imgFundoTitulo={imgFundoTituloCasacos}      imgTitulo={imgTituloCasacos}    imgAnuncio={imgAnuncioCasaco}/>

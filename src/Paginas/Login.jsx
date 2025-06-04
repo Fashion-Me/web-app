@@ -41,7 +41,7 @@ const Login = () => {
                 </div>
                 <h1>Entrar na conta</h1>
                 <form className="formLogin" onSubmit={handleSubmit}>
-                    <input className="CadLogInput" type="text" id="nome" name="nome" placeholder="Email, Telefone ou Nome de perfil" required/>
+                    <input className="CadLogInput" type="text" id="nome" name="nome" placeholder="Email ou Telefone" required/>
                     <input className="CadLogInput" type="password" id="senha" name="senha" placeholder="Senha"
                            required/>
                     <button className="CadLogButton" type="submit">Entrar</button>

@@ -19,7 +19,7 @@ const Carrinho = () => {
             ) : (
                 <div className='divCarrinhoAberto'>
                     <div className="TituloCarinho">
-                        <h1>Carrinho</h1>
+                        <h1 style={{ fontWeight: "bold" }}>Carrinho</h1>
                         <X onClick={() => setCarrinhoAberto(false)}/>
                     </div>
                     <div className="ItensCarrinho">
@@ -30,7 +30,7 @@ const Carrinho = () => {
                         <ItemCarrinho imgAnuncio={imgAnuncioCamiseta} nomeProduto="Camisa Branca" nomeVendedor="Victor Hugo" preco={40} />
                     </div>
                     <div className="ResultadoCarrinho">
-                        <button><h2>Calcule seu frete aqui</h2><Check/></button>
+                        <button><h2>Calcule seu frete aqui</h2><Check size={24} color="#4066FF"/></button>
                         <div>
                             <h2>Produtos:</h2>
                             <h2>R$ 75,00</h2>
@@ -41,7 +41,7 @@ const Carrinho = () => {
                         </div>
                         <div>
                             <h2>Total:</h2>
-                            <h2>R$ 106,00</h2>
+                            <h2 className="bold">R$ 106,00</h2>
                         </div>
                     </div>
                     <button className="btnComprarAgora">Comprar agora</button>

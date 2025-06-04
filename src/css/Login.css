@@ -28,7 +28,6 @@ main.divCadLogin h1 {
     width: 100%;
     color: white;
     font-size: 18px;
-    font-family: Roboto, serif;
     text-align: right;
     cursor: pointer;
 }
@@ -41,8 +40,7 @@ main.divCadLogin h1 {
 .divbtnCadastrar p {
     width: 100%;
     color: white;
-    font-size: 18px;
-    font-family: Roboto, serif;
+    font-size: clamp(16px,3vw,18px);
     text-align: center;
 }
 
@@ -94,7 +92,7 @@ main.divCadLogin h1 {
 .divFacaLogin p {
     width: 100%;
     color: white;
-    font-size: clamp(16px,3vw,18px);
+    font-size: clamp(13px,3vw,15px);
     text-align: center;
 }
 
@@ -112,7 +110,6 @@ main.divCadLogin h1 {
     flex-direction: column;
     justify-content: flex-end;
     width: 100%;
-    font-family: Roboto, serif;
     text-align: center;
 }
 
