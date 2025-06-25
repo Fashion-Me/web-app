@@ -17,7 +17,7 @@ export default function HamburgerComponent({ user, menuOpen, setMenuOpen }) {
                 <Menu user={user}>
                     <Hamburger
                         className="hamburgerIcon"
-                        size={20}
+                        size={28}
                         color="#ffffff"
                         toggled={menuOpen}
                         toggle={setMenuOpen}

@@ -1,20 +1,4 @@
-.Conteudo {
-    display: flex;
-    flex-direction: column;
-    height: 100%; /* Depende da altura do pai */
-    flex: 80%; /* Ocupa 80% do espaço disponível */
-    background: #1C1C1C;
-    background-repeat: repeat;
-    background-size: unset;
-    gap: 10px;
-    padding: 10px;
-    align-items: center; /* Remove as barras de rolagem */
-    overflow: auto;
-}
 
-::-webkit-scrollbar{
-    width: 0;
-}
 
 .divHomePadrao p {
     color: white;
@@ -56,33 +40,6 @@
 .IconeCarinho {
     padding: 3px;
     padding-right: 5px !important;
-}
-
-/* Programar Localização */
-
-.divLocal{
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    width: 100%;
-    gap: 10px;
-}
-.divLocal p {
-    color: white;
-    font-size: clamp(10px, 2vw, 12px);
-}
-
-
-.divLocal .divLocalHamburger {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    width: 90%;
-}
-.divLocal p {
-    color: white;
-    font-size: clamp(10px, 2.5vw, 18px);
 }
 
 /* Responsividade para telas menores */

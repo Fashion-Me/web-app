@@ -28,8 +28,10 @@ const NovaSenha = () => {
                         alert("As senhas não coincidem. Por favor, tente novamente.");
                     }
                 }}>
-                    <input className="CadLogInput" type="password" id="senha" name="senha" placeholder="Nova senha ( minimo 6 caracteres)" required/>
-                    <input className="CadLogInput" type="password" id="senha" name="senha" placeholder="Confirme a senha" required/>
+                    <input className="CadLogInput" type="password" id="senha" name="senha"
+                           placeholder="Nova senha ( minimo 6 caracteres)" required/>
+                    <input className="CadLogInput" type="password" id="senha" name="senha"
+                           placeholder="Confirme a senha" required/>
                     <button className="CadLogButton" type="submit">Redefinir Senha</button>
                 </form>
             </div>

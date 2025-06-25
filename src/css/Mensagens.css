@@ -1,0 +1,91 @@
+.divMensagensPesquisa .barraPesquisa {
+    display: flex;
+    align-items: center;
+    background: #222222;
+    border-radius: 10px;
+    overflow: hidden;
+    max-width: 400px;
+}
+
+.divMensagensPesquisa .barraPesquisa input {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    font-size: 1rem;
+}
+
+.divMensagensPesquisa .barraPesquisa.iconeLupa {
+    padding: 2px;
+    margin: 5px;
+}
+
+#ConteudoMensagens {
+    display: flex;
+    flex-direction: row;
+    height: 100%; /* Depende da altura do pai */
+    flex: 100%; /* Ocupa 80% do espaço disponível */
+    background-repeat: repeat;
+    background-size: unset;
+    gap: 10px;
+    align-items: center; /* Remove as barras de rolagem */
+    overflow: auto;
+    padding: 0px;
+}
+
+
+#divMensagens {
+    background-color: #1C1C1C;
+    border-right: 1px solid #efefef;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+/* Configurando os flex */
+.Contato {
+    display: flex;
+    flex-direction: row;
+    height: 65px;
+    gap: 10px;
+    padding: 10px;
+    border-bottom: 1px solid #272727;
+}
+
+.Contato .imgContato{
+    display: flex;
+    flex: 20%;
+    border-radius: 50%;
+}
+.Contato .textoContato{
+    display: flex;
+    flex-direction: column;
+    flex: 80%;
+}
+.Contato .divNumNovaMensagem {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    aspect-ratio: 1 / 1;
+    flex: 10%;
+}
+
+/* Configurando numNovaMensagem */
+
+.Contato .numNovaMensagem {
+    display: flex;
+    border-radius: 50%;
+}
+.numNovaMensagem {
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 5px;
+    font-size: 12px;
+}
+
+
+.ContatoP{
+    color: white;
+    font-size: clamp(10px, 4vw, 14px);
+    text-align: left;
+}

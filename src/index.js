@@ -12,11 +12,15 @@ import Login from "./Paginas/Login";
 import EsquecerSenha from "./Paginas/EsquecerSenha";
 import HomeEspecifica from "./Paginas/HomeEspecifica";
 import NovaSenha from "./Paginas/NovaSenha";
+import Pesquisar from "./Paginas/Pesquisar";
+import Mensagens from "./Paginas/Mensagens";
 
 const router = createBrowserRouter([
     {   path: "/",          element: <Home/>},
     {   path: "/cadastro",  element: <Cadastro/>},
     {   path: "/login",     element: <Login/>},
+    {   path: "/pesquisar", element: <Pesquisar/> },
+    {   path: "/mensagens", element: <Mensagens/> },
     {   path: "/esquecerSenha", element: <EsquecerSenha/> },
     {   path: "/homeEspecifica", element: <HomeEspecifica/> },
     {   path: "/novaSenha", element: <NovaSenha/> },

@@ -6,39 +6,28 @@ import "@radix-ui/themes/styles.css";
 import {useState, useEffect} from 'react';
 import {useSearchParams} from "react-router-dom";
 import HamburgerComponent from '../Componentes/Menu/Hamburger';
+import useMenuTipo from "../hooks/useMenuTipo";
 
 // Puxar do Banco
 
 const LocalCli = 'Rua Jacinto Lucas n849, Roseira Pinto São Paulo - SP'
 
 const Home = () => {
-    const [isMobile, setIsMobile] = useState(window.innerWidth <= 500);
-    const [menuOpen, setMenuOpen] = useState(false);
+
+    const { menuTipo, menuOpen, setMenuOpen } = useMenuTipo();
     const [searchParams] = useSearchParams();
     const tipoUsuario = searchParams.get("tipoUsuario") || "convidado";
-
-    useEffect(() => {
-        const handleResize = () => {
-            setIsMobile(window.innerWidth <= 500);
-            if (window.innerWidth > 500) {
-                setMenuOpen(false); // Fecha o menu no desktop
-            }
-        };
-
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
-    }, []);
 
 
 
     return (
         <div className='Home'>
-            {isMobile ? (
-                <HamburgerComponent user={tipoUsuario} menuOpen={menuOpen} setMenuOpen={setMenuOpen}/>
+            {menuTipo === "mobile" ? (
+                <HamburgerComponent user={tipoUsuario} menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
             ) : (
-                <Menu tipo="simples" user={tipoUsuario}/>
+                <Menu user={tipoUsuario} tipo={menuTipo} />
             )}
-            <ConteudoHomePadrao local={LocalCli} tipo=""/>
+            <ConteudoHomePadrao tipo=""/>
         </div>
     );
 };

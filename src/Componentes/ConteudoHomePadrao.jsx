@@ -3,7 +3,7 @@ import {MapPinned, ShoppingCart, MapPin} from 'lucide-react';
 import ConjAnuncio from "./ConjAnuncio/ConjAnuncio";
 import Carrinho from "./Carrinho";
 import "./Css/ConteudoHomePadrao.css"
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useSearchParams} from "react-router-dom";
 
 // Importar do banco
 import FundoHome from "../Imagens/DetalheFundo.png";
@@ -29,6 +29,8 @@ import imgTituloAcessorios from "../Imagens/AnuncioTituloAcessorios1.png";
 const ConteudoHomePadrao = ({local, tipo, tipoEspecifico}) => {
     const navigate = useNavigate();
     const [anunciosAdicionados, setAnunciosAdicionados] = useState([]);
+    const [searchParams] = useSearchParams();
+    const tipoUsuario = searchParams.get("tipoUsuario") || "convidado";
 
     const adicionarAnuncio = () => {
         setAnunciosAdicionados((prevAnuncios) => [
@@ -54,7 +56,7 @@ const ConteudoHomePadrao = ({local, tipo, tipoEspecifico}) => {
                         className="btnAnunciar"
                         style={{backgroundImage: `url(${iconeInicio})`}}
                         onClick={() => {
-                            navigate("/")
+                            navigate(`/?tipoUsuario=${tipoUsuario}`)
                         }}
                     >
                         <p className="bold">ANUNCIE AQUI SUAS ROUPAS NA FASHION</p>

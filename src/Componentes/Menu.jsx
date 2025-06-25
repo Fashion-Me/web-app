@@ -1,13 +1,12 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import Aba from "./Menu/Aba";
-//Por enquanto a exportação é assim
-// import iconeInicio from "./Menu/Imagens/Icone Home.png";
 import Logo from "./Menu/Imagens/LogoTexto.png";
 import logoSimples from "../Imagens/LogoSImples.png";
-import "./Css/Menu.css"
-import {House, Search, Mail, User, TriangleAlert, Settings, Bell} from 'lucide-react';
-import {Link, Routes, useNavigate} from "react-router-dom";
-// import Hamburger from "./Menu/Hamburger";
+import "./Css/Menu.css";
+import { House, Search, Mail, User, TriangleAlert, Settings, Bell } from 'lucide-react';
+import { Link, Routes, useNavigate } from "react-router-dom";
+import CaixaDeEntrada from "./Menu/CaixaDeEntrada";
+
 
 export default (props) => {
     const navigate = useNavigate();
@@ -15,17 +14,19 @@ export default (props) => {
     const tipoUsuario = queryParams.get("tipoUsuario") || "convidado";
 
     function onNavegacao(titulo) {
+        const queryParams = new URLSearchParams(window.location.search);
+        queryParams.set('tipoUsuario', tipoUsuario);
 
         if (titulo === "Inicio") {
             navigate(`/?tipoUsuario=${props.user}`);
         } else if (titulo === "Pesquisar") {
-            navigate("/pesquisar");
+            navigate(`/pesquisar?tipoUsuario=${props.user}`);
         } else if (titulo === "Mensagens") {
-            navigate("/mensagens");
+            navigate(`/mensagens?tipoUsuario=${props.user}`);
         } else if (titulo === "Perfil") {
-            navigate("/perfil");
+            navigate(`/perfil?tipoUsuario=${props.user}`);
         } else if (titulo === "Moderação") {
-            navigate("/moderação");
+            navigate(`/moderacao?tipoUsuario=${props.user}`);
         } else if (titulo === "Notificação") {
             navigate("/notificacao");
         } else if (titulo === "Configuração") {
@@ -38,21 +39,28 @@ export default (props) => {
     }
 
     const [abaSelecionada, setAbaSelecionada] = useState("Inicio");
+    const [mostrarCaixaDeEntrada, setMostrarCaixaDeEntrada] = useState(false);
 
     const handleSelecionarAba = (titulo) => {
+        if (titulo === "Notificação") {
+            setMostrarCaixaDeEntrada((prevState) => !prevState);
+        } else {
+            setMostrarCaixaDeEntrada(false);
+        }
         setAbaSelecionada(titulo);
     };
+
     return (
         <>
             {props.tipo !== "simples" && (
                 <div className="Menu">
                     <div className="Superior">
                         <div className="logo partMenu">
-                            {!props.children && <img src={Logo} alt="Logo Fashion-me"/>}
+                            {!props.children && <img src={Logo} alt="Logo Fashion-me" />}
                             {props.children && (
                                 <div className="divLogoHamburger">
                                     <div>{props.children}</div>
-                                    <div><img src={Logo} alt="Logo Fashion-me"/></div>
+                                    <div><img src={Logo} alt="Logo Fashion-me" /></div>
                                 </div>
                             )}
                         </div>
@@ -67,7 +75,7 @@ export default (props) => {
                             </div>
                         )}
                         <div className="conjAba partMenu">
-                            <hr/>
+                            <hr />
                             <Aba
                                 titulo="Inicio"
                                 selecionado={abaSelecionada === "Inicio"}
@@ -76,45 +84,54 @@ export default (props) => {
                                     onNavegacao("Inicio");
                                 }}
                             >
-                                <House/>
+                                <House />
                             </Aba>
-                            <hr/>
+                            <hr />
                             <Aba
                                 titulo="Pesquisar"
                                 selecionado={abaSelecionada === "Pesquisar"}
-                                onClick={() => handleSelecionarAba("Pesquisar")}
+                                onClick={() => {
+                                    handleSelecionarAba("Pesquisar");
+                                    onNavegacao("Pesquisar");
+                                }}
                             >
-                                <Search/>
+                                <Search />
                             </Aba>
-                            <hr/>
+                            <hr />
                             {tipoUsuario !== 'convidado' && (
                                 <>
                                     <Aba
                                         titulo="Mensagens"
                                         selecionado={abaSelecionada === "Mensagens"}
-                                        onClick={() => handleSelecionarAba("Mensagens")}
+                                        onClick={() => {
+                                            handleSelecionarAba("Mensagens");
+                                            onNavegacao("Mensagens");
+                                        }}
                                     >
-                                        <Mail/>
+                                        <Mail />
                                     </Aba>
-                                    <hr/>
+                                    <hr />
                                     <Aba
                                         titulo="Perfil"
                                         selecionado={abaSelecionada === "Perfil"}
-                                        onClick={() => handleSelecionarAba("Perfil")}
+                                        onClick={() => {
+                                            handleSelecionarAba("Perfil");
+                                            onNavegacao("Perfil");
+                                        }}
                                     >
-                                        <User/>
+                                        <User />
                                     </Aba>
                                 </>
                             )}
                             {tipoUsuario === 'adm' && (
                                 <>
-                                    <hr/>
+                                    <hr />
                                     <Aba
                                         titulo="Moderação"
                                         selecionado={abaSelecionada === "Moderação"}
                                         onClick={() => handleSelecionarAba("Moderação")}
                                     >
-                                        <TriangleAlert/>
+                                        <TriangleAlert />
                                     </Aba>
                                 </>
                             )}
@@ -124,17 +141,22 @@ export default (props) => {
                         <Aba
                             titulo="Notificação"
                             selecionado={abaSelecionada === "Notificação"}
-                            onClick={() => handleSelecionarAba("Notificação")}
+                            onClick={() => {
+                                handleSelecionarAba("Notificação");
+                            }}
                         >
-                            <Bell/>
+                            <Bell />
                         </Aba>
-                        <hr/>
+                        <hr />
                         <Aba
                             titulo="Configuração"
                             selecionado={abaSelecionada === "Configuração"}
-                            onClick={() => handleSelecionarAba("Configuração")}
+                            onClick={() => {
+                                handleSelecionarAba("Configuração");
+                                onNavegacao("Configuração");
+                            }}
                         >
-                            <Settings/>
+                            <Settings />
                         </Aba>
                     </div>
                 </div>
@@ -143,16 +165,16 @@ export default (props) => {
                 <div className="Menu MenuSimples">
                     <div className="Superior">
                         <div className="logo partMenu">
-                            {!props.children && <img src={logoSimples} alt="Logo Fashion-me"/>}
+                            {!props.children && <img src={logoSimples} alt="Logo Fashion-me" />}
                             {props.children && (
                                 <div className="divLogoHamburger">
                                     <div>{props.children}</div>
-                                    <div><img src={Logo} alt="Logo Fashion-me"/></div>
+                                    <div><img src={Logo} alt="Logo Fashion-me" /></div>
                                 </div>
                             )}
                         </div>
                         <div className="conjAba partMenu">
-                            <hr/>
+                            <hr />
                             <Aba
                                 selecionado={abaSelecionada === "Inicio"}
                                 onClick={() => {
@@ -160,43 +182,43 @@ export default (props) => {
                                     onNavegacao("Inicio");
                                 }}
                             >
-                                <House/>
+                                <House />
                             </Aba>
-                            <hr/>
+                            <hr />
                             <Aba
                                 selecionado={abaSelecionada === "Pesquisar"}
                                 onClick={() => handleSelecionarAba("Pesquisar")}
                             >
-                                <Search/>
+                                <Search />
                             </Aba>
-                            <hr/>
+                            <hr />
                             {tipoUsuario !== 'convidado' && (
                                 <>
                                     <Aba
                                         selecionado={abaSelecionada === "Mensagens"}
                                         onClick={() => handleSelecionarAba("Mensagens")}
                                     >
-                                        <Mail/>
+                                        <Mail />
                                     </Aba>
-                                    <hr/>
+                                    <hr />
                                     <Aba
 
                                         selecionado={abaSelecionada === "Perfil"}
                                         onClick={() => handleSelecionarAba("Perfil")}
                                     >
-                                        <User/>
+                                        <User />
                                     </Aba>
                                 </>
                             )}
                             {tipoUsuario === 'adm' && (
                                 <>
-                                    <hr/>
+                                    <hr />
                                     <Aba
 
                                         selecionado={abaSelecionada === "Moderação"}
                                         onClick={() => handleSelecionarAba("Moderação")}
                                     >
-                                        <TriangleAlert/>
+                                        <TriangleAlert />
                                     </Aba>
                                 </>
                             )}
@@ -208,22 +230,26 @@ export default (props) => {
                             selecionado={abaSelecionada === "Notificação"}
                             onClick={() => handleSelecionarAba("Notificação")}
                         >
-                            <Bell/>
+                            <Bell />
                         </Aba>
-                        <hr/>
+                        <hr />
                         <Aba
 
                             selecionado={abaSelecionada === "Configuração"}
                             onClick={() => handleSelecionarAba("Configuração")}
                         >
-                            <Settings/>
+                            <Settings />
                         </Aba>
+                    </div>
+                </div>
+            )}
+            {mostrarCaixaDeEntrada && (
+                <div style={{ display: 'flex' }}>
+                    <div style={{ flexShrink: 0 }}>
+                        <CaixaDeEntrada setMostrarCaixaDeEntrada={setMostrarCaixaDeEntrada}/>
                     </div>
                 </div>
             )}
         </>
     );
 };
-
-
-

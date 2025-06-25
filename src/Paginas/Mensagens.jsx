@@ -1,22 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Menu from '../Componentes/Menu';
-import "../css/Home.css"
+import "../css/Home.css";
+import "../css/Mensagens.css";
 import ConteudoHomePadrao from "../Componentes/ConteudoHomePadrao";
 import "@radix-ui/themes/styles.css";
-import {useState, useEffect} from 'react';
+import { useSearchParams } from "react-router-dom";
 import HamburgerComponent from '../Componentes/Menu/Hamburger';
-import {useSearchParams} from "react-router-dom";
 import useMenuTipo from "../hooks/useMenuTipo";
-// Puxar do Banco
+import ConteudoMensagens from "../Componentes/ConteudoMensagens";
 
-const tipoUsuario = "convidado"; // Pode ser 'convidado', 'adm' ou 'padrao'
-
-const Home = () => {
-
-    const { menuTipo, menuOpen, setMenuOpen } = useMenuTipo();
-
+const Mensagens = () => {
+    const { menuTipo, menuOpen, setMenuOpen} = useMenuTipo(false);
     const [searchParams] = useSearchParams();
-    const tipoEspecifico = searchParams.get("titulo");
+    const tipoUsuario = searchParams.get("tipoUsuario") || "convidado";
 
     return (
         <div className='Home'>
@@ -25,11 +21,9 @@ const Home = () => {
             ) : (
                 <Menu user={tipoUsuario} tipo={menuTipo} />
             )}
-            <ConteudoHomePadrao tipo="Especifica" tipoEspecifico={tipoEspecifico}/>
+            <ConteudoMensagens/>
         </div>
-
-
     );
 };
 
-export default Home;
+export default Mensagens;
