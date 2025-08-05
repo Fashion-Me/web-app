@@ -94,7 +94,6 @@
 /* Configuração das abas e linhas */
 
 hr {
-    width: 90%;
     height: 1px;
     border: none;
     background-color: #535353;
@@ -181,6 +180,28 @@ hr {
         object-fit: contain;
         max-height: max(8vh, 50px);
     }
+
+    .divMenuBarras .hamburger-react {
+        cursor: pointer;
+        height: 48px;
+        position: absolute;
+        top: 12px;
+        left: 16px;
+        transition: 0.4s cubic-bezier(0, 0, 0, 1);
+        user-select: none;
+        width: 48px;
+        outline: none;
+        transform: none;
+    }
+    .divMenuHamburger .hamburger-react {
+        cursor: pointer;
+        height: 48px;
+        position: relative;
+        transition: 0.4s cubic-bezier(0, 0, 0, 1);
+        user-select: none;
+        width: 48px;
+        outline: none;
+    }
 }
 
 
@@ -263,7 +284,8 @@ hr {
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    margin-bottom: 4vh;
+    margin-bottom: 3vh;
+    margin-top: 3vh;
 }
 
 .CaixaDeEntrada h2 {
@@ -275,11 +297,14 @@ hr {
 .ListaNotificacoes {
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: 2vh;
 }
 
 .Notificacao {
     background-color: #efefef;
+    width: 100%;
+    max-width: 350px;
     padding: 15px;
     border-radius: 25px;
     display: flex;

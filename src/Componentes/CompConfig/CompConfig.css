@@ -1,0 +1,149 @@
+/*    Fontes     */
+
+.campo h3 {
+    font-size: 20px;
+    display: block;
+    font-weight: bold;
+    margin-left: 30px;
+}
+
+.Config-H2{
+    font-size: 18px;
+    font-weight: 600;
+}
+
+
+
+/* EDITAR PERFIL */
+
+.container-editar-perfil {
+    width: 100%;
+    min-height: 100vh;
+    color: white;
+    padding: 24px;
+    font-family: sans-serif;
+}
+
+.titulo {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 16px;
+}
+
+.foto-perfil {
+    height: 10vh;
+    background-color: #222;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 16px;
+    border-radius: 30px;
+}
+
+.imagem-perfil {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+}
+
+.foto-fundo {
+    height: 10vh;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+    color: white;
+    font-weight: bold;
+    background-color: #000;
+    text-shadow: 1px 1px 3px #000;
+    border-radius: 30px;
+}
+
+/* Campos */
+
+.campo {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    gap: 1vh;
+}
+
+.campo input,
+.campo textarea {
+    width: 100%;
+    padding: 30px;
+    background-color: #2a2a2a;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    font-size: 16px;
+}
+.campo input {
+    height: 10vh;
+}
+
+.campo textarea {
+    resize: vertical;
+    height: 20vh;
+}
+
+/* Botão Salvar */
+
+.botao-salvar {
+    height: 10vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    background-color: #333;
+    padding: 14px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.botao-salvar p{
+    color: white;
+    font-weight: bold;
+}
+
+.botao-salvar:hover {
+    background-color: #444;
+}
+
+
+
+
+@media (max-width: 500px) {
+    .AreaConfig{
+        display: none;
+    }
+}
+
+
+
+/*  AnunCurtidos  */
+
+.anuncios-curtidos-container {
+    background-color: #0F0F0F;
+    color: white;
+    padding: 24px;
+    flex: 1;
+}
+
+.titulo {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 16px;
+}
+
+.grid-anuncios {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+}

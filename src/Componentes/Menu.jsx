@@ -3,7 +3,7 @@ import Aba from "./Menu/Aba";
 import Logo from "./Menu/Imagens/LogoTexto.png";
 import logoSimples from "../Imagens/LogoSImples.png";
 import "./Css/Menu.css";
-import { House, Search, Mail, User, TriangleAlert, Settings, Bell } from 'lucide-react';
+import { House, Search, Mail, UserRound, TriangleAlert, Settings, Bell } from 'lucide-react';
 import { Link, Routes, useNavigate } from "react-router-dom";
 import CaixaDeEntrada from "./Menu/CaixaDeEntrada";
 
@@ -13,24 +13,23 @@ export default (props) => {
     const queryParams = new URLSearchParams(window.location.search);
     const tipoUsuario = queryParams.get("tipoUsuario") || "convidado";
 
+
     function onNavegacao(titulo) {
         const queryParams = new URLSearchParams(window.location.search);
         queryParams.set('tipoUsuario', tipoUsuario);
 
         if (titulo === "Inicio") {
-            navigate(`/?tipoUsuario=${props.user}`);
+            navigate(`/?tipoUsuario=${tipoUsuario}&pagDirecao=${titulo}`);
         } else if (titulo === "Pesquisar") {
-            navigate(`/pesquisar?tipoUsuario=${props.user}`);
+            navigate(`/pesquisar?tipoUsuario=${tipoUsuario}&pagDirecao=${titulo}`);
         } else if (titulo === "Mensagens") {
-            navigate(`/mensagens?tipoUsuario=${props.user}`);
+            navigate(`/mensagens?tipoUsuario=${tipoUsuario}&pagDirecao=${titulo}`);
         } else if (titulo === "Perfil") {
-            navigate(`/perfil?tipoUsuario=${props.user}`);
+            navigate(`/perfil?tipoUsuario=${tipoUsuario}&pagDirecao=${titulo}`);
         } else if (titulo === "Moderação") {
-            navigate(`/moderacao?tipoUsuario=${props.user}`);
-        } else if (titulo === "Notificação") {
-            navigate("/notificacao");
+            navigate(`/moderacao?tipoUsuario=${tipoUsuario}&pagDirecao=${titulo}`);
         } else if (titulo === "Configuração") {
-            navigate("/configuracao");
+            navigate(`/configuracao?tipoUsuario=${tipoUsuario}&pagDirecao=${titulo}`);
         } else if (titulo === "Entrar") {
             navigate("/login");
         } else if (titulo === "Cadastrar") {
@@ -38,7 +37,10 @@ export default (props) => {
         }
     }
 
-    const [abaSelecionada, setAbaSelecionada] = useState("Inicio");
+    const pagDirecao = queryParams.get("pagDirecao") || "Inicio";
+    const [abaSelecionada, setAbaSelecionada] = useState(pagDirecao);
+
+
     const [mostrarCaixaDeEntrada, setMostrarCaixaDeEntrada] = useState(false);
 
     const handleSelecionarAba = (titulo) => {
@@ -119,7 +121,7 @@ export default (props) => {
                                             onNavegacao("Perfil");
                                         }}
                                     >
-                                        <User />
+                                        <UserRound />
                                     </Aba>
                                 </>
                             )}
@@ -187,7 +189,10 @@ export default (props) => {
                             <hr />
                             <Aba
                                 selecionado={abaSelecionada === "Pesquisar"}
-                                onClick={() => handleSelecionarAba("Pesquisar")}
+                                onClick={() => {
+                                    handleSelecionarAba("Pesquisar");
+                                    onNavegacao("Pesquisar");
+                                }}
                             >
                                 <Search />
                             </Aba>
@@ -196,7 +201,10 @@ export default (props) => {
                                 <>
                                     <Aba
                                         selecionado={abaSelecionada === "Mensagens"}
-                                        onClick={() => handleSelecionarAba("Mensagens")}
+                                        onClick={() => {
+                                            handleSelecionarAba("Mensagens");
+                                            onNavegacao("Mensagens");
+                                        }}
                                     >
                                         <Mail />
                                     </Aba>
@@ -206,7 +214,7 @@ export default (props) => {
                                         selecionado={abaSelecionada === "Perfil"}
                                         onClick={() => handleSelecionarAba("Perfil")}
                                     >
-                                        <User />
+                                        <UserRound />
                                     </Aba>
                                 </>
                             )}
@@ -236,7 +244,10 @@ export default (props) => {
                         <Aba
 
                             selecionado={abaSelecionada === "Configuração"}
-                            onClick={() => handleSelecionarAba("Configuração")}
+                            onClick={() => {
+                                handleSelecionarAba("Configuração");
+                                onNavegacao("Configuração");
+                            }}
                         >
                             <Settings />
                         </Aba>

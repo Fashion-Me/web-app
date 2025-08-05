@@ -15,6 +15,7 @@
 
 .TituloCarinho h1 {
     font-size: 20px;
+    padding-left: 15px
 }
 
 .ResultadoCarrinho h2,.ItemCarrinho h3 {
@@ -62,8 +63,8 @@
 }
 
 .ItemCarrinho img {
-    width: 50px;
-    height: 50px;
+    width: 100px;
+    height: 100px;
     border-radius: 5px;
 }
 
@@ -84,37 +85,35 @@
     gap: 10px;
 }
 
-.ResultadoCarrinho div {
+.ResultadoCarrinho .divValoresPesquisa {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    gap: 3px;
+}
+.ResultadoCarrinho .divValoresPesquisa div {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    color: white;
-    font-size: 16px;
-}
-
-.ResultadoCarrinho button {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    width: 70%;
-    background-color: #373737;
-    color: #fff;
-    border: none;
-    padding: 10px;
-    border-radius: 15px;
-    cursor: pointer;
-    text-align: center;
-    margin: auto;
-    position: relative;
-    gap:10px;
 }
 
 .ResultadoCarrinho button:hover {
     background-color: #4e4e4e;
 }
+
+.divMensagensPesquisa {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
 
 /* Estilo para o btnComprarAgora do Carrinho */
 
@@ -139,3 +138,4 @@
 .btnComprarAgora:hover {
     background-color: #3050CC;
 }
+

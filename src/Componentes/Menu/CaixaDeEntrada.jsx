@@ -7,14 +7,14 @@ import { X } from "lucide-react";
 const Notificacao = ({ texto, hora }) => (
     <div className="Notificacao">
         <p>{texto}</p>
-        <h3>{hora}</h3>
+        <h3 className="semibold">{hora}</h3>
     </div>
 );
 
 const CaixaDeEntrada = ({setMostrarCaixaDeEntrada}) => (
     <div className="CaixaDeEntrada">
         <div className="divTituloCaixaEntrada">
-            <h2>Caixa de entrada</h2>
+            <h2 className="semibold">Caixa de entrada</h2>
             <X className="IconFecharCaixa"
                size={28}
                color="#ffffff"

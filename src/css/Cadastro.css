@@ -57,7 +57,7 @@ main.divCadLogin h1 {
     width: 100%;
     color: white;
     text-align: start;
-    font-size: clamp(18px, 20vw, 24px);
+    font-size: clamp(18px, 20vw, 21px);
     flex: 0 0 10%; /* 10% da altura */
 }
 

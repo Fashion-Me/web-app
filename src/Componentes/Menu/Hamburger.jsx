@@ -6,12 +6,14 @@ import "../Css/Menu.css";
 export default function HamburgerComponent({ user, menuOpen, setMenuOpen }) {
     return (
         <div className="hamburger">
-            {!menuOpen && <Hamburger
+            {!menuOpen && <div className="divMenuBarras" >
+                <Hamburger
                 size={28}
                 color="#ffffff"
                 toggled={menuOpen}
                 toggle={setMenuOpen}
-            />}
+                />
+            </div>}
             {menuOpen &&
                 <div className="divMenuHamburger">
                 <Menu user={user}>
@@ -24,7 +26,6 @@ export default function HamburgerComponent({ user, menuOpen, setMenuOpen }) {
                     />
                 </Menu>
                 </div>
-
             }
         </div>
     );

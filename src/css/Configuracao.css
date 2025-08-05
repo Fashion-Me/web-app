@@ -1,0 +1,154 @@
+/*  Fontes  */
+
+
+
+#ConteudoConfig {
+    display: flex;
+    flex-direction: row;
+    height: 100%; /* Depende da altura do pai */
+    flex: 100%; /* Ocupa 80% do espaço disponível */
+    background-repeat: repeat;
+    background-size: unset;
+    align-items: center; /* Remove as barras de rolagem */
+    overflow: auto;
+    padding: 0px;
+    gap: 0px;
+}
+
+/* divConfig e AreaConfig  */
+
+#divConfig {
+    display: flex;
+    flex-direction: column;
+    background-color: #1C1C1C;
+    border-right: 1px solid #efefef;
+    overflow-y: auto;
+    padding: 20px max(2vw,15px);
+    position: fixed;
+    max-width: 350px;
+    width: 100vw;
+    min-width: 280px;
+    height: 100vh;
+    color: #fff;
+    gap: 1.5vh;
+}
+
+#divConfig hr {
+    width: 100%;
+    height: 1px;
+    border: none;
+    background-color: #333;
+}
+
+#divConfig h2 {
+    font-size: 24px;
+    text-align: center;
+}
+
+.AreaConfig {
+    flex: 1;
+    margin-left: 350px;/* Compensa a largura do #divConfig */
+    overflow-y: auto;
+    height: 100vh;
+}
+
+
+/*ll*/
+
+.tituloSecao {
+    /*margin: 20px 0 10px;*/
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+}
+
+.item-config {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.4s;
+    color: white;
+}
+
+.item-config:hover {
+    background-color: #222;
+}
+
+.item-esquerda {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.seta {
+    font-size: 18px;
+}
+
+.acoes-finais {
+    /*margin-top: 30px;*/
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.btn-vermelho {
+    background: none;
+    color: red;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: left;
+    padding: 8px 0;
+}
+
+.btn-vermelho:hover {
+    text-decoration: underline;
+}
+
+.linha-titulo {
+    display: flex;
+    align-items: center;
+    /*margin: 24px 0 12px;*/
+}
+
+.linha-titulo::before,
+.linha-titulo::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background-color: #333;
+}
+
+.texto-linha {
+    /*margin: 0 16px;*/
+    font-weight: bold;
+    color: white;
+}
+
+
+
+.acoes-finais {
+    margin-top: auto; /* Move para o final */
+    display: flex;
+    flex-direction: column;
+}
+
+
+
+.ConBrecho {
+    /*margin-bottom: 2vh;*/
+}
+
+@media (max-width: 500px) {
+    #divConfig {
+        padding: 20px max(2vw,15px);
+        position: relative;
+        max-width: 100%;
+    }
+}
+
+
+

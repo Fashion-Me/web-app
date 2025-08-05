@@ -6,7 +6,7 @@ export default (params) => {
         <div className="Anuncio Clicavel" style={{ backgroundImage: `url(${params.imgFundo})` }}>
             {params.preco && (
                 <div className="divPreco">
-                    <p>R$ {params.preco}</p>
+                    <p className="semibold">R$ {params.preco}</p>
                 </div>
             )}
         </div>

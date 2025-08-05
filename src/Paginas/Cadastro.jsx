@@ -10,7 +10,6 @@ const Cadastro = () => {
     const navigate = useNavigate();
 
 
-
     return (
         <main className="divCadLogin">
             <div className="divFormulario">
