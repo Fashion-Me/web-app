@@ -13,8 +13,7 @@ const AnunciosCurtidos = () => {
     });
 
     return (
-        <div className="AreaConfig  container-editar-perfil">
-            <h2 className="titulo">Anúncios curtidos</h2>
+        <>
             <div className="ConjAnuncio ConjAnuncioConfig" >
                 <div className="Inferior">
                     {anunciosCurtidos.map((item, index) => (
@@ -22,7 +21,7 @@ const AnunciosCurtidos = () => {
                     ))}
                 </div>
             </div>
-        </div>
+        </>
     );
 };
 

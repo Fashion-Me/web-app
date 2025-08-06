@@ -15,8 +15,7 @@ export default () => {
 
 
     return (
-        <div className="AreaConfig  container-editar-perfil">
-            <h2 className="titulo">Trocar Senha</h2>
+        <>
             <div className="campo">
                 <h3>Nova Senha:</h3>
                 <input
@@ -34,7 +33,7 @@ export default () => {
             </div>
 
             <button className="botao-salvar" onClick={handleSalvar}> <h2>Renovar Senha</h2> </button>
-        </div>
+        </>
     );
 
 };

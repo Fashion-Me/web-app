@@ -10,7 +10,9 @@ import EditarPerfil from "./CompConfig/EditarPerfil";
 import AnunCurtidos from "./CompConfig/AnunCurtidos";
 import AnunProprios from "./CompConfig/AnunProprios";
 import ConfigTrocarSenha from "./CompConfig/ConfigTrocarSenha";
+import { useEffect } from 'react';
 import fotoPerfil from "../Imagens/FotoPerfil.png";
+import useCheckDisplay from "../hooks/useCheckDisplay()";
 
 const ConteudoConfig = () => {
     const navigate = useNavigate();
@@ -18,11 +20,12 @@ const ConteudoConfig = () => {
     const tipoUsuario = searchParams.get("tipoUsuario") || "convidado";
 
     const [conteudoAtual, setConteudoAtual] = useState(''); // Estado para controlar o conteúdo exibido
+    const [mostrarAbaConfig, setMostrarAbaConfig] = useState(true); // Estado para controlar a visibilidade da AbaConfig
 
     return (
         <main className="Conteudo" id="ConteudoConfig" style={{backgroundImage: `url(${FundoHome})`}}>
-            <AbaConfig setConteudoAtual={setConteudoAtual} />
-            <AreaConfig conteudoAtual={conteudoAtual} />
+            {mostrarAbaConfig && <AbaConfig setConteudoAtual={setConteudoAtual} setMostrarAbaConfig={setMostrarAbaConfig} />}
+            <AreaConfig conteudoAtual={conteudoAtual} setMostrarAbaConfig={setMostrarAbaConfig} />
         </main>
     );
 };
@@ -39,7 +42,7 @@ const ItemConfig = ({ icon, texto, onClick }) => (
     </div>
 );
 
-const AbaConfig = ({ setConteudoAtual }) => (
+const AbaConfig = ({ setConteudoAtual, setMostrarAbaConfig }) => (
     <div id="divConfig">
         <div className="divTituloCaixaEntrada">
             <h2 className="semibold">Configurações</h2>
@@ -61,12 +64,18 @@ const AbaConfig = ({ setConteudoAtual }) => (
             <ItemConfig
                 icon={<UserRoundPen size={30} />}
                 texto="Editar Perfil"
-                onClick={() => setConteudoAtual('EditarPerfil')}
+                onClick={() => {
+                    setConteudoAtual('EditarPerfil');
+                    if (window.innerWidth < 500) setMostrarAbaConfig(false); // Esconde a AbaConfig no mobile
+                }}
             />
             <ItemConfig
                 icon={<KeyRound size={30} />}
                 texto="Trocar a senha da conta"
-                onClick={() => setConteudoAtual('ConfigTrocarSenha')}
+                onClick={() => {
+                    setConteudoAtual('ConfigTrocarSenha');
+                    if (window.innerWidth < 500) setMostrarAbaConfig(false); // Esconde a AbaConfig no mobile
+                }}
             />
         </div>
 
@@ -78,12 +87,18 @@ const AbaConfig = ({ setConteudoAtual }) => (
             <ItemConfig
                 icon={<Star size={30} />}
                 texto="Anúncios curtidos"
-                onClick={() => setConteudoAtual('AnunCurtidos')}
+                onClick={() => {
+                    setConteudoAtual('AnunCurtidos');
+                    if (window.innerWidth < 500) setMostrarAbaConfig(false);
+                }}
             />
             <ItemConfig
                 icon={<Megaphone size={30} />}
                 texto="Seus anúncios"
-                onClick={() => setConteudoAtual('AnunProprios')}
+                onClick={() => {
+                    setConteudoAtual('AnunProprios');
+                    if (window.innerWidth < 500) setMostrarAbaConfig(false);
+                }}
             />
 
             <ItemConfig
@@ -103,13 +118,13 @@ const AbaConfig = ({ setConteudoAtual }) => (
     </div>
 );
 
-const AreaConfig = ({ conteudoAtual }) => (
-    <>
-        {conteudoAtual === 'EditarPerfil' && <EditarPerfil />}
-        {conteudoAtual === 'AnunCurtidos' && <AnunCurtidos />}
-        {conteudoAtual === 'AnunProprios' && <AnunProprios />}
-        {conteudoAtual === 'ConfigTrocarSenha' && <ConfigTrocarSenha />}
+const AreaConfig = ({ conteudoAtual, setMostrarAbaConfig }) => (
+    <div className="AreaConfig  container-editar-perfil">
+        {conteudoAtual === 'EditarPerfil' && <> <h2 className="titulo">Editar Perfil</h2>    <EditarPerfil/></>}
+        {conteudoAtual === 'AnunCurtidos' && <> <h2 className="titulo">Anúncios curtidos</h2><AnunCurtidos/></>}
+        {conteudoAtual === 'AnunProprios' && <> <h2 className="titulo">Meus anúncios</h2>     <AnunProprios/></>}
+        {conteudoAtual === 'ConfigTrocarSenha' && <><h2 className="titulo">Trocar Senha</h2><ConfigTrocarSenha/></>}
         {/* Adicione outros componentes conforme necessário */}
-    </>
+    </div>
 );
 

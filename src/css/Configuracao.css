@@ -33,6 +33,10 @@
     gap: 1.5vh;
 }
 
+#divConfig.mostrar {
+    display: flex; /* Mostra quando necessário */
+}
+
 #divConfig hr {
     width: 100%;
     height: 1px;
@@ -142,14 +146,30 @@
     /*margin-bottom: 2vh;*/
 }
 
+.btn-voltar {
+    display: none;
+    position: absolute;
+    background: none;
+    color: #fff;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    left: 20px;
+    top: 20px;
+}
+
+
 @media (max-width: 500px) {
     #divConfig {
         padding: 20px max(2vw,15px);
-        position: relative;
         max-width: 100%;
+        display: flex;
     }
     .AreaConfig {
-        margin-left: 0px;/* Compensa a largura do #divConfig */
+        margin-left: 0px; /* Compensa a largura do #divConfig */
+    }
+    .btn-voltar {
+        display: block; /* Mostra o botão de voltar no mobile */
     }
 }
 

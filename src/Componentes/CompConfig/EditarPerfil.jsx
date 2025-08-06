@@ -33,8 +33,7 @@ export default () => {
 
 
     return (
-        <div className="AreaConfig  container-editar-perfil">
-            <h2 className="titulo">Editar Perfil</h2>
+        <>
             <div className="ConfigAreaFotoCampo">
                 <div className="ConfigAreaFotoPerfil">
                     <div
@@ -89,7 +88,7 @@ export default () => {
             </div>
 
             <button className="botao-salvar" onClick={handleSalvar}> <h2>Salvar</h2> </button>
-        </div>
+        </>
     );
 
 };
