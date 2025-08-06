@@ -1,3 +1,24 @@
+/* Fontes */
+
+.ConjAnuncio .Superior .ConjAnuncioTitulo h2 {
+    color: white;
+    font-size: clamp(18px, 2.5vw, 24px);
+    font-weight: bold;
+    letter-spacing: 2px;
+    text-align: center;
+}
+
+.ConjAnuncio .Inferior .Anuncio p {
+    background: #ffffff;
+    color: #3050CC;
+    width: fit-content;
+    margin: 5px;
+    padding: 3px 7px;
+    border-radius: 10px;
+}
+
+/* ConjAnuncio */
+
 .ConjAnuncio{
     display: flex;
     flex-direction: column;
@@ -7,7 +28,7 @@
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    gap: 20px;
+    gap: 1vw;
 }
 
 .ConjAnuncio .Superior {
@@ -15,7 +36,6 @@
     width: 100%;
     margin: 0 auto;
     gap: 20px;
-    display: flex;
     align-items: center;
     justify-content: center;
     height: 18vh;
@@ -29,13 +49,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-}
-.ConjAnuncio .Superior .ConjAnuncioTitulo h2 {
-    color: white;
-    font-size: clamp(18px, 2.5vw, 24px);
-    font-weight: bold;
-    letter-spacing: 2px;
-    text-align: center;
 }
 
 .ConjAnuncio .Superior .ConjAnuncioAnuncios {
@@ -77,11 +90,16 @@
 /* Estilo para a parte Inferior */
 
 .ConjAnuncio .Inferior {
-    display: flex;
     height: 100%;
-    flex-wrap: wrap;
-    justify-content: center;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 143px); /* ← fixo */
     gap: 20px;
+    justify-content: space-around; /* para centralizar os cards */
+    box-sizing: border-box;
+    align-items: center; /* alinha verticalmente */
+    padding: 0; /* sem afastar das bordas */
+    margin: 0;
 }
 
 .ConjAnuncio .Inferior .Anuncio {
@@ -94,14 +112,10 @@
     border-radius: 10px;
     overflow: hidden; /* Garante que o conteúdo não ultrapasse os limites */
 }
-.ConjAnuncio .Inferior .Anuncio p {
-    background: #ffffff;
-    color: #3050CC;
-    width: fit-content;
-    margin: 5px;
-    padding: 3px 7px;
-    border-radius: 10px;
-
+@media (max-width: 800px) {
+    .ConjAnuncio {
+        width: 90%;
+    }
 }
 
 /* Responsividade */
@@ -113,9 +127,14 @@
     .ConjAnuncio .Superior {
         height: 15vh;
     }
-    .ConjAnuncio .Inferior .Anuncio {
-        width: 117px;
-        height: 180px;
+    .ConjAnuncio .Inferior {
+        grid-template-columns: repeat(auto-fill, 117px);
     }
+    .ConjAnuncio .Inferior .Anuncio {
+        width: 129px;
+        height: 198px;
+    }
+
+
 
 }

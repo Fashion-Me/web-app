@@ -15,7 +15,7 @@ const AnunciosCurtidos = () => {
     return (
         <div className="AreaConfig  container-editar-perfil">
             <h2 className="titulo">Anúncios curtidos</h2>
-            <div className="ConjAnuncio" >
+            <div className="ConjAnuncio ConjAnuncioConfig" >
                 <div className="Inferior">
                     {anunciosCurtidos.map((item, index) => (
                         <Anuncio key={index} preco={item.preco} imgFundo={item.imagem} />

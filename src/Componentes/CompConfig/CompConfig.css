@@ -12,7 +12,11 @@
     font-weight: 600;
 }
 
-
+.titulo {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 16px;
+}
 
 /* EDITAR PERFIL */
 
@@ -24,32 +28,47 @@
     font-family: sans-serif;
 }
 
-.titulo {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 16px;
+.ConfigAreaFotoCampo {
+    width: 100%;
+    height: auto;
+    max-height: 50%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    box-sizing: content-box;
+    margin: 0 auto;
+    gap: 2vw;
 }
-
-.foto-perfil {
-    height: 10vh;
-    background-color: #222;
-    padding: 16px;
+.ConfigAreaFotoCampo .ConfigAreaFotoPerfil {
+    flex: 0.3;
+    width: 90%;
+    min-width: max(20vw,275px);
+    aspect-ratio: 1 / 1; /* Mantém a proporção 1:1 */
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 16px;
-    margin-bottom: 16px;
-    border-radius: 30px;
+}
+.ConfigAreaFotoCampo .ConfigAreaCampo{
+    flex:0.7;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
-.imagem-perfil {
-    width: 64px;
-    height: 64px;
+.ConfigAreaFotoCampo .foto-perfil {
+    width: 80%;
+    aspect-ratio: 1 / 1; /* Mantém a proporção 1:1 */
+    background-size: cover;
+    background-position: center;
     border-radius: 50%;
 }
 
 .foto-fundo {
-    height: 10vh;
+    height: 20vh;
     background-size: cover;
     background-position: center;
     display: flex;
@@ -63,10 +82,12 @@
     border-radius: 30px;
 }
 
+
 /* Campos */
 
 .campo {
     display: flex;
+    width: 100%;
     flex-direction: column;
     margin-bottom: 20px;
     gap: 1vh;
@@ -117,33 +138,51 @@
 }
 
 
-
-
-@media (max-width: 500px) {
-    .AreaConfig{
-        display: none;
+@media (max-width: 1000px) {
+    .ConfigAreaFotoCampo {
+        max-height: max-content;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        box-sizing: content-box;
+        margin: 0 auto;
+        gap: 0px;
+    }
+    .ConfigAreaFotoCampo .ConfigAreaFotoPerfil {
+        max-width: max(30vw,275px);
     }
 }
 
-
-
 /*  AnunCurtidos  */
 
-.anuncios-curtidos-container {
-    background-color: #0F0F0F;
-    color: white;
-    padding: 24px;
-    flex: 1;
+.ConjAnuncioConfig{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
 }
 
-.titulo {
-    font-size: 20px;
-    font-weight: bold;
-    margin-bottom: 16px;
-}
+/* Estilo para a parte Inferior */
 
-.grid-anuncios {
+.ConjAnuncioConfig .Inferior {
+    height: 100%;
+    width: 100%;
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 16px;
+    grid-template-columns: repeat(auto-fill, 143px); /* ← fixo */
+    gap: 1vw;
+    justify-content: space-around;
+    box-sizing: border-box;
+    align-items: center;
+    padding: 0;
+    margin: 0;
 }
+
+
+
+
+
+

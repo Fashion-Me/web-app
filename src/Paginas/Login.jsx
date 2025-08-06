@@ -1,29 +1,29 @@
 import React from 'react';
-import Logo from "../Componentes/Menu/Imagens/LogoTexto.png";
-import Google from "../Imagens/iconeGoogle.png";
 import "../css/Login.css";
+import api from "../services/authApi";
 import {useNavigate} from "react-router-dom";
 
+import Logo from "../Componentes/Menu/Imagens/LogoTexto.png";
+import Google from "../Imagens/iconeGoogle.png";
 const Nomes = ["adm", "usuario"];
 const Senhas = ["123456", "654321"];
 
 const Login = () => {
+
     const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
-        e.preventDefault(); // Impede o envio padrão do formulário
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const username = e.target.nome.value.trim();
+        const password = e.target.senha.value.trim();
 
-        const nome = e.target.nome.value.trim();
-        const senha = e.target.senha.value.trim();
+        try {
+            await api.post("/auth/login", { username, password });
 
-        const indexNome = Nomes.indexOf(nome);
-        const indexSenha = Senhas.indexOf(senha);
-
-        if (indexNome !== -1 && indexNome === indexSenha) {
-            const tipoUsuario = nome === "adm" ? "adm" : "user";
-            onNavegacaoConjAnuncio(tipoUsuario);
-        } else {
-            alert("Nome ou senha inválidos!");
+            const tipoUsuario = "user"
+            onNavegacaoConjAnuncio(tipoUsuario);    // login ok → home
+        } catch (err) {
+            alert("Usuário ou senha inválidos");
         }
     };
 
@@ -41,7 +41,7 @@ const Login = () => {
                 </div>
                 <h1>Entrar na conta</h1>
                 <form className="formLogin" onSubmit={handleSubmit}>
-                    <input className="CadLogInput" type="text" id="nome" name="nome" placeholder="Email ou Telefone" required/>
+                    <input className="CadLogInput" type="text" id="nome" name="nome" placeholder="Nome de Usuário" required/>
                     <input className="CadLogInput" type="password" id="senha" name="senha" placeholder="Senha"
                            required/>
                     <button className="CadLogButton" type="submit">Entrar</button>
@@ -67,3 +67,4 @@ const Login = () => {
 }
 
 export default Login;
+

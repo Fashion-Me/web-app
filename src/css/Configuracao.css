@@ -148,6 +148,9 @@
         position: relative;
         max-width: 100%;
     }
+    .AreaConfig {
+        margin-left: 0px;/* Compensa a largura do #divConfig */
+    }
 }
 
 

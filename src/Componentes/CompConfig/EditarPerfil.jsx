@@ -1,10 +1,13 @@
 import React, {useRef, useState} from 'react';
+import { SquarePen } from 'lucide-react';
+import AvatarPadrão from '../../Imagens/FotoPerfil.png'
+import FundoPadrão from '../../Imagens/FundoConjCamisetas2.png'
 
 export default () => {
     const [nome, setNome] = useState('');
     const [biografia, setBiografia] = useState('');
-    const [fotoPerfil, setFotoPerfil] = useState('');
-    const [fotoFundo, setFotoFundo] = useState('');
+    const [fotoPerfil, setFotoPerfil] = useState(AvatarPadrão);
+    const [fotoFundo, setFotoFundo] = useState(FundoPadrão);
 
     const inputPerfilRef = useRef(null);
     const inputFundoRef = useRef(null);
@@ -32,19 +35,44 @@ export default () => {
     return (
         <div className="AreaConfig  container-editar-perfil">
             <h2 className="titulo">Editar Perfil</h2>
+            <div className="ConfigAreaFotoCampo">
+                <div className="ConfigAreaFotoPerfil">
+                    <div
+                        className="foto-perfil"
+                        onClick={() => inputPerfilRef.current.click()}
+                        style={{ backgroundImage: `url(${fotoPerfil})`,}}
+                    >
+                        <SquarePen size={32} style={{ marginTop: "15px", marginLeft: "15px" }} />
+                        <input
+                            type="file"
+                            accept="image/*"
+                            ref={inputPerfilRef}
+                            onChange={handleFotoPerfilChange}
+                            style={{ display: 'none' }}
+                        />
+                    </div>
+                </div>
+                <div className="ConfigAreaCampo">
+                    <div className="campo">
+                        <h3>Nome:</h3>
+                        <input
+                            type="text"
+                            value={nome}
+                            onChange={(e) => setNome(e.target.value)}
+                            placeholder="Digite seu nome"
+                        />
+                    </div>
 
-            <div className="foto-perfil" onClick={() => inputPerfilRef.current.click()}>
-                <img src={fotoPerfil} alt="Foto de perfil" className="imagem-perfil" />
-                <h2 className="Config-H2">CLIQUE PARA MUDAR FOTO DE PERFIL</h2>
-                <input
-                    type="file"
-                    accept="image/*"
-                    ref={inputPerfilRef}
-                    onChange={handleFotoPerfilChange}
-                    style={{ display: 'none' }}
-                />
+                    <div className="campo">
+                        <h3>Bibliografia:</h3>
+                        <textarea
+                            value={biografia}
+                            onChange={(e) => setBiografia(e.target.value)}
+                            placeholder="Digite sua bibliografia"
+                        />
+                    </div>
+                </div>
             </div>
-
             <div
                 className="foto-fundo"
                 onClick={() => inputFundoRef.current.click()}
@@ -57,25 +85,6 @@ export default () => {
                     ref={inputFundoRef}
                     onChange={handleFotoFundoChange}
                     style={{ display: 'none' }}
-                />
-            </div>
-
-            <div className="campo">
-                <h3>Nome:</h3>
-                <input
-                    type="text"
-                    value={nome}
-                    onChange={(e) => setNome(e.target.value)}
-                    placeholder="Digite seu nome"
-                />
-            </div>
-
-            <div className="campo">
-                <h3>Bibliografia:</h3>
-                <textarea
-                    value={biografia}
-                    onChange={(e) => setBiografia(e.target.value)}
-                    placeholder="Digite sua bibliografia"
                 />
             </div>
 
