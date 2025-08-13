@@ -16,7 +16,7 @@ export default () => {
 
     return (
         <>
-            <div className="campo">
+            <div className="campo divcampoTrocarSenha">
                 <h3>Nova Senha:</h3>
                 <input
                     type="password"

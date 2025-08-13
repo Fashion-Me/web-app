@@ -1,5 +1,6 @@
 import React from 'react';
 import "./Anuncio.css"
+import {SquarePen} from "lucide-react";
 
 export default (params) => {
     return (
@@ -9,6 +10,7 @@ export default (params) => {
                     <p className="semibold">R$ {params.preco}</p>
                 </div>
             )}
+            {params.editar && (<SquarePen size={40} strokeWidth={1.5} className="IconeEditar"/>)}
         </div>
     );
 };

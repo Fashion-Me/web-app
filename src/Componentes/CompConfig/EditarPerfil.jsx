@@ -41,7 +41,7 @@ export default () => {
                         onClick={() => inputPerfilRef.current.click()}
                         style={{ backgroundImage: `url(${fotoPerfil})`,}}
                     >
-                        <SquarePen size={32} style={{ marginTop: "15px", marginLeft: "15px" }} />
+                        <SquarePen size={48} strokeWidth={1.5} className="IconeEditar"/>
                         <input
                             type="file"
                             accept="image/*"

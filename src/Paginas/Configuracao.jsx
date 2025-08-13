@@ -7,20 +7,26 @@ import { useSearchParams } from "react-router-dom";
 import HamburgerComponent from '../Componentes/Menu/Hamburger';
 import useMenuTipo from "../hooks/useMenuTipo";
 import ConteudoConfig  from "../Componentes/ConteudoConfig.jsx";
+import useAuth from "../hooks/useAuth";
+
+
 
 const Configuracao = () => {
     const { menuTipo, menuOpen, setMenuOpen} = useMenuTipo(false);
+    const [mostrarMenu, setMostrarMenu] = useState(true);
     const [searchParams] = useSearchParams();
     const tipoUsuario = searchParams.get("tipoUsuario") || "convidado";
 
     return (
         <div className='Home'>
             {menuTipo === "mobile" ? (
-                <HamburgerComponent user={tipoUsuario} menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
+                mostrarMenu &&(
+                    <HamburgerComponent user={tipoUsuario} menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
+                )
             ) : (
                 <Menu user={tipoUsuario} tipo={menuTipo} />
             )}
-            <ConteudoConfig/>
+            <ConteudoConfig mostrarMenu={mostrarMenu} setMostrarMenu={setMostrarMenu} />
         </div>
     );
 };

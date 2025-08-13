@@ -30,7 +30,7 @@ const Carrinho = () => {
                         <ItemCarrinho imgAnuncio={imgAnuncioCamiseta} nomeProduto="Camisa Branca" nomeVendedor="Victor Hugo" preco={40} />
                     </div>
                     <div className="ResultadoCarrinho">
-                        <div className="divMensagensPesquisa">
+                        <div className="divMensagensPesquisa divConfigPesquisa">
                             <div className="barraPesquisa">
                                 <input type="text" placeholder="Digite o seu CEP" />
                                 <Check className="iconeLupa" size={24} color="#efefef" />

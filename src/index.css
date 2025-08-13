@@ -19,3 +19,7 @@ body{
 .Clicavel{
     cursor: pointer;
 }
+
+.displayFlex{
+    display: flex;
+}

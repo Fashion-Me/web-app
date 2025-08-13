@@ -28,10 +28,6 @@ const useMenuTipo = (completo) => {
                     setMenuTipo("simples");
                 }
             }
-
-            if (width > 500) {
-                setMenuOpen(false);
-            }
         };
 
         handleResize();

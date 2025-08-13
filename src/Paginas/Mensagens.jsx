@@ -6,22 +6,27 @@ import ConteudoHomePadrao from "../Componentes/ConteudoHomePadrao";
 import "@radix-ui/themes/styles.css";
 import { useSearchParams } from "react-router-dom";
 import HamburgerComponent from '../Componentes/Menu/Hamburger';
-import useMenuTipo from "../hooks/useMenuTipo";
 import ConteudoMensagens from "../Componentes/ConteudoMensagens";
+import useMenuTipo from "../hooks/useMenuTipo";
+import useAuth from "../hooks/useAuth";
+
 
 const Mensagens = () => {
     const { menuTipo, menuOpen, setMenuOpen} = useMenuTipo(false);
+    const [mostrarMenu, setMostrarMenu] = useState(true);
     const [searchParams] = useSearchParams();
     const tipoUsuario = searchParams.get("tipoUsuario") || "convidado";
 
     return (
         <div className='Home'>
             {menuTipo === "mobile" ? (
-                <HamburgerComponent user={tipoUsuario} menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
+                mostrarMenu &&(
+                    <HamburgerComponent user={tipoUsuario} menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
+                )
             ) : (
                 <Menu user={tipoUsuario} tipo={menuTipo} />
             )}
-            <ConteudoMensagens/>
+            <ConteudoMensagens mostrarMenu={mostrarMenu} setMostrarMenu={setMostrarMenu} />
         </div>
     );
 };

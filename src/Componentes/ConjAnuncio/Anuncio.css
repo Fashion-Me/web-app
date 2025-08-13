@@ -112,6 +112,16 @@
     border-radius: 10px;
     overflow: hidden; /* Garante que o conteúdo não ultrapasse os limites */
 }
+
+.Anuncio .IconeEditar {
+    display: flex;
+    position: relative;
+    background: rgba(64, 102, 255, 0.8);
+    padding: 10px;
+    border-radius: 50%;
+}
+
+
 @media (max-width: 800px) {
     .ConjAnuncio {
         width: 90%;
@@ -134,7 +144,5 @@
         width: 129px;
         height: 198px;
     }
-
-
 
 }

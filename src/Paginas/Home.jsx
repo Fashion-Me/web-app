@@ -10,6 +10,7 @@ import useMenuTipo from "../hooks/useMenuTipo";
 const Home = () => {
     const { menuTipo, menuOpen, setMenuOpen} = useMenuTipo();
     const [searchParams] = useSearchParams();
+
     const tipoUsuario = searchParams.get("tipoUsuario") || "convidado";
 
     return (

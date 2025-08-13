@@ -18,7 +18,9 @@ const AnunciosCurtidos = () => {
             <div className="ConjAnuncio ConjAnuncioConfig" >
                 <div className="Inferior">
                     {anunciosCurtidos.map((item, index) => (
-                        <Anuncio key={index} preco={item.preco} imgFundo={item.imagem} />
+                        <>
+                            <Anuncio key={index} preco={item.preco} imgFundo={item.imagem} editar={true}/>
+                        </>
                     ))}
                 </div>
             </div>

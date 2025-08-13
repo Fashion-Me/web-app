@@ -268,7 +268,8 @@ hr {
 /* Caixa de Entrada */
 
 .CaixaDeEntrada {
-    position: relative;
+    position: absolute;
+    z-index: 30;
     max-width: 350px;
     width: 100vw;
     min-width: 280px;

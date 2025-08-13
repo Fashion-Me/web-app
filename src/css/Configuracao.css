@@ -56,6 +56,12 @@
     height: 100vh;
 }
 
+.divTituloAreaConfig{
+    display: flex;
+    align-items: center;
+    gap: 4vw;
+    margin-bottom: 2vh;
+}
 
 /*ll*/
 
@@ -65,6 +71,7 @@
     font-weight: bold;
     color: white;
 }
+
 
 .item-config {
     display: flex;
@@ -166,12 +173,10 @@
         display: flex;
     }
     .AreaConfig {
-        margin-left: 0px; /* Compensa a largura do #divConfig */
+        margin-left: 0px;
+        flex-direction: column;
     }
     .btn-voltar {
         display: block; /* Mostra o botão de voltar no mobile */
     }
 }
-
-
-
