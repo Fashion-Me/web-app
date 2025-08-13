@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import "./Css/ConteudoHomePadrao.css"
 import {useNavigate, useSearchParams} from "react-router-dom";
 import {Search, UserRoundPen, Star, Megaphone, KeyRound, ShoppingBag, ArrowLeft} from "lucide-react";
@@ -25,13 +25,37 @@ const ConteudoConfig = ({MostrarMenu,setMostrarMenu} ) => {
 
 
 
+    useEffect(() => {
+        let previousWidth = window.innerWidth;
+
+        const handleResize = () => {
+            const currentWidth = window.innerWidth;
+
+            if (currentWidth > 500) {
+                setMostrarAbaConfig(true);
+                setMostrarAreaConfig(true);
+                setMostrarMenu(true);
+            } else if (previousWidth > 500 && currentWidth <= 500) {
+                setMostrarAreaConfig((prevState) => prevState ? false : prevState);
+            }
+
+            previousWidth = currentWidth;
+        }
+        handleResize();
+
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
+
+
+
     return (
         <main className="Conteudo" id="ConteudoConfig" style={{backgroundImage: `url(${FundoHome})`}}>
             {mostrarAbaConfig &&
                 <AbaConfig
                     setConteudoAtual={setConteudoAtual}
                     setMostrarAbaConfig={setMostrarAbaConfig}
-                    setMostrarAreaConfig={setMostrarAreaConfig} // ← Faltava isso
+                    setMostrarAreaConfig={setMostrarAreaConfig}
                     setMostrarMenu={setMostrarMenu}
                 />
             }

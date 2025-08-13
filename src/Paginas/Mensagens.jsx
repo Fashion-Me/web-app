@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import Menu from '../Componentes/Menu';
 import "../css/Home.css";
 import "../css/Mensagens.css";
-import ConteudoHomePadrao from "../Componentes/ConteudoHomePadrao";
 import "@radix-ui/themes/styles.css";
 import { useSearchParams } from "react-router-dom";
 import HamburgerComponent from '../Componentes/Menu/Hamburger';

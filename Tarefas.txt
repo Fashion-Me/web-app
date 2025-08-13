@@ -1,0 +1,15 @@
+Alta Prioridade
+1) ARRUMAR AS FONTES
+2) Arrumar/refazer a pagina de Pesquisa
+3) Fazer a Pagina de Anuncios
+4) Fazer a Pagina de Perfils
+5)
+
+Média Prioridade
+
+Baixa Prioridade
+
+1) Arrumar a paginas especificas para ocupar toda a tela em cima
+2) Arrumar a responsividade das telas de Config e Mensagens sobre a responsividade
+3) Arrumar a pagina de Editar
+
