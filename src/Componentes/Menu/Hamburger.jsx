@@ -3,7 +3,7 @@ import Hamburger from "hamburger-react";
 import Menu from '../Menu';
 import "../Css/Menu.css";
 
-export default function HamburgerComponent({ user, menuOpen, setMenuOpen }) {
+export default function HamburgerComponent({ menuOpen, setMenuOpen }) {
     return (
         <div className="hamburger">
             {!menuOpen && <div className="divMenuBarras" >
@@ -16,7 +16,7 @@ export default function HamburgerComponent({ user, menuOpen, setMenuOpen }) {
             </div>}
             {menuOpen &&
                 <div className="divMenuHamburger">
-                <Menu user={user}>
+                <Menu>
                     <Hamburger
                         className="hamburgerIcon"
                         size={28}

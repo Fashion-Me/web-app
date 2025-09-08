@@ -3,7 +3,7 @@ import Aba from "./Menu/Aba";
 import Logo from "./Menu/Imagens/LogoTexto.png";
 import logoSimples from "../Imagens/LogoSImples.png";
 import "./Css/Menu.css";
-import { House, Search, Mail, UserRound, TriangleAlert, Settings, Bell } from 'lucide-react';
+import { House, Search, Mail, UserRound, TriangleAlert, Settings, Bell, ShieldAlert, UserRoundPlus } from 'lucide-react';
 import { Link, Routes, useNavigate } from "react-router-dom";
 import CaixaDeEntrada from "./Menu/CaixaDeEntrada";
 
@@ -15,6 +15,7 @@ export default (props) => {
 
     function onNavegacao(titulo) {
         const queryParams = new URLSearchParams(window.location.search);
+
 
         if (titulo === "Inicio") {
             navigate(`/home?pagDirecao=${titulo}`);
@@ -33,9 +34,18 @@ export default (props) => {
         } else if (titulo === "Cadastrar") {
             navigate("/cadastro");
         }
+        // Novas rotas para moderação
+        else if (titulo === "Denuncias") {
+            navigate(`/moderacao/denuncias`);
+        } else if (titulo === "Banimentos") {
+            navigate(`/moderacao/banimentos`);
+        } else if (titulo === "Cadastro") {
+            navigate("/moderacao/cadastro");
+        }
     }
 
-    const pagDirecao = queryParams.get("pagDirecao") || "Inicio";
+    // Define a aba inicial padrão com base no tipo de acesso
+    const pagDirecao = queryParams.get("pagDirecao") || (props.acesso === "mod" ? "Denuncias" : "Inicio");
     const [abaSelecionada, setAbaSelecionada] = useState(pagDirecao);
 
 
@@ -50,6 +60,124 @@ export default (props) => {
         setAbaSelecionada(titulo);
     };
 
+    // Renderização para o menu de MODERADOR
+    if (props.acesso === "mod") {
+        return (
+            <>
+                {props.tipo !== "simples" && (
+                    <div className="Menu">
+                        <div className="Superior">
+                            <div className="logo partMenu">
+                                {!props.children && <img src={Logo} alt="Logo Fashion-me" />}
+                                {props.children && (
+                                    <div className="divLogoHamburger">
+                                        <div>{props.children}</div>
+                                        <div><img src={Logo} alt="Logo Fashion-me" /></div>
+                                    </div>
+                                )}
+                            </div>
+
+                            <div className="conjAba partMenu">
+                                <hr />
+                                <Aba
+                                    titulo="Denuncias"
+                                    selecionado={abaSelecionada === "Denuncias"}
+                                    onClick={() => {
+                                        handleSelecionarAba("Denuncias");
+                                        onNavegacao("Denuncias");
+                                    }}
+                                >
+                                    <ShieldAlert/>
+                                </Aba>
+                                <hr />
+                                <Aba
+                                    titulo="Banimentos"
+                                    selecionado={abaSelecionada === "Banimentos"}
+                                    onClick={() => {
+                                        handleSelecionarAba("Banimentos");
+                                        onNavegacao("Banimentos");
+                                    }}
+                                >
+                                    <UserRound/>
+                                </Aba>
+                                <hr />
+                                <Aba
+                                    titulo="Cadastro"
+                                    selecionado={abaSelecionada === "Cadastro"}
+                                    onClick={() => {
+                                        handleSelecionarAba("Cadastro");
+                                        onNavegacao("Cadastro");
+                                    }}
+                                >
+                                    <UserRoundPlus/>
+                                </Aba>
+                                <hr />
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+                {props.tipo === "simples" && (
+                    <div className="Menu MenuSimples">
+                        <div className="Superior">
+                            <div className="logo partMenu">
+                                {!props.children && <img src={logoSimples} alt="Logo Fashion-me" />}
+                                {props.children && (
+                                    <div className="divLogoHamburger">
+                                        <div>{props.children}</div>
+                                        <div><img src={Logo} alt="Logo Fashion-me" /></div>
+                                    </div>
+                                )}
+                            </div>
+                            <div className="conjAba partMenu">
+                                <hr />
+                                <Aba
+                                    selecionado={abaSelecionada === "Denuncias"}
+                                    onClick={() => {
+                                        handleSelecionarAba("Denuncias");
+                                        onNavegacao("Denuncias");
+                                    }}
+                                >
+                                    <ShieldAlert/>
+                                </Aba>
+                                <hr />
+                                <Aba
+                                    selecionado={abaSelecionada === "Banimentos"}
+                                    onClick={() => {
+                                        handleSelecionarAba("Banimentos");
+                                        onNavegacao("Banimentos");
+                                    }}
+                                >
+                                    <UserRound/>
+                                </Aba>
+                                <hr />
+                                <Aba
+                                    selecionado={abaSelecionada === "Cadastrar"}
+                                    onClick={() => {
+                                        handleSelecionarAba("Cadastrar");
+                                        onNavegacao("Cadastrar");
+                                    }}
+                                >
+                                    <UserRoundPlus/>
+                                </Aba>
+                                <hr />
+                            </div>
+                        </div>
+                    </div>
+                )}
+                {/* A caixa de entrada de notificações pode ou não ser exibida para mods, mantido por segurança */}
+                {mostrarCaixaDeEntrada && (
+                    <div style={{ display: 'flex' }}>
+                        <div style={{ flexShrink: 0 }}>
+                            <CaixaDeEntrada setMostrarCaixaDeEntrada={setMostrarCaixaDeEntrada}/>
+                        </div>
+                    </div>
+                )}
+            </>
+        )
+    }
+
+    // Renderização padrão para usuários normais
     return (
         <>
             {props.tipo !== "simples" && (
@@ -64,16 +192,7 @@ export default (props) => {
                                 </div>
                             )}
                         </div>
-                        {/*{tipoUsuario == 'convidado' && (*/}
-                        {/*    <div className="Cadastro partMenu">*/}
-                        {/*        <div onClick={() => onNavegacao("Entrar")} className="CadEntrar">*/}
-                        {/*            <p>Entrar</p>*/}
-                        {/*        </div>*/}
-                        {/*        <div onClick={() => onNavegacao("Cadastrar")} className="CadCad">*/}
-                        {/*            <p>Cadastrar</p>*/}
-                        {/*        </div>*/}
-                        {/*    </div>*/}
-                        {/*)}*/}
+
                         <div className="conjAba partMenu">
                             <hr />
                             <Aba
@@ -98,27 +217,27 @@ export default (props) => {
                                 <Search />
                             </Aba>
                             <hr />
-                                    <Aba
-                                        titulo="Mensagens"
-                                        selecionado={abaSelecionada === "Mensagens"}
-                                        onClick={() => {
-                                            handleSelecionarAba("Mensagens");
-                                            onNavegacao("Mensagens");
-                                        }}
-                                    >
-                                        <Mail />
-                                    </Aba>
-                                    <hr />
-                                    <Aba
-                                        titulo="Perfil"
-                                        selecionado={abaSelecionada === "Perfil"}
-                                        onClick={() => {
-                                            handleSelecionarAba("Perfil");
-                                            onNavegacao("Perfil");
-                                        }}
-                                    >
-                                        <UserRound />
-                                    </Aba>
+                            <Aba
+                                titulo="Mensagens"
+                                selecionado={abaSelecionada === "Mensagens"}
+                                onClick={() => {
+                                    handleSelecionarAba("Mensagens");
+                                    onNavegacao("Mensagens");
+                                }}
+                            >
+                                <Mail />
+                            </Aba>
+                            <hr />
+                            <Aba
+                                titulo="Perfil"
+                                selecionado={abaSelecionada === "Perfil"}
+                                onClick={() => {
+                                    handleSelecionarAba("Perfil");
+                                    onNavegacao("Perfil");
+                                }}
+                            >
+                                <UserRound />
+                            </Aba>
                         </div>
                     </div>
                     <div className="conjAba partMenu inferior">
@@ -145,6 +264,7 @@ export default (props) => {
                     </div>
                 </div>
             )}
+
             {props.tipo === "simples" && (
                 <div className="Menu MenuSimples">
                     <div className="Superior">
@@ -179,23 +299,23 @@ export default (props) => {
                                 <Search />
                             </Aba>
                             <hr />
-                                    <Aba
-                                        selecionado={abaSelecionada === "Mensagens"}
-                                        onClick={() => {
-                                            handleSelecionarAba("Mensagens");
-                                            onNavegacao("Mensagens");
-                                        }}
-                                    >
-                                        <Mail />
-                                    </Aba>
-                                    <hr />
-                                    <Aba
+                            <Aba
+                                selecionado={abaSelecionada === "Mensagens"}
+                                onClick={() => {
+                                    handleSelecionarAba("Mensagens");
+                                    onNavegacao("Mensagens");
+                                }}
+                            >
+                                <Mail />
+                            </Aba>
+                            <hr />
+                            <Aba
 
-                                        selecionado={abaSelecionada === "Perfil"}
-                                        onClick={() => handleSelecionarAba("Perfil")}
-                                    >
-                                        <UserRound />
-                                    </Aba>
+                                selecionado={abaSelecionada === "Perfil"}
+                                onClick={() => handleSelecionarAba("Perfil")}
+                            >
+                                <UserRound />
+                            </Aba>
                         </div>
                     </div>
                     <div className="conjAba partMenu inferior">

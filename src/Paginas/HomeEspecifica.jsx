@@ -19,7 +19,7 @@ const Home = () => {
     return (
         <div className='Home'>
             {menuTipo === "mobile" ? (
-                <HamburgerComponent  menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
+                <HamburgerComponent menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
             ) : (
                 <Menu tipo={menuTipo} />
             )}
