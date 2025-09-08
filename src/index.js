@@ -52,11 +52,13 @@ import NovaSenha from "./Paginas/NovaSenha";
 import Pesquisar from "./Paginas/Pesquisar";
 import Mensagens from "./Paginas/Mensagens";
 import Configuracao from "./Paginas/Configuracao";
-
+import Apresentacao from "./Paginas/Apresentacao";
+import Denuncias from "./Paginas/Denuncias";
 
 /* Criando as rotas */
 const router = createBrowserRouter([
-    { path: "/", element: <Home /> },
+    { path: "/", element: <Apresentacao /> },
+    { path: "/home", element: <Home /> },
     { path: "/cadastro", element: <Cadastro /> },
     { path: "/login", element: <Login /> },
     { path: "/pesquisar", element: <Pesquisar /> },
@@ -65,6 +67,11 @@ const router = createBrowserRouter([
     { path: "/esquecerSenha", element: <EsquecerSenha /> },
     { path: "/homeEspecifica", element: <HomeEspecifica /> },
     { path: "/novaSenha", element: <NovaSenha /> },
+
+    /* Aplicação Moderação de Conteúdo */
+
+    { path: "/denuncias", element: <Denuncias /> },
+
 ]);
 
 const queryClient = new QueryClient();

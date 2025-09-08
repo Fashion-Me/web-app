@@ -1,8 +1,64 @@
+/* Fontes */
+
+.ContatoP{
+    color: white;
+    font-size: var(--font-size-p2);
+    text-align: left;
+}
+
+.AbaMensagens h2 {
+    font-size: var(--font-size-h1);
+    text-align: center;
+}
+
+.tituloAreaMensagem{
+    font-size: var(--font-size-h1);
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+}
+
+.divMensagemDestinatario p ,.divMensagemRemetente p{
+    font-size: var(--font-size-Mensagens);
+    color: var(--font-color-branco);
+}
+
+/* Codigo */
+
+
+.AbaMensagens {
+    display: flex;
+    flex-direction: column;
+    background-color: #1C1C1C;
+    border-right: 1px solid #efefef;
+    overflow-y: auto;
+    padding: 20px max(1.5vw,15px);
+    padding-bottom: 0px;
+    position: fixed;
+    max-width: 350px;
+    width: 100vw;
+    min-width: 280px;
+    height: 100vh;
+    color: #fff;
+    gap: 1.5vh;
+}
+
+.AbaMensagens.mostrar {
+    display: flex; /* Mostra quando necessário */
+}
+
+.AbaMensagens hr {
+    width: 100%;
+    height: 1px;
+    border: none;
+    background-color: #333;
+}
+
 .divConfigPesquisa .barraPesquisa {
     display: flex;
     align-items: center;
-    background: #222222;
-    border-radius: 10px;
+    background: var(--background-pesquisa);
+    border-radius: 20px;
     overflow: hidden;
 }
 
@@ -18,77 +74,202 @@
     margin: 5px;
 }
 
+.ListaContatos {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: scroll;
+}
+
 #ConteudoMensagens {
     display: flex;
     flex-direction: row;
-    height: 100%; /* Depende da altura do pai */
-    flex: 100%; /* Ocupa 80% do espaço disponível */
+    height: 100%;
+    flex: 100%;
     background-repeat: repeat;
     background-size: unset;
-    gap: 10px;
     align-items: center; /* Remove as barras de rolagem */
     overflow: auto;
     padding: 0px;
     gap: 0px;
 }
 
-
-#divMensagens {
-background-color: #1C1C1C;
-border-right: 1px solid #efefef;
-overflow-y: auto;
-padding: 20px;
-}
-
 /* Configurando os flex */
 .Contato {
+    width: 100%;
+    height: 80px;
+    min-height: 68px;
     display: flex;
     flex-direction: row;
-    height: 65px;
     gap: 10px;
     padding: 10px;
     border-bottom: 1px solid #272727;
+}
+.Contato:hover {
+    background-color: #27272780;
 }
 
 .Contato .imgContato{
     display: flex;
     flex: 20%;
-    border-radius: 50%;
+    overflow: hidden;
+    aspect-ratio: 1 / 1;
+    align-items: center;
+    justify-content: center;
+    border-radius: 30px;
 }
+
+.Contato .imgContato img {
+    border-radius: 30px;
+    height: 100%;
+    object-fit: fill; /* Evita deformação */
+}
+
 .Contato .textoContato{
     display: flex;
+    gap: 0.2vh;
     flex-direction: column;
     flex: 80%;
 }
-.Contato .divNumNovaMensagem {
-    width: 100%;
+
+.Contato .divNovaMensagem {
     display: flex;
     justify-content: center;
     align-items: center;
-    aspect-ratio: 1 / 1;
     flex: 10%;
 }
 
-/* Configurando numNovaMensagem */
+/* ----------------------AREA DE MENSAGENS---------------------- */
 
-.Contato .numNovaMensagem {
+.AreaMensagem{
     display: flex;
-    border-radius: 50%;
-}
-.numNovaMensagem {
-    background-color: red;
+    flex-direction: column;
+    flex: 1;
+    margin-left: 350px;/* Compensa a largura do .AbaMensagens */
+    overflow-y: auto;
+    height: 100vh;
+    width: 100%;
+    min-height: 100vh;
     color: white;
-    border-radius: 50%;
-    padding: 2px 5px;
-    font-size: 12px;
+}
+
+.divTituloAreaMensagem{
+    box-sizing: border-box;
+    height: 10vh;
+    display: flex;
+    text-align: center;
+    gap: 4vw;
+    flex: 1;
+    background-color: #1C1C1C;
+    border-bottom: 1px solid #efefef;
+    padding: 10px;
+}
+
+.divTituloAreaMensagem .divTituloContatoFoto{
+    display: flex;
+    overflow: hidden;
+    aspect-ratio: 1 / 1;
+    align-items: center;
+    justify-content: center;
+    border-radius: 30px;
+}
+.divTituloAreaMensagem .divTituloContatoFoto img{
+    border-radius: 25%;
+    height: 100%;
+    object-fit: fill; /* Evita deformação */
+}
+
+.divConversa {
+    flex: 8;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5vh;
+    padding: 15px;
+    background-size: cover;
+    overflow-y: auto;
+    width: 100%;
+    min-height: 0;
 }
 
 
-.ContatoP{
-    color: white;
-    font-size: clamp(10px, 4vw, 14px);
-    text-align: left;
+/* Mensagens da esquerda (contato) */
+
+.divMensagemDestinatario, .divMensagemRemetente {
+
+    color: #000;
+    padding: 8px 12px;
+    max-width: 70%;
+    position: relative;
+    word-wrap: break-word; /* Permite quebra de palavras longas */
+    overflow-wrap: break-word; /* Garante que o texto não ultrapasse o limite */
+    white-space: pre-wrap;
 }
 
+.divMensagemDestinatario img, .divMensagemRemetente img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin-top: 5px;
+}
 
-/* Configurando a área de Mensagens */
+.divMensagemDestinatario {
+    background-color: #D4AF5F;
+    border-radius: 10px 10px 10px 0;
+    color: #000;
+    margin-right: auto;
+}
+
+/* Mensagens da direita (usuário) */
+.divMensagemRemetente {
+    background-color: #3b6df6;
+    border-radius: 10px 10px 0px 10px;
+    color: #fff;
+    margin-left: auto;
+}
+
+.divBarraMensagem{
+    height: 10vh;
+    display: flex;
+    align-items: center;
+    flex: 1;
+    background-color: #1C1C1C;
+    border-top: 1px solid #efefef;
+    gap: max(10px, 1vw);
+    padding: 0px 1vw;
+}
+
+.divBarraMensagem .barraPesquisa {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    background: var(--background-pesquisa);
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.divBarraMensagem .barraPesquisa input {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    font-size: 1rem;
+}
+
+@media (max-width: 500px) {
+    .AbaMensagens {
+        padding: 20px max(2vw, 15px);
+        max-width: 100%;
+        display: flex;
+    }
+    .AreaMensagem {
+        margin-left: 0px;
+        flex-direction: column;
+    }
+    .IconeVoltar {
+        display: flex;
+        align-items: center;
+    }
+    .divBarraMensagem{
+        gap: max(15px, 1vw);
+        padding: 0px 3vw;
+    }
+}

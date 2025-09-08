@@ -29,8 +29,6 @@ import imgTituloAcessorios from "../Imagens/AnuncioTituloAcessorios1.png";
 const ConteudoHomePadrao = ({local, tipo, tipoEspecifico}) => {
     const navigate = useNavigate();
     const [anunciosAdicionados, setAnunciosAdicionados] = useState([]);
-    const [searchParams] = useSearchParams();
-    const tipoUsuario = searchParams.get("tipoUsuario") || "convidado";
 
     const adicionarAnuncio = () => {
         setAnunciosAdicionados((prevAnuncios) => [
@@ -56,10 +54,10 @@ const ConteudoHomePadrao = ({local, tipo, tipoEspecifico}) => {
                         className="btnAnunciar"
                         style={{backgroundImage: `url(${iconeInicio})`}}
                         onClick={() => {
-                            navigate(`/?tipoUsuario=${tipoUsuario}`)
+                            navigate(`/?tipoUsuario`)
                         }}
                     >
-                        <p className="bold">ANUNCIE AQUI SUAS ROUPAS NA FASHION</p>
+                        <h2 className="bold">ANUNCIE AQUI SUAS ROUPAS NA FASHION</h2>
                     </div>
                     <ConjAnuncio titulo="CAMISETAS" imgFundoTitulo={imgFundoTituloCamisetas}    imgTitulo={imgTituloCamisetas}    imgAnuncio={imgAnuncioCamiseta}/>
                     <ConjAnuncio titulo="CASACOS"   imgFundoTitulo={imgFundoTituloCasacos}      imgTitulo={imgTituloCasacos}    imgAnuncio={imgAnuncioCasaco}/>

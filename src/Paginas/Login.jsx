@@ -20,18 +20,11 @@ const Login = () => {
         try {
             await api.post("/auth/login", { username, password });
 
-            const tipoUsuario = "user"
-            onNavegacaoConjAnuncio(tipoUsuario);    // login ok → home
+            navigate(`/home`);// login ok → home
         } catch (err) {
             alert("Usuário ou senha inválidos");
         }
     };
-
-    function onNavegacaoConjAnuncio(tipoUsuario) {
-        const queryParams = new URLSearchParams(window.location.search);
-        queryParams.set('tipoUsuario', tipoUsuario);
-        navigate(`/?${queryParams.toString()}`);
-    }
 
     return (
         <main className="divCadLogin">

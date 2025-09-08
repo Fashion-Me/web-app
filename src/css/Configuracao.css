@@ -1,5 +1,11 @@
-/*  Fontes  */
+/*  Configurações de Fontes  */
 
+:root {
+    --font-color-default: white;
+    --font-color-red: red;
+}
+
+/*  Fontes  */
 
 
 #ConteudoConfig {
@@ -45,7 +51,7 @@
 }
 
 #divConfig h2 {
-    font-size: 24px;
+    font-size: var(--font-size-h1);
     text-align: center;
 }
 
@@ -54,9 +60,13 @@
     margin-left: 350px;/* Compensa a largura do #divConfig */
     overflow-y: auto;
     height: 100vh;
+    width: 100%;
+    min-height: 100vh;
+    color: white;
+    padding: min(24px, 2vw);
 }
 
-.divTituloAreaConfig{
+.divTituloArea{
     display: flex;
     align-items: center;
     gap: 4vw;
@@ -64,14 +74,6 @@
 }
 
 /*ll*/
-
-.tituloSecao {
-    /*margin: 20px 0 10px;*/
-    font-size: 16px;
-    font-weight: bold;
-    color: white;
-}
-
 
 .item-config {
     display: flex;
@@ -99,7 +101,6 @@
 }
 
 .acoes-finais {
-    /*margin-top: 30px;*/
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -175,6 +176,7 @@
     .AreaConfig {
         margin-left: 0px;
         flex-direction: column;
+        padding: 16px;
     }
     .btn-voltar {
         display: block; /* Mostra o botão de voltar no mobile */

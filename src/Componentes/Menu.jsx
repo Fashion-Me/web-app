@@ -11,25 +11,23 @@ import CaixaDeEntrada from "./Menu/CaixaDeEntrada";
 export default (props) => {
     const navigate = useNavigate();
     const queryParams = new URLSearchParams(window.location.search);
-    const tipoUsuario = queryParams.get("tipoUsuario") || "convidado";
 
 
     function onNavegacao(titulo) {
         const queryParams = new URLSearchParams(window.location.search);
-        queryParams.set('tipoUsuario', tipoUsuario);
 
         if (titulo === "Inicio") {
-            navigate(`/?tipoUsuario=${tipoUsuario}&pagDirecao=${titulo}`);
+            navigate(`/home?pagDirecao=${titulo}`);
         } else if (titulo === "Pesquisar") {
-            navigate(`/pesquisar?tipoUsuario=${tipoUsuario}&pagDirecao=${titulo}`);
+            navigate(`/pesquisar?pagDirecao=${titulo}`);
         } else if (titulo === "Mensagens") {
-            navigate(`/mensagens?tipoUsuario=${tipoUsuario}&pagDirecao=${titulo}`);
+            navigate(`/mensagens?pagDirecao=${titulo}`);
         } else if (titulo === "Perfil") {
-            navigate(`/perfil?tipoUsuario=${tipoUsuario}&pagDirecao=${titulo}`);
+            navigate(`/perfil?pagDirecao=${titulo}`);
         } else if (titulo === "Moderação") {
-            navigate(`/moderacao?tipoUsuario=${tipoUsuario}&pagDirecao=${titulo}`);
+            navigate(`/moderacao?pagDirecao=${titulo}`);
         } else if (titulo === "Configuração") {
-            navigate(`/configuracao?tipoUsuario=${tipoUsuario}&pagDirecao=${titulo}`);
+            navigate(`/configuracao?pagDirecao=${titulo}`);
         } else if (titulo === "Entrar") {
             navigate("/login");
         } else if (titulo === "Cadastrar") {
@@ -66,16 +64,16 @@ export default (props) => {
                                 </div>
                             )}
                         </div>
-                        {tipoUsuario == 'convidado' && (
-                            <div className="Cadastro partMenu">
-                                <div onClick={() => onNavegacao("Entrar")} className="CadEntrar">
-                                    <p>Entrar</p>
-                                </div>
-                                <div onClick={() => onNavegacao("Cadastrar")} className="CadCad">
-                                    <p>Cadastrar</p>
-                                </div>
-                            </div>
-                        )}
+                        {/*{tipoUsuario == 'convidado' && (*/}
+                        {/*    <div className="Cadastro partMenu">*/}
+                        {/*        <div onClick={() => onNavegacao("Entrar")} className="CadEntrar">*/}
+                        {/*            <p>Entrar</p>*/}
+                        {/*        </div>*/}
+                        {/*        <div onClick={() => onNavegacao("Cadastrar")} className="CadCad">*/}
+                        {/*            <p>Cadastrar</p>*/}
+                        {/*        </div>*/}
+                        {/*    </div>*/}
+                        {/*)}*/}
                         <div className="conjAba partMenu">
                             <hr />
                             <Aba
@@ -100,8 +98,6 @@ export default (props) => {
                                 <Search />
                             </Aba>
                             <hr />
-                            {tipoUsuario !== 'convidado' && (
-                                <>
                                     <Aba
                                         titulo="Mensagens"
                                         selecionado={abaSelecionada === "Mensagens"}
@@ -123,20 +119,6 @@ export default (props) => {
                                     >
                                         <UserRound />
                                     </Aba>
-                                </>
-                            )}
-                            {tipoUsuario === 'adm' && (
-                                <>
-                                    <hr />
-                                    <Aba
-                                        titulo="Moderação"
-                                        selecionado={abaSelecionada === "Moderação"}
-                                        onClick={() => handleSelecionarAba("Moderação")}
-                                    >
-                                        <TriangleAlert />
-                                    </Aba>
-                                </>
-                            )}
                         </div>
                     </div>
                     <div className="conjAba partMenu inferior">
@@ -197,8 +179,6 @@ export default (props) => {
                                 <Search />
                             </Aba>
                             <hr />
-                            {tipoUsuario !== 'convidado' && (
-                                <>
                                     <Aba
                                         selecionado={abaSelecionada === "Mensagens"}
                                         onClick={() => {
@@ -216,20 +196,6 @@ export default (props) => {
                                     >
                                         <UserRound />
                                     </Aba>
-                                </>
-                            )}
-                            {tipoUsuario === 'adm' && (
-                                <>
-                                    <hr />
-                                    <Aba
-
-                                        selecionado={abaSelecionada === "Moderação"}
-                                        onClick={() => handleSelecionarAba("Moderação")}
-                                    >
-                                        <TriangleAlert />
-                                    </Aba>
-                                </>
-                            )}
                         </div>
                     </div>
                     <div className="conjAba partMenu inferior">

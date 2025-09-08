@@ -1,11 +1,24 @@
+:root {
+    --font-color-default: white;
+    --font-color-red: red;
+}
+
 
 
 .divHomePadrao p {
     color: white;
-    font-size: clamp(13px, 2.5vw, 18px);
+    font-size: var(--font-size-p);
+}
+
+.divHomePadrao .btnAnunciar h2 {
+    color: white;
+    font-size: var(--font-size-h2);
+    text-align: center;
+    width: 90%;
 }
 
 /* Botão Anunciar */
+
 
 .btnAnunciar{
     display: flex;
@@ -52,9 +65,10 @@
     background-color: #353535;
     color: white;
     border: none;
-    padding: 8px 20px;
-    border-radius: 5px;
-    font-size: 18px;
+    padding: 10px 16px;
+    border-radius: 20px;
+    font-size: var(--font-size-h2);
+    font-weight: bold;
     cursor: pointer;
     text-align: center;
     width: 80%;

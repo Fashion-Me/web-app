@@ -24,7 +24,7 @@ export default (params) => {
                     : null}
             </div>
             <div className="divAbaTexto">
-                <p style={{ color: estiloReal.color }}> {params.titulo} </p>
+                <h2 style={{ color: estiloReal.color }}> {params.titulo} </h2>
             </div>
         </div>
     );

@@ -1,31 +1,27 @@
 /*    Fontes     */
 
+
+
 .campo h3 {
-    font-size: 20px;
+    font-size: var(--font-size-h2);
     display: block;
     font-weight: bold;
     margin-left: 30px;
 }
 
 .Config-H2{
-    font-size: 18px;
+    font-size: var(--font-size-h2);
     font-weight: 600;
+    text-align: center;
+    width: 90%;
 }
 
 .titulo {
-    font-size: 24px;
+    font-size: var(--font-size-h1);
     font-weight: bold;
 }
 
 /* EDITAR PERFIL */
-
-.container-editar-perfil {
-    width: 100%;
-    min-height: 100vh;
-    color: white;
-    padding: 24px;
-    font-family: sans-serif;
-}
 
 .ConfigAreaFotoCampo {
     width: 100%;
@@ -105,12 +101,12 @@
 .campo input,
 .campo textarea {
     width: 100%;
-    padding: 30px;
+    padding: 5vh;
     background-color: #2a2a2a;
     color: white;
     border: none;
     border-radius: 30px;
-    font-size: 16px;
+    font-size: var(--font-size-h2);
 }
 .campo input {
     height: 10vh;
@@ -126,8 +122,8 @@
 .botao-salvar {
     height: 10vh;
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
     width: 100%;
     background-color: #4066FF;
     padding: 14px;
@@ -137,29 +133,14 @@
     transition: background 0.3s;
 }
 
-.botao-salvar p{
+.botao-salvar h2{
+    font-size: var(--font-size-h2);
     color: white;
     font-weight: bold;
 }
 
 .botao-salvar:hover {
     background-color: #444;
-}
-
-
-@media (max-width: 1000px) {
-    .ConfigAreaFotoCampo {
-        max-height: max-content;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        box-sizing: content-box;
-        margin: 0 auto;
-        gap: 10px;
-    }
-    .ConfigAreaFotoCampo .ConfigAreaFotoPerfil {
-        max-width: max(30vw,200px);
-    }
 }
 
 /*  AnunCurtidos  */
@@ -181,9 +162,9 @@
     height: 100%;
     width: 100%;
     display: grid;
-    grid-template-columns: repeat(auto-fill, 143px); /* ← fixo */
-    gap: 1vw;
+    gap: 3vh;
     justify-content: space-around;
+    justify-items: center;
     box-sizing: border-box;
     align-items: center;
     padding: 0;
@@ -191,9 +172,33 @@
 }
 
 
+
+@media (max-width: 1000px) {
+    .ConfigAreaFotoCampo {
+        max-height: max-content;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        box-sizing: content-box;
+        margin: 0 auto;
+        gap: 10px;
+    }
+    .ConfigAreaFotoCampo .ConfigAreaFotoPerfil {
+        max-width: max(30vw,200px);
+    }
+    .campo input {
+        height: 8vh;
+    }
+
+    .campo textarea {
+        resize: vertical;
+        height: 18vh;
+    }
+}
+
 /* Trocar Senha */
 
-.divTituloAreaConfigSenha{
+.divTituloAreaSenha{
     margin-bottom: 12vh;
 }
 

@@ -10,7 +10,11 @@ export default (params) => {
                     <p className="semibold">R$ {params.preco}</p>
                 </div>
             )}
-            {params.editar && (<SquarePen size={40} strokeWidth={1.5} className="IconeEditar"/>)}
+            {params.editar && (
+                <div style={{ display: 'flex', justifyContent: 'flex-end', height: '100%', padding: '2px' }}>
+                    <SquarePen size={40} strokeWidth={1.5} className="IconeEditar"/>
+                </div>
+            )}
         </div>
     );
 };

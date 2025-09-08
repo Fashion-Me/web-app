@@ -16,16 +16,15 @@ const Home = () => {
 
     const { menuTipo, menuOpen, setMenuOpen } = useMenuTipo();
     const [searchParams] = useSearchParams();
-    const tipoUsuario = searchParams.get("tipoUsuario") || "convidado";
 
 
 
     return (
         <div className='Home'>
             {menuTipo === "mobile" ? (
-                <HamburgerComponent user={tipoUsuario} menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
+                <HamburgerComponent menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
             ) : (
-                <Menu user={tipoUsuario} tipo={menuTipo} />
+                <Menu tipo={menuTipo} />
             )}
             <ConteudoHomePadrao tipo=""/>
         </div>

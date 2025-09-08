@@ -1,3 +1,4 @@
+
 .divCarrinhoAberto {
     position: absolute;
     max-width: 500px;
@@ -14,12 +15,20 @@
 /* Fontes */
 
 .TituloCarinho h1 {
-    font-size: 20px;
+    font-size: var(--font-size-h1);
     padding-left: 15px
 }
 
-.ResultadoCarrinho h2,.ItemCarrinho h3 {
-    font-size: 16px;
+.ResultadoCarrinho h2{
+    font-size: var(--font-size-h2);
+}
+
+.ItemCarrinho h2 {
+    font-size: var(--font-size-h2);
+}
+
+.ItemCarrinho h3 {
+    font-size: var(--font-size-h3);
 }
 
 
@@ -33,8 +42,6 @@
     color: white;
     border-bottom: 1px solid #404040;
 }
-
-
 
 .TituloCarinho svg {
     cursor: pointer;

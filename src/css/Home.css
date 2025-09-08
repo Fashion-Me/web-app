@@ -3,32 +3,25 @@
     padding: 0;
     box-sizing: border-box;
 }
-p {
-    color: white;
-    font-size: 20px;
-    text-align: left;
-}
+
 .Home {
     display: flex;
     flex-direction: row;
     height: 100vh;
     background: #232323;
 }
-.Menu {
-
-}
 
 .Conteudo {
     display: flex;
     flex-direction: column;
-    height: 100%; /* Depende da altura do pai */
-    flex: 80%; /* Ocupa 80% do espaço disponível */
+    height: 100%;
+    flex: 80%;
     background: #1C1C1C;
     background-repeat: repeat;
     background-size: unset;
     gap: 10px;
     padding: 10px;
-    align-items: center; /* Remove as barras de rolagem */
+    align-items: center;
     overflow: auto;
 }
 
@@ -37,15 +30,11 @@ p {
 }
 
 @media (max-width: 500px) {
-
     .Conteudo {
         gap: 10px;
         padding: 50px 10px;
-
-        align-items: center; /* Remove as barras de rolagem */
+        align-items: center;
     }
 }
-
-/* Configuração do Conteudo */
 
 

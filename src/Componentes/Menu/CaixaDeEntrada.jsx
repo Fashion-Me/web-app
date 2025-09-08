@@ -14,7 +14,7 @@ const Notificacao = ({ texto, hora }) => (
 const CaixaDeEntrada = ({setMostrarCaixaDeEntrada}) => (
     <div className="CaixaDeEntrada">
         <div className="divTituloCaixaEntrada">
-            <h2 className="semibold">Caixa de entrada</h2>
+            <h1 className="semibold">Caixa de entrada</h1>
             <X className="IconFecharCaixa"
                size={28}
                color="#ffffff"

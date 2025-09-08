@@ -20,6 +20,42 @@ body{
     cursor: pointer;
 }
 
+:root {
+    --background-dark: #212121;
+    --background-pesquisa: #252525;
+    --primary-blue: #2E5DFF;
+    --text-light: #FFFFFF;
+    --text-gray: #B0B0B0;
+
+
+
+    --font-color-branco: white;
+    --font-color-azul: #3050CC;
+    --font-color-default: white;
+
+    /*  Textos    */
+
+    --font-size-p2: 12px;
+    --font-size-p: 16px;
+    --font-size-h3: 16px;
+    --font-size-h2: 18px;
+    --font-size-h1: 24px;
+    --font-size-caixa: 18px;
+    --font-size-Mensagens: 16px;
+
+    @media (max-width: 500px) {
+        --font-size-p: 12px;
+        --font-size-h3: 12px;
+        --font-size-h2: 15px;
+        --font-size-h1: 19px;
+        --font-size-caixa: 18px;
+        --font-size-Mensagens: 14px;
+
+    }
+}
+
+
 .displayFlex{
     display: flex;
 }
+

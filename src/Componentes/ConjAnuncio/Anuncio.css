@@ -1,8 +1,13 @@
+/* Configurações de Fontes */
+:root {
+
+}
+
 /* Fontes */
 
 .ConjAnuncio .Superior .ConjAnuncioTitulo h2 {
-    color: white;
-    font-size: clamp(18px, 2.5vw, 24px);
+    color: var(--font-color-branco);
+    font-size: var(--font-size-h1);
     font-weight: bold;
     letter-spacing: 2px;
     text-align: center;
@@ -10,7 +15,8 @@
 
 .ConjAnuncio .Inferior .Anuncio p {
     background: #ffffff;
-    color: #3050CC;
+    color: var(--font-color-azul);
+    font-size: var(--font-size-p);
     width: fit-content;
     margin: 5px;
     padding: 3px 7px;
@@ -105,6 +111,7 @@
 .ConjAnuncio .Inferior .Anuncio {
     display: flex;
     align-items: flex-end;
+    justify-content: space-between;
     width: 143px;
     height: 220px;
     background-size: cover;

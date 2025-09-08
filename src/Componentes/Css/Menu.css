@@ -35,12 +35,6 @@
 }
 
 /* Textos */
- p {
-    color: white;
-    font-size: clamp(20px, 20vw, 24px);
-}
-
-/* Logo */
 
 .logo {
     display: flex;
@@ -109,6 +103,12 @@ hr {
     transition: background 0.3s ease, border-left 0.3s ease;
     /* border-left: 1px solid #005ada; */
 }
+.Aba h2 {
+    color: white;
+    font-size: 20px;
+    text-align: left;
+}
+
 
 .Aba .divAbaIcone {
     display: flex;
@@ -289,8 +289,8 @@ hr {
     margin-top: 3vh;
 }
 
-.CaixaDeEntrada h2 {
-    font-size: 24px;
+.CaixaDeEntrada h1 {
+    font-size: var(--font-size-h1);
     text-align: center;
 
 }
