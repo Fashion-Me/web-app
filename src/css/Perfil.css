@@ -1,0 +1,178 @@
+/* --- Estrutura Geral da Página --- */
+.PaginaPerfil {
+    display: flex;
+    background-color: #121212; /* Cor de fundo principal escura */
+    color: #ffffff;
+    min-height: 100vh;
+    font-family: Arial, sans-serif; /* Use a fonte do seu projeto */
+}
+
+.ConteudoPerfil {
+    flex-grow: 1;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+
+/* --- Cabeçalho com Imagem de Fundo --- */
+.PerfilHeader {
+    width: 100%;
+    height: 24vh; /* Altura do banner superior */
+    background-color: var(--background-fundo);
+    background-size: cover;
+    background-position: center;
+    border-bottom: 1px solid #333;
+}
+
+/* --- Bloco de Informações do Perfil --- */
+.PerfilInfo {
+    text-align: center;
+    margin-top: -75px; /* Puxa a foto de perfil para cima, sobrepondo o header */
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    padding: 0 20vw;
+}
+.PerfilInfo h1{
+    text-align: left;
+    margin-top: 2vh;
+    font-size: var(--font-size-h1);
+    color: var(--font-color-branco);
+    font-weight: bold;
+}
+.PerfilInfo h2{
+    text-align: left;
+    margin-top: 1vh;
+    font-size: var(--font-size-h2);
+    color: var(--font-color-cinza);
+    font-weight: bold;
+}
+.PerfilInfo p{
+    text-align: left;
+    font-size: var(--font-size-p);
+    color: var(--font-color-cinza);
+}
+
+
+.FotoPerfil {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 5px solid #1c1c1c; /* Borda para destacar da imagem de fundo */
+    object-fit: cover;
+    background-color: #2a2a2a;
+}
+
+.divBarraPesquisa{
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.divBarraPesquisa .barraPesquisa {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    background: var(--background-pesquisa);
+    color: var(--font-color-cinza);
+    border-radius: 15px;
+    padding: 5px 10px;
+    overflow: hidden;
+}
+
+.divBarraPesquisa .barraPesquisa input {
+    outline: none;
+    flex: 1;
+    border: none;
+    font-size: 1rem;
+}
+
+.divBarraPesquisa .barraPesquisa.iconeLupa {
+    padding: 2px;
+    margin: 5px;
+}
+
+
+
+/* --- Barra de Pesquisa --- */
+.BarraPesquisaPerfil {
+    margin-top: 2rem;
+    background-color: #2a2a2a;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    align-items: center;
+}
+
+.BarraPesquisaPerfil input {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #ffffff;
+    font-size: 1rem;
+    width: 100%;
+    margin-left: 0.5rem;
+}
+
+.BarraPesquisaPerfil input::placeholder {
+    color: #888;
+}
+
+/* --- Seção de Últimos Produtos --- */
+.UltimosProdutos {
+    margin-top: 3rem;
+    width: 100%;
+    max-width: 1200px; /* Limita a largura da seção de produtos */
+    padding: 0 2rem;
+}
+
+.TituloSecao {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+}
+
+.CarrosselProdutos {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.ListaProdutos {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    flex-grow: 1;
+    justify-content: center;
+}
+
+.ListaProdutos::-webkit-scrollbar {
+    display: none;
+}
+
+/* Estilizando o seu componente Anuncio (Exemplo) */
+/* Você pode precisar ajustar isso para bater com o CSS do seu componente Anuncio.css */
+.Anuncio {
+    flex-shrink: 0; /* Impede que os itens encolham */
+    width: 180px; /* Defina a largura desejada para cada anúncio */
+}
+
+.BotaoCarrossel {
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    cursor: pointer;
+    padding: 0.5rem;
+}
+
+
+.PerfilInfo, .UltimosProdutos, .divBarraPesquisa {
+    padding: 0 10vw;
+}

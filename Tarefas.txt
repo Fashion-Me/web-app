@@ -13,8 +13,11 @@ Média Prioridade
 4) Fazer com que Mensagem e Configuração seja responsivo para Tablet
 5) Pedir a permissão dos cookies
 6) Arrumar a forma que é adcionado outros anuncios na pagina especifica
+7) Fazer os calculos e desing para os fretes
+8) Refazer Desing do Notificações
+9) Refazer Desing do Carrinho
 
 Baixa Prioridade
 
 1) Arrumar a paginas especificas para ocupar toda a tela em cima
-4) Arrumar o texto da ultima mensagem
+2) Arrumar o texto da ultima mensagem

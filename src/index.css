@@ -20,14 +20,16 @@ body{
 }
 
 :root {
+    --background-fundo: #1c1c1c;
     --background-dark: #212121;
-    --background-pesquisa: #252525;
+    --background-pesquisa: #2b2b2b;
     --primary-blue: #2E5DFF;
     --text-light: #FFFFFF;
     --text-gray: #B0B0B0;
 
 
     --font-color-branco: white;
+    --font-color-cinza: #A3A3A3;
     --font-color-linha: #454545;
     --font-color-azul: #3050CC;
     --font-color-default: white;

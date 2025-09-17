@@ -312,7 +312,10 @@ export default (props) => {
                             <Aba
 
                                 selecionado={abaSelecionada === "Perfil"}
-                                onClick={() => handleSelecionarAba("Perfil")}
+                                onClick={() => {
+                                    handleSelecionarAba("Perfil");
+                                    onNavegacao("Perfil");
+                                }}
                             >
                                 <UserRound />
                             </Aba>
