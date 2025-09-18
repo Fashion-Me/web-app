@@ -13,6 +13,7 @@ import Anuncio from '../Componentes/ConjAnuncio/Anuncio';
 import Carrinho from "../Componentes/Carrinho";
 // Puxar do Banco
 import imgAnuncioCamiseta from "../Imagens/AnuncioCamisa.png";
+import imgAnuncioCasaco from "../Imagens/AnuncioCasaco.png";
 import FundoHome from "../Imagens/DetalheFundo.png";
 import FundoPerfil from "../Imagens/camisetas.png";
 import fotoPerfil from "../Imagens/FotoPerfil.png";
@@ -21,15 +22,33 @@ const Perfil = () => {
 
 
     const bioPerfil = "Sou o Luis Ricardo e gosto de dar I no TCC"
-    const NomePerfil = "Luiz Ricardo"
+    const NomePerfil = "Luis Ricardo"
+
+    const [startIndex, setStartIndex] = useState(0);
+    const handleNext = () => {
+        setStartIndex((prevIndex) => (prevIndex + 1 < produtos.length - 4 ? prevIndex + 1 : 0));
+    };
+    const handlePrev = () => {
+        setStartIndex((prevIndex) => (prevIndex - 1 >= 0 ? prevIndex - 1 : produtos.length - 5));
+    };
+
 
     const { menuTipo, menuOpen, setMenuOpen } = useMenuTipo();
     const [searchParams] = useSearchParams();
 
-    const produtos = Array(8).fill({
-        preco: '14',
-        imagem: imgAnuncioCamiseta, // Corrigido: agora contém o caminho direto da imagem
-    });
+    const produtos = [
+        { preco: '10', imagem: imgAnuncioCamiseta },
+        { preco: '20', imagem: imgAnuncioCasaco },
+        { preco: '30', imagem: imgAnuncioCamiseta },
+        { preco: '40', imagem: imgAnuncioCasaco },
+        { preco: '50', imagem: imgAnuncioCamiseta },
+        { preco: '60', imagem: imgAnuncioCasaco },
+        { preco: '70', imagem: imgAnuncioCamiseta },
+        { preco: '80', imagem: imgAnuncioCasaco },
+    ];
+
+    const isAtStart = startIndex === 0;
+    const isAtEnd = startIndex + 5 >= produtos.length;
 
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 500);
 
@@ -66,17 +85,23 @@ const Perfil = () => {
                 <section className="UltimosProdutos">
                     <h2 className="TituloSecao">Meus Últimos Produtos</h2>
                     <div className="CarrosselProdutos">
-                        <button className="BotaoCarrossel">
+                        <button
+                            className={`BotaoCarrossel Esquerda ${isAtStart ? 'desabilitado' : ''}`}
+                            onClick={handlePrev}
+                        >
                             <ChevronLeft size={24} />
                         </button>
                         <div className="ConjAnuncioPerfil">
                             <div className="Inferior ListaProdutos">
-                                {produtos.map(produto => (
-                                    <Anuncio key={produto.id} preco={produto.preco} imgFundo={produto.imagem} />
+                                {produtos.slice(startIndex, startIndex + 5).map((produto, index) => (
+                                    <Anuncio key={index} preco={produto.preco} imgFundo={produto.imagem} />
                                 ))}
                             </div>
                         </div>
-                        <button className="BotaoCarrossel">
+                        <button
+                            className={`BotaoCarrossel Direita ${isAtEnd ? 'desabilitado' : ''}`}
+                            onClick={handleNext}
+                        >
                             <ChevronRight size={24} />
                         </button>
                     </div>
