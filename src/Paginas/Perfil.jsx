@@ -19,12 +19,17 @@ import fotoPerfil from "../Imagens/FotoPerfil.png";
 
 const Perfil = () => {
 
+
+    const bioPerfil = "Sou o Luis Ricardo e gosto de dar I no TCC"
+    const NomePerfil = "Luiz Ricardo"
+
     const { menuTipo, menuOpen, setMenuOpen } = useMenuTipo();
     const [searchParams] = useSearchParams();
 
-    const [buscasRecentes, setBuscasRecentes] = useState(["camisetas", "rosa"]);
-    const categorias = ["camisetas", "casacos", "calças", "calçados", "acessórios"];
-    const produtos = Array(10).fill({ preco: "R$ 14" });
+    const produtos = Array(8).fill({
+        preco: '14',
+        imagem: imgAnuncioCamiseta, // Corrigido: agora contém o caminho direto da imagem
+    });
 
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 500);
 
@@ -43,13 +48,13 @@ const Perfil = () => {
                 <Menu tipo={menuTipo} />
             )}
             <main className="Conteudo ConteudoPerfil">
-                <header className="PerfilHeader" style={{ backgroundImage: `url(${FundoPerfil})` }}>
-                </header>
+                <div className="PerfilHeader" style={{ backgroundImage: `url(${FundoPerfil})` }}>
+                </div>
                 <div className="PerfilInfo">
                     <img src={fotoPerfil} alt="Foto de Luis Ricardo" className="FotoPerfil" />
-                    <h1 className="NomeUsuario">Luis Ricardo</h1>
-                    <h2>Sobre mim</h2>
-                    <p className="BioUsuario">Sou o Luis Ricardo e gosto de dar I no TCC</p>
+                    <h1 className="NomeUsuario">{NomePerfil}</h1>
+                    <h2>Sobre</h2>
+                    <p className="BioUsuario">{bioPerfil}</p>
                 </div>
                 <div className="divBarraPesquisa">
                     <div className="barraPesquisa">
@@ -57,19 +62,21 @@ const Perfil = () => {
                         <Search className="iconeLupa" size={24} color="#efefef" />
                     </div>
                 </div>
+
                 <section className="UltimosProdutos">
                     <h2 className="TituloSecao">Meus Últimos Produtos</h2>
                     <div className="CarrosselProdutos">
-                        <button className="BotaoCarrossel Esquerda">
+                        <button className="BotaoCarrossel">
                             <ChevronLeft size={24} />
                         </button>
-                        <div className="ListaProdutos">
-                            {produtos.map(produto => (
-                                // Usando o seu componente Anuncio
-                                <Anuncio key={produto.id} preco={produto.preco} imagem={produto.imagem} />
-                            ))}
+                        <div className="ConjAnuncioPerfil">
+                            <div className="Inferior ListaProdutos">
+                                {produtos.map(produto => (
+                                    <Anuncio key={produto.id} preco={produto.preco} imgFundo={produto.imagem} />
+                                ))}
+                            </div>
                         </div>
-                        <button className="BotaoCarrossel Direita">
+                        <button className="BotaoCarrossel">
                             <ChevronRight size={24} />
                         </button>
                     </div>

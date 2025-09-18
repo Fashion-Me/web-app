@@ -1,5 +1,6 @@
 /* --- Estrutura Geral da Página --- */
 .PaginaPerfil {
+    height: auto;
     display: flex;
     background-color: #121212; /* Cor de fundo principal escura */
     color: #ffffff;
@@ -8,11 +9,12 @@
 }
 
 .ConteudoPerfil {
-    flex-grow: 1;
+    height: auto;
     padding: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
+    overflow-y: auto;
 }
 
 
@@ -20,7 +22,8 @@
 /* --- Cabeçalho com Imagem de Fundo --- */
 .PerfilHeader {
     width: 100%;
-    height: 24vh; /* Altura do banner superior */
+    height: 24vh;
+    min-height: 24vh;
     background-color: var(--background-fundo);
     background-size: cover;
     background-position: center;
@@ -95,45 +98,17 @@
     margin: 5px;
 }
 
-
-
-/* --- Barra de Pesquisa --- */
-.BarraPesquisaPerfil {
-    margin-top: 2rem;
-    background-color: #2a2a2a;
-    border-radius: 8px;
-    padding: 0.75rem 1rem;
-    width: 100%;
-    max-width: 500px;
-    display: flex;
-    align-items: center;
-}
-
-.BarraPesquisaPerfil input {
-    background: transparent;
-    border: none;
-    outline: none;
-    color: #ffffff;
-    font-size: 1rem;
-    width: 100%;
-    margin-left: 0.5rem;
-}
-
-.BarraPesquisaPerfil input::placeholder {
-    color: #888;
-}
-
 /* --- Seção de Últimos Produtos --- */
 .UltimosProdutos {
-    margin-top: 3rem;
+    margin-top: 3vh;
     width: 100%;
     max-width: 1200px; /* Limita a largura da seção de produtos */
     padding: 0 2rem;
 }
 
 .TituloSecao {
-    font-size: 1.5rem;
-    font-weight: bold;
+    font-size: var(--font-size-h2);
+    color: var(--font-color-branco);
     margin-bottom: 1.5rem;
 }
 
@@ -157,13 +132,6 @@
     display: none;
 }
 
-/* Estilizando o seu componente Anuncio (Exemplo) */
-/* Você pode precisar ajustar isso para bater com o CSS do seu componente Anuncio.css */
-.Anuncio {
-    flex-shrink: 0; /* Impede que os itens encolham */
-    width: 180px; /* Defina a largura desejada para cada anúncio */
-}
-
 .BotaoCarrossel {
     background: transparent;
     border: none;
@@ -175,4 +143,90 @@
 
 .PerfilInfo, .UltimosProdutos, .divBarraPesquisa {
     padding: 0 10vw;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.ConjAnuncioPerfil{
+    display: flex;
+    flex-direction: column;
+    width: 60vw;
+    height: auto;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    gap: 1vw;
+
+
+}
+
+.ConjAnuncioPerfil .Inferior .Anuncio p {
+    background: #ffffff;
+    color: var(--font-color-azul);
+    font-size: var(--font-size-p);
+    width: fit-content;
+    margin: 5px;
+    padding: 3px 7px;
+    border-radius: 10px;
+}
+
+.ConjAnuncioPerfil .Inferior {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    flex-grow: 1;
+    justify-content: center;
+}
+.ConjAnuncioPerfil .Inferior::-webkit-scrollbar {
+    display: none;
+}
+
+.ConjAnuncioPerfil .Inferior .Anuncio {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    width: 143px;
+    height: 220px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 10px;
+    overflow: hidden; /* Garante que o conteúdo não ultrapasse os limites */
+}
+
+.Anuncio .IconeEditar {
+    display: flex;
+    position: relative;
+    background: rgba(64, 102, 255, 0.8);
+    padding: 10px;
+    border-radius: 50%;
+}
+
+
+
+@media (max-width: 500px) {
+    .ConjAnuncioPerfil {
+        width: 90%;
+    }
+    .ConjAnuncioPerfil .Inferior {
+        grid-template-columns: repeat(auto-fill, 117px);
+    }
+    .ConjAnuncioPerfil .Inferior .Anuncio {
+        width: 129px;
+        height: 198px;
+    }
 }
