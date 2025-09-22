@@ -17,7 +17,7 @@ import Mensagens from "./Paginas/Mensagens";
 import Configuracao from "./Paginas/Configuracao";
 import Apresentacao from "./Paginas/Apresentacao";
 import Denuncias from "./Paginas/Denuncias";
-import Perfil from "./Paginas/Perfil";
+import Perfil from "./Paginas/Perfil/Perfil";
 
 /* Criando as rotas */
 const router = createBrowserRouter([

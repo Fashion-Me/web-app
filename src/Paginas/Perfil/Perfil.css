@@ -35,7 +35,6 @@
     text-align: center;
     margin-top: -75px; /* Puxa a foto de perfil para cima, sobrepondo o header */
     position: relative;
-    z-index: 2;
     width: 100%;
     padding: 0 20vw;
 }
@@ -102,7 +101,6 @@
 .UltimosProdutos {
     margin-top: 3vh;
     width: 100%;
-    max-width: 1200px; /* Limita a largura da seção de produtos */
     padding: 0 2rem;
 }
 
@@ -118,26 +116,13 @@
     justify-content: space-between;
 }
 
-.ListaProdutos {
-    display: flex;
-    gap: 1rem;
-    overflow-x: auto;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-    flex-grow: 1;
-    justify-content: center;
-}
-
-.ListaProdutos::-webkit-scrollbar {
-    display: none;
-}
 
 .BotaoCarrossel {
     background: transparent;
     border: none;
     color: #ffffff;
     cursor: pointer;
-    padding: 0.5rem;
+    padding: 1vw;
 }
 .BotaoCarrossel.desabilitado {
     opacity: 0.3; /* Escurece o botão */
@@ -165,17 +150,15 @@
 
 .ConjAnuncioPerfil{
     display: flex;
-    flex-direction: column;
-    width: 60vw;
-    height: auto;
-    box-sizing: border-box;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
     gap: 1vw;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    flex-grow: 1;
+    justify-content: center;
 }
 
-.ConjAnuncioPerfil .Inferior .Anuncio p {
+.ConjAnuncioPerfil .Anuncio p {
     background: #ffffff;
     color: var(--font-color-azul);
     font-size: var(--font-size-p);
@@ -185,20 +168,11 @@
     border-radius: 10px;
 }
 
-.ConjAnuncioPerfil .Inferior {
-    display: flex;
-    gap: 1rem;
-    overflow-x: auto;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-    flex-grow: 1;
-    justify-content: center;
-}
-.ConjAnuncioPerfil .Inferior::-webkit-scrollbar {
+.ConjAnuncioPerfil::-webkit-scrollbar {
     display: none;
 }
 
-.ConjAnuncioPerfil .Inferior .Anuncio {
+.ConjAnuncioPerfil .Anuncio {
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
@@ -220,14 +194,21 @@
 
 
 @media (max-width: 500px) {
-    .ConjAnuncioPerfil {
-        width: 90%;
+    .FotoPerfil {
+        width:120px;
+        height:120px;
+    }
+    .PerfilInfo, .UltimosProdutos, .divBarraPesquisa {
+        padding: 0 5vw;
+    }
+    .PerfilHeader{
+        height: 20vh;
+        min-height: 20vh;
     }
     .ConjAnuncioPerfil .Inferior {
         grid-template-columns: repeat(auto-fill, 117px);
     }
     .ConjAnuncioPerfil .Inferior .Anuncio {
         width: 129px;
-        height: 198px;
     }
 }
