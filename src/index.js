@@ -15,7 +15,7 @@ import NovaSenha from "./Paginas/NovaSenha";
 import Pesquisar from "./Paginas/Pesquisar";
 import Mensagens from "./Paginas/Mensagens";
 import Configuracao from "./Paginas/Configuracao";
-import Apresentacao from "./Paginas/Apresentacao";
+import Apresentacao from "./Paginas/Apresentacao/Apresentacao";
 import Denuncias from "./Paginas/Denuncias";
 import Perfil from "./Paginas/Perfil/Perfil";
 
