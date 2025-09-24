@@ -22,7 +22,7 @@ const Cadastro = () => {
                 await api.post("/users", { username,email, password,name,phone,birth_date });
                 navigate(`/login`);   // login ok → home
             } catch (err) {
-                alert("asasasass");
+                alert("Erro na API: " + err.message);
             }
         } else {
             alert("Senhas Incompatíveis ");

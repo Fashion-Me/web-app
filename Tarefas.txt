@@ -1,21 +1,3 @@
-Alta Prioridade
-2) Arrumar/refazer a pagina de Pesquisa
-3) Fazer a Pagina de Anuncios
-4) Fazer a Pagina de Perfils
-5)
-
-
-Média Prioridade
-
-1) Arrumar a div titulo
-2) Arrumar a RESPONSIVIDADE do Mensagens
-3) Ao Enviar o form cadastro fazer as devidas verificações (UserName, Email, telefone)
-4) Fazer com que Mensagem e Configuração seja responsivo para Tablet
-5) Pedir a permissão dos cookies
-6) Arrumar a forma que é adcionado outros anuncios na pagina especifica
-7) Fazer os calculos e desing para os fretes
-8) Refazer Desing do Notificações
-9) Refazer Desing do Carrinho
 
 Baixa Prioridade
 

@@ -221,8 +221,15 @@ const Apresentacao = () => {
             <div id="footer">
                 <div className="AreaTrabalho">
                     <h1>FAÇA SEU LOGIN OU CADASTRE-SE</h1>
-                    <button className="BotaoFooter">Login</button>
-                    <button className="BotaoFooter">Cadastro</button>
+                    <button className="BotaoFooter" onClick={() => {
+                        window.location.href = "../login"; // Substitua pelo caminho desejado
+                    }}
+                    >Login</button>
+                    <button className="BotaoFooter"
+                            onClick={() => {
+                                window.location.href = "/cadastro"; // Substitua pelo caminho desejado
+                            }}
+                    >Cadastro</button>
                 </div>
                 <div className="AreaTrabalho2">
                     <h1>MENU</h1>
