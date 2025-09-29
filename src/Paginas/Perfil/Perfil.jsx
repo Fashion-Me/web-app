@@ -5,7 +5,7 @@ import "@radix-ui/themes/styles.css";
 import {useSearchParams} from "react-router-dom";
 import HamburgerComponent from '../../Componentes/Menu/Hamburger';
 import useMenuTipo from "../../hooks/useMenuTipo";
-import '../../css/Pesquisar.css';
+import '../Pesquisar/Pesquisar.css';
 import './Perfil.css';
 import { Search, ArrowRight, ArrowLeft } from 'lucide-react';
 import Anuncio from '../../Componentes/ConjAnuncio/Anuncio';
@@ -29,8 +29,9 @@ const Perfil = () => {
     const calculateItemsToShow = () => {
         if (window.innerWidth <= 720)       { return 2; }
         else if (window.innerWidth <= 1150) { return 3; }
-        else if (window.innerWidth <= 1560) { return 4; }
-        else { return 5; }
+        else if (window.innerWidth <= 1350) { return 4; }
+        else if (window.innerWidth <= 1560) { return 5; }
+        else { return 6; }
     };
     const [itemsToShow, setItemsToShow] = useState(calculateItemsToShow());
 

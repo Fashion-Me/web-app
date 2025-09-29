@@ -170,7 +170,7 @@ const AbaConfig = ({ setConteudoAtual, setMostrarAbaConfig, setMostrarAreaConfig
 
             <ItemConfig
                 icon={<ShoppingBag size={30} />}
-                texto="Anunciar item"
+                texto="Meus Pedidos"
                 onClick={() => {
                     setConteudoAtual('AnunciarItem');
                     if (window.innerWidth < 500) {

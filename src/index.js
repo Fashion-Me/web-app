@@ -12,7 +12,7 @@ import Login from "./Paginas/Login";
 import EsquecerSenha from "./Paginas/EsquecerSenha";
 import HomeEspecifica from "./Paginas/HomeEspecifica";
 import NovaSenha from "./Paginas/NovaSenha";
-import Pesquisar from "./Paginas/Pesquisar";
+import Pesquisar from "./Paginas/Pesquisar/Pesquisar";
 import Mensagens from "./Paginas/Mensagens";
 import Configuracao from "./Paginas/Configuracao";
 import Apresentacao from "./Paginas/Apresentacao/Apresentacao";
