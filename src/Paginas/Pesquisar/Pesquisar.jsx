@@ -6,7 +6,7 @@ import {useSearchParams} from "react-router-dom";
 import HamburgerComponent from '../../Componentes/Menu/Hamburger';
 import useMenuTipo from "../../hooks/useMenuTipo";
 import './Pesquisar.css';
-import { Search } from 'lucide-react';
+import { Search, X } from 'lucide-react';
 import Anuncio from '../../Componentes/ConjAnuncio/Anuncio';
 import Carrinho from "../../Componentes/Carrinho";
 // Puxar do Banco
@@ -24,9 +24,14 @@ const Pesquisar = () => {
     const { menuTipo, menuOpen, setMenuOpen } = useMenuTipo();
     const [searchParams] = useSearchParams();
 
-    const [buscasRecentes, setBuscasRecentes] = useState(["camisetas", "rosa"]);
-    const categorias = ["camisetas", "casacos", "calças", "calçados", "acessórios"];
-    const produtos = Array(10).fill({ preco: "R$ 14" });
+    const [buscasRecentes, setBuscasRecentes] = useState(["Shorts vermelho neon com flores rosas", "jaqueta"]);
+    const [pesquisa, setPesquisa] = useState("");
+    const adicionarBuscaNaBarra = (busca) => {
+        setPesquisa(busca);
+    };
+    const removerBusca = (buscaParaRemover) => {
+        setBuscasRecentes(buscasRecentes.filter(busca => busca !== buscaParaRemover));
+    };
 
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 500);
 
@@ -65,24 +70,41 @@ const Pesquisar = () => {
                 <div className="FundoHamburguerCarrinho">
                 </div>
                 <Carrinho className="Clicavel"/>
-                {/* Campo de pesquisa */}
-                <div className="divBarraPesquisa">
+                <div className="divBarraPesquisa divBarraPesquisaMob">
                     <div className="barraPesquisa">
-                        <input type="text" placeholder="Pesquisar..."/>
+                        <input type="text"
+                               placeholder="Pesquisar..."
+                               onChange={(e) => setPesquisa(e.target.value)}
+                               value={pesquisa}
+                        />
                         <Search className="iconeLupa" size={24} color="#efefef" />
                     </div>
                 </div>
 
                 <div className="secao-categorias">
-                    <div>
-                        <h2>Buscas recentes</h2>
-                        <div className="buscas-recentes-chips">
-                            <p className="chip">camisetas</p>
-                            <p className="chip">jaqueta</p>
+                    {buscasRecentes.length > 0 && (
+                        <div>
+                            <h2>Buscas recentes</h2>
+                            <div className="buscas-recentes-chips">
+                                {buscasRecentes.map((busca, index) => (
+                                    <div key={index} className="chip">
+                                        <p
+                                            onClick={() => adicionarBuscaNaBarra(busca)}
+                                        >
+                                            {busca}
+                                        </p>
+                                        <span
+                                            className="chip-remover"
+                                            onClick={() => removerBusca(busca)}
+                                        >
+                                             <X size={18} />
+                                        </span>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
-                    </div>
+                    )}
                     <div>
-
                         <h2>Categorias</h2>
                         <div className="categorias-botoes">
                             <button className="categoria-btn">
@@ -107,7 +129,6 @@ const Pesquisar = () => {
                             </button>
                         </div>
                     </div>
-
                 </div>
                 <div className="ConjAnuncio ConjAnuncioConfig" >
                     <div className="Inferior">

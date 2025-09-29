@@ -21,6 +21,7 @@ body{
 
 :root {
     --background-fundo: #1c1c1c;
+    --background-branco: #fff ;
     --background-dark: #212121;
     --background-pesquisa: #2b2b2b;
     --primary-blue: #2E5DFF;
@@ -31,6 +32,7 @@ body{
     --font-color-branco: white;
     --font-color-cinza: #A3A3A3;
     --font-color-linha: #454545;
+    --font-color-preto: #111;
     --font-color-azul: #3050CC;
     --font-color-default: white;
 
@@ -49,7 +51,7 @@ body{
         --font-size-h3: 12px;
         --font-size-h2: 15px;
         --font-size-h1: 19px;
-        --font-size-caixa: 18px;
+        --font-size-caixa: 16px;
         --font-size-Mensagens: 14px;
 
     }

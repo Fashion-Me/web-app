@@ -27,7 +27,8 @@ const Perfil = () => {
     const NomePerfil = "Luiz Ricardo"
 
     const calculateItemsToShow = () => {
-        if (window.innerWidth <= 720)       { return 2; }
+        if (window.innerWidth <= 300)       { return 1; }
+        else if (window.innerWidth <= 720) { return 2; }
         else if (window.innerWidth <= 1150) { return 3; }
         else if (window.innerWidth <= 1350) { return 4; }
         else if (window.innerWidth <= 1560) { return 5; }

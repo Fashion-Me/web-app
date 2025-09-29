@@ -101,7 +101,7 @@ main.divCadLogin h1 {
     padding: 10px;
     border-radius: 10px;
     width: 100%;
-    font-size: var(--font-size-p);
+    font-size: var(--font-size-caixa);
 }
 
 .CadLogInput::placeholder {
