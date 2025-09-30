@@ -1,9 +1,12 @@
 /* Fontes */
 
-.ContatoP{
+.ContatoP {
     color: white;
     font-size: var(--font-size-p2);
     text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .AbaMensagens h2 {
@@ -113,6 +116,7 @@
 
 .Contato .imgContato{
     display: flex;
+    min-width: 20%;
     flex: 20%;
     overflow: hidden;
     aspect-ratio: 1 / 1;
@@ -132,6 +136,7 @@
     gap: 0.2vh;
     flex-direction: column;
     flex: 80%;
+    min-width: 0; /* Impede o overflow do texto */
 }
 
 .Contato .divNovaMensagem {
@@ -139,6 +144,10 @@
     justify-content: center;
     align-items: center;
     flex: 10%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
 }
 
 /* ----------------------AREA DE MENSAGENS---------------------- */
@@ -256,6 +265,11 @@
     font-size: 1rem;
 }
 
+
+/*  Resolução  */
+
+
+
 @media (max-width: 500px) {
     .AbaMensagens {
         padding: 20px max(2vw, 15px);
@@ -275,3 +289,5 @@
         padding: 0px 3vw;
     }
 }
+
+

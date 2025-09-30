@@ -160,7 +160,7 @@ const AbaMensagens = ({setMostrarAbaConfig , setMostrarAreaConfig, setMostrarMen
             <Contato
                 ContatoFoto={fotoPerfilCaue}
                 nome="Caue Santos"
-                ultimaMensagem="18:22  hj vou estudar muito .."
+                ultimaMensagem="18:22  hj vou estudar muito llllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll"
                 numNovaMensagem={true}
                 setMostrarAbaConfig={setMostrarAbaConfig}
                 setMostrarAreaConfig={setMostrarAreaConfig}
