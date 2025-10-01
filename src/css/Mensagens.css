@@ -1,12 +1,15 @@
 /* Fontes */
 
-.ContatoP {
-    color: white;
-    font-size: var(--font-size-p2);
+.ContatoP,.ContatoNome {
     text-align: left;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.ContatoP {
+    color: var(--font-color-cinza);
+    font-size: var(--font-size-p2);
 }
 
 .AbaMensagens h2 {
@@ -38,7 +41,7 @@
     padding: 20px max(1.5vw,15px);
     padding-bottom: 0px;
     position: fixed;
-    max-width: 350px;
+    max-width: 25vw;
     width: 100vw;
     min-width: 280px;
     height: 100vh;
@@ -126,7 +129,7 @@
 }
 
 .Contato .imgContato img {
-    border-radius: 30px;
+    border-radius: 50%;
     height: 100%;
     object-fit: fill; /* Evita deformação */
 }
@@ -156,7 +159,7 @@
     display: flex;
     flex-direction: column;
     flex: 1;
-    margin-left: 350px;/* Compensa a largura do .AbaMensagens */
+    margin-left: max(280px, 25vw);/* Compensa a largura do .AbaMensagens */
     overflow-y: auto;
     height: 100vh;
     width: 100%;
@@ -206,13 +209,12 @@
 /* Mensagens da esquerda (contato) */
 
 .divMensagemDestinatario, .divMensagemRemetente {
-
     color: #000;
     padding: 8px 12px;
     max-width: 70%;
     position: relative;
-    word-wrap: break-word; /* Permite quebra de palavras longas */
-    overflow-wrap: break-word; /* Garante que o texto não ultrapasse o limite */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
     white-space: pre-wrap;
 }
 
@@ -221,12 +223,13 @@
     height: auto;
     border-radius: 10px;
     margin-top: 5px;
+    padding: 0px;
 }
 
 .divMensagemDestinatario {
     background-color: #D4AF5F;
     border-radius: 10px 10px 10px 0;
-    color: #000;
+    color: var(--font-color-preto);
     margin-right: auto;
 }
 
@@ -234,7 +237,7 @@
 .divMensagemRemetente {
     background-color: #3b6df6;
     border-radius: 10px 10px 0px 10px;
-    color: #fff;
+    color: var(--font-color-branco);
     margin-left: auto;
 }
 
@@ -259,15 +262,15 @@
 }
 
 .divBarraMensagem .barraPesquisa input {
+    font-size: var(--font-size-Mensagens);
     width: 100%;
     padding: 10px;
     border: none;
-    font-size: 1rem;
+    outline: none;
 }
 
 
 /*  Resolução  */
-
 
 
 @media (max-width: 500px) {

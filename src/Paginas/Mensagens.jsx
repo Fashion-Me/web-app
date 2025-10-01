@@ -119,7 +119,7 @@ const Contato = ({ nome, ultimaMensagem, numNovaMensagem, ContatoFoto, setMostra
     >
         <div className="imgContato"><img src={ContatoFoto} alt="Foto de Perfil"/></div>
         <div className="textoContato">
-            <h3 className="semibold">{nome}</h3>
+            <h3 className="ContatoNome semibold">{nome}</h3>
             <p className="ContatoP">{ultimaMensagem}</p>
         </div>
         {numNovaMensagem && (
