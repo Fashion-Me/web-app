@@ -24,7 +24,7 @@
     width: 100%;
     height: 24vh;
     min-height: 24vh;
-    background-color: var(--background-fundo);
+    background-color: var(--cor-fundo-escuro);
     background-size: cover;
     background-position: center;
     border-bottom: 1px solid #333;
@@ -42,20 +42,20 @@
     text-align: left;
     margin-top: 2vh;
     font-size: var(--font-size-h1);
-    color: var(--font-color-branco);
+    color: var(--cor-branco);
     font-weight: bold;
 }
 .PerfilInfo h2{
     text-align: left;
     margin-top: 1vh;
     font-size: var(--font-size-h2);
-    color: var(--font-color-cinza);
+    color: var(--cor-cinza);
     font-weight: bold;
 }
 .PerfilInfo p{
     text-align: left;
     font-size: var(--font-size-p);
-    color: var(--font-color-cinza);
+    color: var(--cor-cinza);
 }
 
 
@@ -79,7 +79,7 @@
     display: flex;
     align-items: center;
     background: var(--background-pesquisa);
-    color: var(--font-color-cinza);
+    color: var(--cor-cinza);
     border-radius: 15px;
     padding: 10px 15px;
     overflow: hidden;
@@ -106,7 +106,7 @@
 
 .TituloSecao {
     font-size: var(--font-size-h2);
-    color: var(--font-color-branco);
+    color: var(--cor-branco);
     margin-bottom: 1.5rem;
 }
 
@@ -148,7 +148,7 @@
 
 .ConjAnuncioPerfil .Anuncio p {
     background: #ffffff;
-    color: var(--font-color-azul);
+    color: var(--cor-azul);
     font-size: var(--font-size-p);
     width: fit-content;
     margin: 5px;

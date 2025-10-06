@@ -8,7 +8,7 @@
 }
 
 .ContatoP {
-    color: var(--font-color-cinza);
+    color: var(--cor-cinza);
     font-size: var(--font-size-p2);
 }
 
@@ -26,7 +26,7 @@
 
 .divMensagemDestinatario p ,.divMensagemRemetente p{
     font-size: var(--font-size-Mensagens);
-    color: var(--font-color-branco);
+    color: var(--cor-branco);
 }
 
 /* Codigo */
@@ -36,7 +36,7 @@
     display: flex;
     flex-direction: column;
     background-color: #1C1C1C;
-    border-right: 1px solid var(--font-color-linha);
+    border-right: 1px solid var(--cor-linha);
     overflow-y: auto;
     padding: 20px max(1.5vw,15px);
     padding-bottom: 0px;
@@ -174,7 +174,7 @@
     text-align: center;
     gap: 1vw;
     background-color: #1C1C1C;
-    border-bottom: 1px solid var(--font-color-linha);
+    border-bottom: 1px solid var(--cor-linha);
     padding: 10px;
     padding-left: 2vw;
 }
@@ -229,7 +229,7 @@
 .divMensagemDestinatario {
     background-color: #D4AF5F;
     border-radius: 10px 10px 10px 0;
-    color: var(--font-color-preto);
+    color: var(--cor-preto);
     margin-right: auto;
 }
 
@@ -237,7 +237,7 @@
 .divMensagemRemetente {
     background-color: #3b6df6;
     border-radius: 10px 10px 0px 10px;
-    color: var(--font-color-branco);
+    color: var(--cor-branco);
     margin-left: auto;
 }
 
@@ -247,7 +247,7 @@
     align-items: center;
     flex: 1;
     background-color: #1C1C1C;
-    border-top: 1px solid var(--font-color-linha);
+    border-top: 1px solid var(--cor-linha);
     gap: max(10px, 1vw);
     padding: 0px 1vw;
 }

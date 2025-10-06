@@ -20,7 +20,7 @@ const Cadastro = () => {
             const birth_date = e.target.dataNasc.value.trim();
             try {
                 await api.post("/users", { username,email, password,name,phone,birth_date });
-                navigate(`/login`);   // login ok → home
+                navigate(`/cadastroAdicional`);   // login ok → home
             } catch (err) {
                 alert("Erro na API: " + err.message);
             }

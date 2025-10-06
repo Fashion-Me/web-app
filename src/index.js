@@ -8,6 +8,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 /* Páginas */
 import Home from './Paginas/Home';
 import Cadastro from "./Paginas/Cadastro";
+import CadastroAdicional from "./Paginas/CadastroAdicional/CadastroAdicional";
 import Login from "./Paginas/Login";
 import EsquecerSenha from "./Paginas/EsquecerSenha";
 import HomeEspecifica from "./Paginas/HomeEspecifica";
@@ -24,6 +25,7 @@ const router = createBrowserRouter([
     { path: "/", element: <Apresentacao /> },
     { path: "/home", element: <Home /> },
     { path: "/cadastro", element: <Cadastro /> },
+    { path: "/cadastroAdicional", element: <CadastroAdicional/> },
     { path: "/login", element: <Login /> },
     { path: "/pesquisar", element: <Pesquisar /> },
     { path: "/mensagens", element: <Mensagens /> },

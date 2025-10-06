@@ -23,7 +23,7 @@ main .divFormulario{
     width: clamp(300px,95vw ,450px);
     min-height: 550px;
     height:  95vh;
-    background: #2B2B2B;
+    background: var(--cor-fundo-escuro);
     padding: 40px;
     border-radius: 25px;
     gap: 0;
