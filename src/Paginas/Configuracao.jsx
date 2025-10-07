@@ -16,6 +16,7 @@ import EditarPerfil from "../Componentes/CompConfig/EditarPerfil";
 import AnunCurtidos from "../Componentes/CompConfig/AnunCurtidos";
 import AnunProprios from "../Componentes/CompConfig/AnunProprios";
 import ConfigTrocarSenha from "../Componentes/CompConfig/ConfigTrocarSenha";
+import FotoPerfil from "../Imagens/FotoPerfil.png"
 
 
 
@@ -28,6 +29,7 @@ const Configuracao = () => {
     const [conteudoAtual, setConteudoAtual] = useState('');
     const [mostrarAbaConfig, setMostrarAbaConfig] = useState(true);
     const [mostrarAreaConfig, setMostrarAreaConfig] = useState(true);
+    const [showLogoutPopup, setShowLogoutPopup] = useState(false); // Novo estado para o pop-up
 
     useEffect(() => {
         let previousWidth = window.innerWidth;
@@ -51,6 +53,13 @@ const Configuracao = () => {
         return () => window.removeEventListener("resize", handleResize);
     }, []);
 
+    const handleLogout = () => {
+        // Lógica para sair da conta (você pode adicionar aqui)
+        console.log("Sair da conta!");
+        setShowLogoutPopup(false); // Fecha o pop-up após a ação
+    };
+
+
     return (
         <div className='Home'>
             {menuTipo === "mobile" ? (
@@ -67,6 +76,7 @@ const Configuracao = () => {
                         setMostrarAbaConfig={setMostrarAbaConfig}
                         setMostrarAreaConfig={setMostrarAreaConfig}
                         setMostrarMenu={setMostrarMenu}
+                        setShowLogoutPopup={setShowLogoutPopup} // Passa a função para o AbaConfig
                     />
                 }
                 {mostrarAreaConfig &&
@@ -76,6 +86,12 @@ const Configuracao = () => {
                         setMostrarAreaConfig={setMostrarAreaConfig}
                         setMostrarMenu={setMostrarMenu}
                     />}
+                {showLogoutPopup && (
+                    <LogoutPopup
+                        onConfirm={handleLogout}
+                        onCancel={() => setShowLogoutPopup(false)}
+                    />
+                )}
             </main>
         </div>
     );
@@ -93,7 +109,7 @@ const ItemConfig = ({ icon, texto, onClick }) => (
     </div>
 );
 
-const AbaConfig = ({ setConteudoAtual, setMostrarAbaConfig, setMostrarAreaConfig, setMostrarMenu }) => (
+const AbaConfig = ({ setConteudoAtual, setMostrarAbaConfig, setMostrarAreaConfig, setMostrarMenu, setShowLogoutPopup }) => (
     <div id="divConfig">
         <div className="divTituloCaixaEntrada">
             <h2 className="semibold">Configurações</h2>
@@ -185,7 +201,7 @@ const AbaConfig = ({ setConteudoAtual, setMostrarAbaConfig, setMostrarAreaConfig
 
         {/* Ações finais */}
         <div className="acoes-finais">
-            <button className="btn-vermelho">Sair da conta</button>
+            <button className="btn-vermelho" onClick={() => setShowLogoutPopup(true)}>Sair da conta</button>
             <hr />
             <button className="btn-vermelho">Apagar conta</button>
         </div>
@@ -265,3 +281,20 @@ const AreaConfig = ({ conteudoAtual,setMostrarAbaConfig, setMostrarAreaConfig, s
     </div>
 );
 
+// Novo componente para o pop-up de logout
+const LogoutPopup = ({ onConfirm, onCancel }) => (
+    <div className="logout-popup-overlay">
+        <div className="logout-popup-content">
+            <div className="user-info">
+                <img src={FotoPerfil} alt="Avatar" className="user-avatar" /> {/* Substitua por imagem real */}
+                <div>
+                    <p className="user-name">Luiz Ricardo</p>
+                    <p className="user-handle">@Ricard_ni</p>
+                </div>
+            </div>
+            <p className="confirmation-message">Confirme que você quer sair do perfil <br /> **Luiz Ricardo** para continuar</p>
+            <button className="confirm-button" onClick={onConfirm}>Confirmar</button>
+             <button className="cancel-button" onClick={onCancel}>Cancelar</button>
+        </div>
+    </div>
+);
