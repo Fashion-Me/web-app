@@ -7,7 +7,7 @@ import {useNavigate} from "react-router-dom";
 /* Puxar do Banco */
 import Logo from "../../Componentes/Menu/Imagens/LogoTexto.png";
 import {SquarePen} from "lucide-react";
-import AvatarPadrão from "../../Imagens/FotoPerfil.png";
+import AvatarPadrão from "../../Imagens/FotoPerfilAvatar.png";
 import FundoPadrão from "../../Imagens/FundoConjCamisetas2.png";
 
 const Cadastro = () => {
@@ -121,7 +121,7 @@ const Cadastro = () => {
                     onClick={() => inputFundoRef.current.click()}
                     style={{backgroundImage: `url(${fotoFundo})`}}
                 >
-                    <h2 className="Config-H2">CLIQUE PARA MUDAR FOTO DE FUNDO</h2>
+                    <p>CLIQUE PARA MUDAR FOTO DE FUNDO</p>
                     <input
                         type="file"
                         accept="image/*"
@@ -130,7 +130,7 @@ const Cadastro = () => {
                         style={{display: 'none'}}
                     />
                 </div>
-                <button className="btnConfirmar" onClick={handleSalvar}><h2>Salvar</h2></button>
+                <button className="btnConfirmar" onClick={handleSalvar}><h2>Confirmar</h2></button>
             </div>
         </main>
     );
