@@ -16,7 +16,11 @@ import EditarPerfil from "../Componentes/CompConfig/EditarPerfil";
 import AnunCurtidos from "../Componentes/CompConfig/AnunCurtidos";
 import AnunProprios from "../Componentes/CompConfig/AnunProprios";
 import ConfigTrocarSenha from "../Componentes/CompConfig/ConfigTrocarSenha";
-import FotoPerfil from "../Imagens/FotoPerfil.png"
+
+
+import FotoPerfil from "../Imagens/FotoPerfilAvatar.png"
+import api from "../services/authApi";
+const nomePerfil = "João Silva";
 
 
 
@@ -52,6 +56,27 @@ const Configuracao = () => {
         window.addEventListener("resize", handleResize);
         return () => window.removeEventListener("resize", handleResize);
     }, []);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        if(e.target.senha.value === e.target.ConfirmarSenha.value){
+            const username = e.target.username.value.trim();
+            const email = e.target.email.value.trim();
+            const password = e.target.senha.value.trim();
+            const name = e.target.nome.value.trim();
+            const phone = e.target.fone.value.trim();
+            const birth_date = e.target.dataNasc.value.trim();
+            try {
+                await api.post("/users", { username,email, password,name,phone,birth_date });
+                navigate(`/cadastroAdicional`);   // login ok → home
+            } catch (err) {
+                alert("Erro na API: " + err.message);
+            }
+        } else {
+            alert("Senhas Incompatíveis ");
+        }
+    };
+
 
     const handleLogout = () => {
         // Lógica para sair da conta (você pode adicionar aqui)
@@ -282,17 +307,16 @@ const AreaConfig = ({ conteudoAtual,setMostrarAbaConfig, setMostrarAreaConfig, s
 );
 
 // Novo componente para o pop-up de logout
-const LogoutPopup = ({ onConfirm, onCancel }) => (
+const LogoutPopup = ({ onConfirm, onCancel}) => (
     <div className="logout-popup-overlay">
         <div className="logout-popup-content">
             <div className="user-info">
                 <img src={FotoPerfil} alt="Avatar" className="user-avatar" /> {/* Substitua por imagem real */}
                 <div>
-                    <p className="user-name">Luiz Ricardo</p>
-                    <p className="user-handle">@Ricard_ni</p>
+                    <p className="user-name">{nomePerfil}</p>
                 </div>
             </div>
-            <p className="confirmation-message">Confirme que você quer sair do perfil <br /> **Luiz Ricardo** para continuar</p>
+            <p className="confirmation-message">Confirme que você quer sair do perfil <b> {nomePerfil} </b> para continuar</p>
             <button className="confirm-button" onClick={onConfirm}>Confirmar</button>
              <button className="cancel-button" onClick={onCancel}>Cancelar</button>
         </div>

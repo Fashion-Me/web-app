@@ -27,7 +27,6 @@ const Cadastro = () => {
         } else {
             alert("Senhas Incompatíveis ");
         }
-
     };
 
     return (

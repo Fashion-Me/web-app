@@ -183,10 +183,10 @@
 }
 
 .logout-popup-content {
-    background-color: #2e2e2e;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    background-color: var(--cor-fundo-escuro);
+    border: 1px solid var(--cor-cinza);
+    padding: 25px;
+    border-radius: 2vh;
     text-align: center;
     color: #fff;
     width: 90%;
