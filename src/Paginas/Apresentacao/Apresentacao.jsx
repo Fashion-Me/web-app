@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import "./Apresentacao.css"
 import { Search, ArrowRight, ArrowLeft } from 'lucide-react';
 
@@ -8,9 +8,35 @@ import FundoHome from "../../Imagens/Inicio.png"
 import FundoAreaAzul from "../../Imagens/DetalheFundoOpa40.webp"
 import Celular1 from "../../Imagens/IphoneCapa.png"
 import Celular2 from "../../Imagens/IphoneCapaa.png"
-import FotoCell from "../../Imagens/DetalheFoto_Cell2.png"
+import FotoCell from "../../Imagens/DetalheFoto_Cell.png"
+import FotoNote from "../../Imagens/DetalheFoto_Note.png"
 
 const Apresentacao = () => {
+    // Estado para controlar qual slide do carrossel está ativo
+    const [currentSlide, setCurrentSlide] = useState(0);
+
+    // Dados do carrossel
+    const carouselData = [
+        {
+            image: FotoCell,
+            text: "O aplicativo será o centro do projeto, funcionando como uma rede social de moda sustentável. Nele, os usuários poderão criar perfis, compartilhar seus looks, acompanhar tendências, interagir com outras pessoas e buscar inspirações de estilo, criando uma comunidade engajada e colaborativa."
+        },
+        {
+            image: FotoNote,
+            text: "O site funcionará como um brechó online sustentável, voltado para a compra e venda de roupas de segunda mão. Nele, os usuários terão acesso a um catálogo variado, com filtros de tamanho, estilo e preço, que tornam a experiência de busca prática e personalizada."
+        }
+    ];
+
+    // Função para ir para o próximo slide
+    const nextSlide = () => {
+        setCurrentSlide((prev) => (prev + 1) % carouselData.length);
+    };
+
+    // Função para ir para o slide anterior
+    const prevSlide = () => {
+        setCurrentSlide((prev) => (prev - 1 + carouselData.length) % carouselData.length);
+    };
+
     return (
         <>
             <div id="PaginaInicial" >
@@ -183,20 +209,19 @@ const Apresentacao = () => {
             </div>
             <div id="projeto"></div>
             <div className="detalhe" style={{ backgroundImage: `url(${FundoAreaAzul})`, backgroundSize: 'fit', backgroundRepeat: 'repeat', backgroundPosition: 'center' }}>
-                <button
-                >
-                    <ArrowLeft size={24} />
+                <button onClick={prevSlide} className="carousel-button">
+                    <ArrowLeft size={45} color={'#fff'} strokeWidth={3} />
                 </button>
-                <div className="ConjAnuncioPerfil">
-                    <div>
-                        <img src={FotoCell} />
+                <div className="divApresentacaoConj">
+                    <div id="divApresentacaoimg" className={currentSlide === 1 ? 'overlap' : ''}>
+                        <img src={carouselData[currentSlide].image} alt="Detalhe do projeto"/>
                     </div>
-                    <div id="divApresentacaoTexto">
-                        <p> aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaas</p>
+                    <div id="divApresentacaoTexto" className={currentSlide === 1 ? 'shifted' : ''}>
+                        <p>{carouselData[currentSlide].text}</p>
                     </div>
                 </div>
-                <button>
-                    <ArrowRight size={24} />
+                <button onClick={nextSlide} className="carousel-button">
+                    <ArrowRight size={45} color={'#fff'} strokeWidth={3} />
                 </button>
             </div>
             <div id="PaginaContato">
