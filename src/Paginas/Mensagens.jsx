@@ -9,6 +9,7 @@ import useMenuTipo from "../hooks/useMenuTipo";
 import useAuth from "../hooks/useAuth";
 import FundoHome from "../Imagens/DetalheFundo.png";
 import {ArrowLeft, Search, SendHorizontal,Image,CircleSmall  } from "lucide-react";
+
 import fotoPerfil from "../Imagens/FotoPerfil.png";
 import fotoPerfilEnzo from "../Imagens/FotoPerfilEnzo.png";
 import fotoPerfilDaniel from "../Imagens/FotoDaniel.jpg";
