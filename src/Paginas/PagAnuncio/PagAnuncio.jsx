@@ -6,17 +6,27 @@ import { useSearchParams } from "react-router-dom";
 import HamburgerComponent from '../../Componentes/Menu/Hamburger';
 import useMenuTipo from "../../hooks/useMenuTipo";
 import { Heart, MessagesSquare, CircleAlert, ArrowLeft, ArrowRight, ShoppingCart, User } from 'lucide-react';
-import foto from '../../Imagens/AnuncioCalca.png'
+
 import FundoHome from "../../Imagens/DetalheFundo.png";
-// Dados de exemplo do produto - normalmente viriam do banco de dados
+// Dados de exemplo do produto
+import foto1 from '../../Imagens/FotoAnuncioTigrinho.png';
+import foto2 from '../../Imagens/AnuncioCasaco.png';
+import foto3 from '../../Imagens/camisetas.png';
+import foto4 from '../../Imagens/FotoPerfil.png';
+import foto5 from '../../Imagens/DetalheFoto_Note.png';
+import Carrinho from "../../Componentes/Carrinho";
+
 const produtoExemplo = {
     id: 1,
     titulo: "Camiseta tigrinho cea perfeita",
     preco: "R$ 80",
     descricao: "Camiseta de jogo duvidoso usado por 2 semanas tamanho G",
     imagens: [
-        '../../Imagens/AnuncioCalca.png',
-        '../../Imagens/AnuncioCalca.png',
+        foto1,
+        foto2,
+        foto3,
+        foto4,
+        foto5,
     ]
 };
 
@@ -43,10 +53,17 @@ const PagAnuncio = () => {
             ) : (
                 <Menu tipo={menuTipo} />
             )}
-
-            <div className="conteudo-anuncio" style={{backgroundImage: `url(${FundoHome})`}}>
-
-                {/* Conteúdo principal */}
+            {/*<div className="conteudo-anuncio" style={{backgroundImage: `url(${FundoHome})`}}>*/}
+            <div className="conteudo-anuncio">
+                <div className="FundoHamburguerCarrinho">
+                </div>
+                <Carrinho className="Clicavel"/>
+                <div className="header-anuncio">
+                    <button className="btn-voltar-Anuncio" onClick={() => window.history.back()}>
+                        <ArrowLeft size={22} strokeWidth={3}/>
+                        VOLTAR
+                    </button>
+                </div>
                 <div className="main-content">
                     {/* Carrossel de imagens */}
                     <div className="carousel-container">
@@ -79,13 +96,13 @@ const PagAnuncio = () => {
                     {/* Ícones no meio */}
                     <div className="icons-middle">
                         <button className="icon-btn">
-                            <Heart size={32} />
+                            <Heart size={40} />
                         </button>
                         <button className="icon-btn">
-                            <MessagesSquare size={32} />
+                            <MessagesSquare size={40} />
                         </button>
                         <button className="icon-btn">
-                            <CircleAlert size={32} />
+                            <CircleAlert size={40} />
                         </button>
                     </div>
 
