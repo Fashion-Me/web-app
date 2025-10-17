@@ -41,6 +41,7 @@ body{
     --font-size-h3: 16px;
     --font-size-h2: 18px;
     --font-size-h1: 24px;
+    --font-size-titulo: 32px;
     --font-size-caixa: 18px;
     --font-size-Mensagens: 16px;
 
@@ -49,6 +50,7 @@ body{
         --font-size-h3: 12px;
         --font-size-h2: 15px;
         --font-size-h1: 19px;
+        --font-size-titulo: 27px;
         --font-size-caixa: 16px;
         --font-size-Mensagens: 14px;
 
