@@ -441,6 +441,126 @@
     color: white;
 }
 
+/* Pop-Up */
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-denuncia {
+    background: var(--cor-fundo-escuro);
+    border-radius: 16px;
+    padding: 3vh 4vh;
+    max-width: 500px;
+    width: 90%;
+    border: 1px solid var(--cor-branco);
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 2vh;
+}
+.modal-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 2vh;
+    padding-bottom: 2vh;
+    border-bottom: 1px solid var(--cor-cinza);
+}
+
+.modal-icon {
+    color: var(--cor-vermelho);
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-size: var(--font-size-h1);
+    font-weight: 600;
+}
+
+.modal-descricao {
+    color: var(--cor-cinza);
+    font-size: var(--font-size-p);
+    margin-bottom: 3vh;
+    line-height: 1.5;
+}
+
+.modal-opcoes {
+    display: flex;
+    flex-direction: column;
+    gap: 1vh;
+    margin-bottom: 3vh;
+}
+
+.opcao-denuncia {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    font-size: var(--font-size-h3);
+}
+
+.opcao-denuncia input[type="radio"] {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+.modal-botoes {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+}
+
+.btn-cancelar,
+.btn-confirmar {
+    padding: 8px 24px;
+    border-radius: 8px;
+    font-size: var(--font-size-h2);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-cancelar {
+    background: transparent;
+    border: 2px solid #ddd;
+    color: #666;
+}
+
+.btn-cancelar:hover {
+    background: #f5f5f5;
+}
+
+.btn-confirmar {
+    background: var(--cor-azul-claro);
+    border: none;
+    color: white;
+}
+
+.btn-confirmar:hover:not(:disabled) {
+    background: #c0392b;
+}
+
+.btn-confirmar:disabled {
+    background: #00000000;
+    border: 1px solid var(--cor-cinza);
+    cursor: not-allowed;
+}
+
+
+
 /* Responsividade */
 @media (max-width: 850px) {
     .info-container {

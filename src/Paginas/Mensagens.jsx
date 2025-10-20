@@ -9,6 +9,7 @@ import useMenuTipo from "../hooks/useMenuTipo";
 import useAuth from "../hooks/useAuth";
 import FundoHome from "../Imagens/DetalheFundo.png";
 import {ArrowLeft, Search, SendHorizontal,Image,CircleSmall  } from "lucide-react";
+import api from "../services/authApi";
 
 import fotoPerfil from "../Imagens/FotoPerfil.png";
 import fotoPerfilEnzo from "../Imagens/FotoPerfilEnzo.png";
@@ -27,6 +28,10 @@ const Mensagens = () => {
     const [contatoSelecionado, setContatoSelecionado] = useState({ nome: "", foto: "" }); // Estado para armazenar o contato selecionado
     const [mensagens, setMensagens] = useState([]); // Estado para armazenar as mensagens
     const [novaMensagem, setNovaMensagem] = useState(""); // Estado para armazenar o texto do input
+    const [contatos, setContatos] = useState([]); // Estado para armazenar os contatos
+    const [carregando, setCarregando] = useState(true); // Estado para loading
+
+
 
     const enviarMensagem = () => {
         if (novaMensagem.trim() !== "") {
@@ -67,6 +72,22 @@ const Mensagens = () => {
         return () => window.removeEventListener("resize", handleResize);
     }, []);
 
+    useEffect(() => {
+        const buscarContatos = async () => {
+            try {
+                const response = await api.get("/chats");
+                setContatos(response.data);
+            } catch (err) {
+                console.error("Erro ao buscar contatos:", err);
+                alert("Erro ao carregar conversas");
+            } finally {
+                setCarregando(false);
+            }
+        };
+
+        buscarContatos();
+    }, []);
+
 
     return (
         <div className='Home'>
@@ -84,6 +105,8 @@ const Mensagens = () => {
                         setMostrarAreaConfig={setMostrarAreaConfig}
                         setMostrarMenu={setMostrarMenu}
                         setContatoSelecionado={setContatoSelecionado}
+                        contatos={contatos} // Passa os contatos
+                        carregando={carregando} // Passa o estado de loading
                     />
                 }
                 {mostrarAreaConfig &&
@@ -132,7 +155,7 @@ const Contato = ({ nome, ultimaMensagem, numNovaMensagem, ContatoFoto, setMostra
     </div>
 );
 
-const AbaMensagens = ({setMostrarAbaConfig , setMostrarAreaConfig, setMostrarMenu, setContatoSelecionado}) => (
+const AbaMensagens = ({setMostrarAbaConfig, setMostrarAreaConfig, setMostrarMenu, setContatoSelecionado, contatos, carregando}) => (
     <div className="AbaMensagens">
         <div className="divTituloCaixaEntrada">
             <h2 className="semibold">Mensagens</h2>
@@ -146,65 +169,37 @@ const AbaMensagens = ({setMostrarAbaConfig , setMostrarAreaConfig, setMostrarMen
         <div className="linha-titulo">
             <span className="texto-linha">Suas Mensagens</span>
         </div>
-
         <div className="ListaContatos">
-            <Contato
-                ContatoFoto={fotoPerfilEnzo}
-                nome="Enzo dal Médico"
-                ultimaMensagem="03:33 Hj eu vou estudar muito..."
-                numNovaMensagem={true}
-                setMostrarAbaConfig={setMostrarAbaConfig}
-                setMostrarAreaConfig={setMostrarAreaConfig}
-                setMostrarMenu={setMostrarMenu}
-                setContatoSelecionado={setContatoSelecionado} // Passa o setter para Contato
-            />
-            <Contato
-                ContatoFoto={fotoPerfilCaue}
-                nome="Caue Santos"
-                ultimaMensagem="18:22  hj vou estudar muito llllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll"
-                numNovaMensagem={true}
-                setMostrarAbaConfig={setMostrarAbaConfig}
-                setMostrarAreaConfig={setMostrarAreaConfig}
-                setMostrarMenu={setMostrarMenu}
-                setContatoSelecionado={setContatoSelecionado} // Passa o setter para Contato
-            />
-            <Contato
-                ContatoFoto={fotoPerfil}
-                nome="Bombom"
-                ultimaMensagem="18:22  hj vou estudar muito .."
-                numNovaMensagem={false}
-                setMostrarAbaConfig={setMostrarAbaConfig}
-                setMostrarAreaConfig={setMostrarAreaConfig}
-                setMostrarMenu={setMostrarMenu}
-                setContatoSelecionado={setContatoSelecionado} // Passa o setter para Contato
-            />
-            <Contato
-                ContatoFoto={fotoPerfilVH}
-                nome="Victor Hugo(VH)"
-                ultimaMensagem="18:22  hj vou estudar muito .."
-                numNovaMensagem={true}
-                setMostrarAbaConfig={setMostrarAbaConfig}
-                setMostrarAreaConfig={setMostrarAreaConfig}
-                setMostrarMenu={setMostrarMenu}
-                setContatoSelecionado={setContatoSelecionado} // Passa o setter para Contato
-            />
-            <Contato
-                ContatoFoto={fotoPerfilDaniel}
-                nome="Daniel Mia a moto"
-                ultimaMensagem="23:00 Vc viu que no Silksong..."
-                numNovaMensagem={false}
-                setMostrarAbaConfig={setMostrarAbaConfig}
-                setMostrarAreaConfig={setMostrarAreaConfig}
-                setMostrarMenu={setMostrarMenu}
-                setContatoSelecionado={setContatoSelecionado} // Passa o setter para Contato
-            />
-            <Contato ContatoFoto={fotoPerfilEnzo} nome="Bombom" ultimaMensagem="18:22  hj vou estudar muito .." setContatoSelecionado={setContatoSelecionado} />
-            <Contato ContatoFoto={fotoPerfilEnzo} nome="Bombom" ultimaMensagem="18:22  hj vou estudar muito .." numNovaMensagem={true} setContatoSelecionado={setContatoSelecionado} />
-            <Contato ContatoFoto={fotoPerfilEnzo} nome="Bombom" ultimaMensagem="18:22  hj vou estudar muito .." numNovaMensagem={true} setContatoSelecionado={setContatoSelecionado} />
-         </div>
+            {carregando ? (
+                <p style={{textAlign: 'center', padding: '20px'}}>Carregando conversas...</p>
+            ) : contatos.length > 0 ? (
+                contatos.map((chat) => {
+                    const ultimaMensagem = chat.last_message
+                        ? (chat.last_message.body || "Imagem")
+                        : "Sem mensagens";
+
+                    const temNovasMensagens = false;
+
+                    return (
+                        <Contato
+                            key={chat.conversation.id}
+                            ContatoFoto={fotoPerfil}
+                            nome={chat.peer.name || chat.peer.username}
+                            ultimaMensagem={ultimaMensagem}
+                            numNovaMensagem={temNovasMensagens}
+                            setMostrarAbaConfig={setMostrarAbaConfig}
+                            setMostrarAreaConfig={setMostrarAreaConfig}
+                            setMostrarMenu={setMostrarMenu}
+                            setContatoSelecionado={setContatoSelecionado}
+                        />
+                    );
+                })
+            ) : (
+                <p style={{textAlign: 'center', padding: '20px'}}>Nenhuma conversa encontrada</p>
+            )}
+        </div>
     </div>
 );
-
 const AreaMensagens = ({ContatoNome, ContatoFoto, setMostrarAbaConfig, setMostrarAreaConfig, setMostrarMenu, mensagens, novaMensagem, setNovaMensagem, enviarMensagem, enviarImagem}) => (
     <div className="AreaMensagem">
         {ContatoFoto !== '' &&

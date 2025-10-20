@@ -57,33 +57,21 @@ const Configuracao = () => {
         return () => window.removeEventListener("resize", handleResize);
     }, []);
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        if(e.target.senha.value === e.target.ConfirmarSenha.value){
-            const username = e.target.username.value.trim();
-            const email = e.target.email.value.trim();
-            const password = e.target.senha.value.trim();
-            const name = e.target.nome.value.trim();
-            const phone = e.target.fone.value.trim();
-            const birth_date = e.target.dataNasc.value.trim();
-            try {
-                await api.post("/users", { username,email, password,name,phone,birth_date });
-                navigate(`/cadastroAdicional`);   // login ok → home
-            } catch (err) {
-                alert("Erro na API: " + err.message);
-            }
-        } else {
-            alert("Senhas Incompatíveis ");
+
+    const handleLogout = async () => {
+        try {
+            // Chama a API de logout
+            await api.post("/auth/logout");
+
+            // Redireciona para a página de login
+            navigate("/login");
+        } catch (err) {
+            console.error("Erro ao fazer logout:", err);
+            alert("Erro ao sair da conta. Tente novamente.");
+        } finally {
+            setShowLogoutPopup(false);
         }
     };
-
-
-    const handleLogout = () => {
-        // Lógica para sair da conta (você pode adicionar aqui)
-        console.log("Sair da conta!");
-        setShowLogoutPopup(false); // Fecha o pop-up após a ação
-    };
-
 
     return (
         <div className='Home'>

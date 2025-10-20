@@ -19,7 +19,7 @@ import Configuracao from "./Paginas/Configuracao";
 import Apresentacao from "./Paginas/Apresentacao/Apresentacao";
 import Denuncias from "./Paginas/Denuncias";
 import Perfil from "./Paginas/Perfil/Perfil";
-import PagAnuncio from "./Paginas/PagAnuncio/PagAnuncio";
+import PagAnuncioVer from "./Paginas/PagAnuncio/PagAnuncioVer";
 
 /* Criando as rotas */
 const router = createBrowserRouter([
@@ -35,7 +35,7 @@ const router = createBrowserRouter([
     { path: "/esquecerSenha", element: <EsquecerSenha /> },
     { path: "/homeEspecifica", element: <HomeEspecifica /> },
     { path: "/novaSenha", element: <NovaSenha /> },
-    { path: "/AnuncioVer", element: <PagAnuncio /> },
+    { path: "/AnuncioVer", element: <PagAnuncioVer /> },
 
     /* Aplicação Moderação de Conteúdo */
 

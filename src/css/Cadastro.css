@@ -99,9 +99,14 @@ main.divCadLogin h1 {
     color: white;
     border: none;
     padding: 10px;
+    letter-spacing: 1px;
     border-radius: 10px;
     width: 100%;
     font-size: var(--font-size-caixa);
+}
+
+.CadLogInput.comIcone {
+    padding-right: 45px;
 }
 
 .CadLogInput::placeholder {
@@ -128,6 +133,12 @@ input[type="date"] {
     color: #BEBEBE; /* Define a cor do texto obrigatório no campo de data */
 }
 
+select.CadLogInput {
+    background-repeat: no-repeat;
+    background-position: 10px center;
+    background-size: 24px 16px;
+    padding-left: 40px;
+}
 
 
 @media (max-width: 450px) {
@@ -146,4 +157,3 @@ input[type="date"] {
 
 
 }
-
