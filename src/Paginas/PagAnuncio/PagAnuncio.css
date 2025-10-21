@@ -527,7 +527,7 @@
 .btn-cancelar,
 .btn-confirmar {
     padding: 8px 24px;
-    border-radius: 8px;
+    border-radius: 16em;
     font-size: var(--font-size-h2);
     cursor: pointer;
     transition: all 0.3s ease;

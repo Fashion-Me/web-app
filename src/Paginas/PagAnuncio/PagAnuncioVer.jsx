@@ -5,7 +5,7 @@ import "@radix-ui/themes/styles.css";
 import { useSearchParams } from "react-router-dom";
 import HamburgerComponent from '../../Componentes/Menu/Hamburger';
 import useMenuTipo from "../../hooks/useMenuTipo";
-import { Heart, MessagesSquare, CircleAlert, ArrowLeft, ArrowRight, ShoppingCart, User, MapPin, X } from 'lucide-react';
+import { Star, MessagesSquare, CircleAlert, ArrowLeft, ArrowRight, ShoppingCart, User, MapPin, X } from 'lucide-react';
 
 import FundoHome from "../../Imagens/DetalheFundo.png";
 import foto1 from '../../Imagens/FotoAnuncioTigrinho.png';
@@ -45,7 +45,13 @@ const PagAnuncioVer = () => {
     const [imagemAtual, setImagemAtual] = useState(0);
     const [modalDenunciaAberto, setModalDenunciaAberto] = useState(false);
     const [opcaoDenuncia, setOpcaoDenuncia] = useState('');
+    const [isFavorited, setIsFavorited] = useState(false);
 
+    const handleFavoriteClick = () => {
+        setIsFavorited(!isFavorited);
+        // Adicione sua lógica aqui
+        console.log('Favorito alterado:', !isFavorited);
+    };
 
     const proximaImagem = () => {
         setImagemAtual((prev) => (prev + 1) % produtoExemplo.imagens.length);
@@ -105,7 +111,13 @@ const PagAnuncioVer = () => {
 
                     <div className="icons-middle">
                         <button className="icon-btn">
-                            <Heart size={40} />
+                            <Star
+                                size={40}
+                                fill={isFavorited ? "#4066FF" : "none"}
+                                stroke={isFavorited ? "#4066FF" : "currentColor"}
+                                onClick={handleFavoriteClick}
+                                style={{ cursor: 'pointer' }}
+                            />
                         </button>
                         <button className="icon-btn">
                             <MessagesSquare size={40} />
