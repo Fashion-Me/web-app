@@ -1,52 +1,208 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import Menu from '../Componentes/Menu';
 import "../css/Home.css";
 import "../css/Mensagens.css";
 import "@radix-ui/themes/styles.css";
-import {useNavigate, useSearchParams} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import HamburgerComponent from '../Componentes/Menu/Hamburger';
 import useMenuTipo from "../hooks/useMenuTipo";
 import useAuth from "../hooks/useAuth";
 import FundoHome from "../Imagens/DetalheFundo.png";
-import {ArrowLeft, Search, SendHorizontal,Image,CircleSmall  } from "lucide-react";
+import {ArrowLeft, Search, SendHorizontal, Image, CircleSmall} from "lucide-react";
 import api from "../services/authApi";
 
 import fotoPerfil from "../Imagens/FotoPerfil.png";
-import fotoPerfilEnzo from "../Imagens/FotoPerfilEnzo.png";
-import fotoPerfilDaniel from "../Imagens/FotoDaniel.jpg";
-import fotoPerfilCaue from "../Imagens/FotoPerfilCaue.jpg";
-import fotoPerfilVH from "../Imagens/FotoPerfilVH.jpg";
 
 const Mensagens = () => {
     const { menuTipo, menuOpen, setMenuOpen} = useMenuTipo(false);
     const [mostrarMenu, setMostrarMenu] = useState(true);
-
     const navigate = useNavigate();
+    const { user, isLoading: userLoading } = useAuth(); // Desestrutura corretamente
 
     const [mostrarAbaConfig, setMostrarAbaConfig] = useState(true);
     const [mostrarAreaConfig, setMostrarAreaConfig] = useState(true);
-    const [contatoSelecionado, setContatoSelecionado] = useState({ nome: "", foto: "" }); // Estado para armazenar o contato selecionado
-    const [mensagens, setMensagens] = useState([]); // Estado para armazenar as mensagens
-    const [novaMensagem, setNovaMensagem] = useState(""); // Estado para armazenar o texto do input
-    const [contatos, setContatos] = useState([]); // Estado para armazenar os contatos
-    const [carregando, setCarregando] = useState(true); // Estado para loading
+    const [contatoSelecionado, setContatoSelecionado] = useState({ nome: "", foto: "", conversationId: null });
+    const [mensagens, setMensagens] = useState([]);
+    const [novaMensagem, setNovaMensagem] = useState("");
+    const [contatos, setContatos] = useState([]);
+    const [carregando, setCarregando] = useState(true);
+    const [carregandoMensagens, setCarregandoMensagens] = useState(false);
 
-    const enviarMensagem = () => {
-        if (novaMensagem.trim() !== "") {
-            setMensagens((prevMensagens) => [
-                ...prevMensagens,
-                { MensagemLado: "remetente", TextoMensagem: novaMensagem }
-            ]);
-            setNovaMensagem(""); // Limpa o input após enviar
+    const lastMessageIdRef = useRef(null);
+    const pollIntervalRef = useRef(null);
+    const conversaRef = useRef(null);
+
+    const formatarMensagens = useCallback((apiMessages) => {
+        if (!apiMessages || apiMessages.length === 0) return [];
+
+        // função auxiliar para extrair id, sender_id e created_at com várias chaves possíveis
+        const extract = (msg) => {
+            const id = msg.id ?? msg.message?.id ?? msg.message_id ?? null;
+            const senderId = msg.sender_id ?? msg.senderId ?? msg.sender?.id ?? msg.sender?.user_id ?? msg.user_id ?? null;
+            const body = msg.body ?? msg.text ?? msg.message?.body ?? null;
+            const image = msg.image_url ?? msg.imageUrl ?? msg.message?.image_url ?? msg.image ?? null;
+            const created_at = msg.created_at ?? msg.createdAt ?? msg.created_at ?? msg.message?.created_at ?? null;
+            return { id, senderId, body, image, created_at };
+        };
+
+        return apiMessages.map(raw => {
+            const { id, senderId, body, image, created_at } = extract(raw);
+            const isRemetente = user?.id != null && Number(senderId) === Number(user.id);
+            return {
+                id,
+                MensagemLado: isRemetente ? "remetente" : "destinatario",
+                TextoMensagem: body,
+                ImagemMensagem: image,
+                created_at
+            };
+        });
+    }, [user?.id]);
+
+    const buscarMensagens = async (conversationId) => {
+        setCarregandoMensagens(true);
+        try {
+            const response = await api.get(`/chats/${conversationId}/messages`);
+            const mensagensFormatadas = formatarMensagens(response.data);
+            setMensagens(mensagensFormatadas);
+
+            if (mensagensFormatadas.length > 0) {
+                lastMessageIdRef.current = mensagensFormatadas[mensagensFormatadas.length - 1].id;
+            }
+
+            // Scroll automático para o final
+            setTimeout(() => {
+                if (conversaRef.current) {
+                    conversaRef.current.scrollTop = conversaRef.current.scrollHeight;
+                }
+            }, 100);
+        } catch (err) {
+            console.error("Erro ao buscar mensagens:", err);
+            alert("Erro ao carregar mensagens");
+            setMensagens([]);
+        } finally {
+            setCarregandoMensagens(false);
         }
     };
 
-    const enviarImagem = (imagem) => {
+    const pollNovasMensagens = async (conversationId) => {
+        if (!conversationId) return;
+
+        try {
+            const params = lastMessageIdRef.current
+                ? { after_id: lastMessageIdRef.current } // ajustar para after_id (compatível com backend)
+                : {};
+
+            const response = await api.get(
+                `/chats/${conversationId}/messages`,
+                { params }
+            );
+
+            const todasNovasMensagens = formatarMensagens(response.data);
+
+            if (todasNovasMensagens.length > 0) {
+                // evita duplicatas comparando ids existentes
+                setMensagens(prev => {
+                    const existingIds = new Set(prev.map(m => m.id));
+                    const toAdd = todasNovasMensagens.filter(m => m.id != null && !existingIds.has(m.id));
+                    if (toAdd.length === 0) return prev;
+                    const novo = [...prev, ...toAdd];
+
+                    // Scroll automático
+                    setTimeout(() => {
+                        if (conversaRef.current) {
+                            conversaRef.current.scrollTop = conversaRef.current.scrollHeight;
+                        }
+                    }, 100);
+
+                    return novo;
+                });
+
+                // atualiza lastMessageIdRef com o último id recebido
+                const last = todasNovasMensagens[todasNovasMensagens.length - 1];
+                if (last && last.id != null) {
+                    lastMessageIdRef.current = last.id;
+                }
+            }
+        } catch (error) {
+            console.warn("Falha no polling de mensagens:", error);
+        }
+    };
+
+    const enviarMensagem = useCallback(async () => {
+        if (novaMensagem.trim() === "" || !contatoSelecionado.conversationId) return;
+
+        const mensagemOtimista = {
+            id: Date.now(),
+            MensagemLado: "remetente",
+            TextoMensagem: novaMensagem,
+            ImagemMensagem: null
+        };
+
+        setMensagens(prev => [...prev, mensagemOtimista]);
+        setNovaMensagem("");
+
+        try {
+            const response = await api.post(
+                `/chats/${contatoSelecionado.conversationId}/messages`,
+                { body: novaMensagem }
+            );
+
+            // atualiza lastMessageIdRef com o id retornado
+            const servidorMsg = Array.isArray(response.data) ? response.data[0] : response.data;
+            lastMessageIdRef.current = servidorMsg.id ?? lastMessageIdRef.current;
+
+            // substitui a mensagem otimista (id temporário) pela mensagem formatada do servidor
+            setMensagens(prev =>
+                prev.map(msg =>
+                    msg.id === mensagemOtimista.id
+                        ? formatarMensagens([servidorMsg])[0]
+                        : msg
+                )
+            );
+
+            setTimeout(() => {
+                if (conversaRef.current) {
+                    conversaRef.current.scrollTop = conversaRef.current.scrollHeight;
+                }
+            }, 100);
+        } catch (error) {
+            console.error("Erro ao enviar mensagem:", error);
+            alert("Erro ao enviar mensagem");
+            setMensagens(prev => prev.filter(msg => msg.id !== mensagemOtimista.id));
+        }
+    }, [novaMensagem, contatoSelecionado.conversationId, user, formatarMensagens]);
+
+    const enviarImagem = useCallback((imagem) => {
         setMensagens((prevMensagens) => [
             ...prevMensagens,
-            { MensagemLado: "remetente", ImagemMensagem: imagem }
+            {
+                id: Date.now(),
+                MensagemLado: "remetente",
+                ImagemMensagem: imagem,
+                TextoMensagem: null
+            }
         ]);
-    };
+    }, []);
+
+    // Efeito para iniciar/parar polling quando seleciona conversa
+    useEffect(() => {
+        if (contatoSelecionado.conversationId) {
+            buscarMensagens(contatoSelecionado.conversationId);
+
+            // Inicia polling passando o conversationId
+            pollIntervalRef.current = setInterval(
+                () => pollNovasMensagens(contatoSelecionado.conversationId),
+                5000
+            );
+        }
+
+        return () => {
+            if (pollIntervalRef.current) {
+                clearInterval(pollIntervalRef.current);
+                pollIntervalRef.current = null;
+            }
+        };
+    }, [contatoSelecionado.conversationId]);
 
     useEffect(() => {
         let previousWidth = window.innerWidth;
@@ -61,7 +217,6 @@ const Mensagens = () => {
             } else if (previousWidth > 500 && currentWidth <= 500) {
                 setMostrarAreaConfig((prevState) => prevState ? false : prevState);
             }
-
             previousWidth = currentWidth;
         }
         handleResize();
@@ -86,7 +241,6 @@ const Mensagens = () => {
         buscarContatos();
     }, []);
 
-
     return (
         <div className='Home'>
             {menuTipo === "mobile" ? (
@@ -103,8 +257,8 @@ const Mensagens = () => {
                         setMostrarAreaConfig={setMostrarAreaConfig}
                         setMostrarMenu={setMostrarMenu}
                         setContatoSelecionado={setContatoSelecionado}
-                        contatos={contatos} // Passa os contatos
-                        carregando={carregando} // Passa o estado de loading
+                        contatos={contatos}
+                        carregando={carregando}
                     />
                 }
                 {mostrarAreaConfig &&
@@ -114,11 +268,13 @@ const Mensagens = () => {
                         setMostrarAbaConfig={setMostrarAbaConfig}
                         setMostrarAreaConfig={setMostrarAreaConfig}
                         setMostrarMenu={setMostrarMenu}
-                        mensagens={mensagens} // Passa as mensagens para o componente
-                        novaMensagem={novaMensagem} // Passa o texto do input
-                        setNovaMensagem={setNovaMensagem} // Passa o setter do input
-                        enviarMensagem={enviarMensagem} // Passa a função de envio
-                        enviarImagem={enviarImagem} // Passa a função de envio de imagem
+                        mensagens={mensagens}
+                        novaMensagem={novaMensagem}
+                        setNovaMensagem={setNovaMensagem}
+                        enviarMensagem={enviarMensagem}
+                        enviarImagem={enviarImagem}
+                        carregandoMensagens={carregandoMensagens}
+                        conversaRef={conversaRef}
                     />
                 }
             </main>
@@ -128,7 +284,7 @@ const Mensagens = () => {
 
 export default Mensagens;
 
-const Contato = ({ nome, ultimaMensagem, numNovaMensagem, ContatoFoto, setMostrarAbaConfig , setMostrarAreaConfig, setMostrarMenu, setContatoSelecionado }) => (
+const Contato = ({ nome, ultimaMensagem, numNovaMensagem, ContatoFoto, conversationId, setMostrarAbaConfig, setMostrarAreaConfig, setMostrarMenu, setContatoSelecionado }) => (
     <div className="Contato"
          onClick={() => {
              if (window.innerWidth < 500) {
@@ -136,7 +292,7 @@ const Contato = ({ nome, ultimaMensagem, numNovaMensagem, ContatoFoto, setMostra
                  setMostrarAreaConfig(true);
                  setMostrarMenu(false);
              }
-             setContatoSelecionado({ nome, foto: ContatoFoto });
+             setContatoSelecionado({ nome, foto: ContatoFoto, conversationId });
          }}
     >
         <div className="imgContato"><img src={ContatoFoto} alt="Foto de Perfil"/></div>
@@ -148,7 +304,6 @@ const Contato = ({ nome, ultimaMensagem, numNovaMensagem, ContatoFoto, setMostra
             <div className="divNovaMensagem">
                 <CircleSmall size={16} stroke="#4066FF" fill="#4066FF" />
             </div>
-
         )}
     </div>
 );
@@ -185,6 +340,7 @@ const AbaMensagens = ({setMostrarAbaConfig, setMostrarAreaConfig, setMostrarMenu
                             nome={chat.peer.name || chat.peer.username}
                             ultimaMensagem={ultimaMensagem}
                             numNovaMensagem={temNovasMensagens}
+                            conversationId={chat.conversation.id}
                             setMostrarAbaConfig={setMostrarAbaConfig}
                             setMostrarAreaConfig={setMostrarAreaConfig}
                             setMostrarMenu={setMostrarMenu}
@@ -198,12 +354,13 @@ const AbaMensagens = ({setMostrarAbaConfig, setMostrarAreaConfig, setMostrarMenu
         </div>
     </div>
 );
-const AreaMensagens = ({ContatoNome, ContatoFoto, setMostrarAbaConfig, setMostrarAreaConfig, setMostrarMenu, mensagens, novaMensagem, setNovaMensagem, enviarMensagem, enviarImagem}) => (
+
+const AreaMensagens = ({ContatoNome, ContatoFoto, setMostrarAbaConfig, setMostrarAreaConfig, setMostrarMenu, mensagens, novaMensagem, setNovaMensagem, enviarMensagem, enviarImagem, carregandoMensagens, conversaRef}) => (
     <div className="AreaMensagem">
         {ContatoFoto !== '' &&
             <>
                 <div className="divTituloAreaMensagem">
-                    { window.innerWidth < 500 &&
+                    {window.innerWidth < 500 &&
                         <div className="IconeVoltar">
                             <ArrowLeft
                                 size={30}
@@ -211,16 +368,21 @@ const AreaMensagens = ({ContatoNome, ContatoFoto, setMostrarAbaConfig, setMostra
                                 onClick={() => {
                                     setMostrarAreaConfig(false);
                                     setMostrarAbaConfig(true);
-                                    setMostrarMenu(true)}
-                                }
+                                    setMostrarMenu(true);
+                                }}
                             />
                         </div>
                     }
-
                     <div className="divTituloContatoFoto"><img src={ContatoFoto} alt="Foto de Perfil"/></div>
                     <h2 className="tituloAreaMensagem">{ContatoNome}</h2>
                 </div>
-                <Conversa mensagens={mensagens} />
+                {carregandoMensagens ? (
+                    <div className="divConversa" style={{justifyContent: 'center', alignItems: 'center'}}>
+                        <p>Carregando mensagens...</p>
+                    </div>
+                ) : (
+                    <Conversa mensagens={mensagens} conversaRef={conversaRef} />
+                )}
                 <div className="divBarraMensagem">
                     <label>
                         <Image size={24} color="#efefef" />
@@ -232,7 +394,7 @@ const AreaMensagens = ({ContatoNome, ContatoFoto, setMostrarAbaConfig, setMostra
                                 if (e.target.files[0]) {
                                     const reader = new FileReader();
                                     reader.onload = () => {
-                                        enviarImagem(reader.result); // Envia a imagem como base64
+                                        enviarImagem(reader.result);
                                     };
                                     reader.readAsDataURL(e.target.files[0]);
                                 }
@@ -243,11 +405,11 @@ const AreaMensagens = ({ContatoNome, ContatoFoto, setMostrarAbaConfig, setMostra
                         <input
                             type="text"
                             placeholder="Mensagem..."
-                            value={novaMensagem} // Controla o valor do input
+                            value={novaMensagem}
                             onChange={(e) => setNovaMensagem(e.target.value)}
                             onKeyDown={(e) => {
                                 if (e.key === "Enter") {
-                                    enviarMensagem(); // Envia a mensagem ao pressionar Enter
+                                    enviarMensagem();
                                 }
                             }}
                         />
@@ -259,20 +421,22 @@ const AreaMensagens = ({ContatoNome, ContatoFoto, setMostrarAbaConfig, setMostra
     </div>
 );
 
-const Conversa = ({mensagens}) => (
-    <div className="divConversa">
-        {mensagens.map((mensagem, index) => (
+const Conversa = React.memo(({mensagens, conversaRef}) => (
+    <div className="divConversa" ref={conversaRef}>
+        {mensagens.map((mensagem) => (
             <Mensagem
-                key={index}
+                key={mensagem.id}
                 MensagemLado={mensagem.MensagemLado}
                 TextoMensagem={mensagem.TextoMensagem}
                 ImagemMensagem={mensagem.ImagemMensagem}
             />
         ))}
     </div>
-);
+));
 
-const Mensagem = ({ MensagemLado, TextoMensagem, ImagemMensagem }) => (
+Conversa.displayName = 'Conversa';
+
+const Mensagem = React.memo(({ MensagemLado, TextoMensagem, ImagemMensagem }) => (
     <>
         {MensagemLado === 'remetente' &&
             <div className="divMensagemRemetente">
@@ -287,5 +451,5 @@ const Mensagem = ({ MensagemLado, TextoMensagem, ImagemMensagem }) => (
             </div>
         }
     </>
-);
-
+));
+Mensagem.displayName = 'Mensagem';

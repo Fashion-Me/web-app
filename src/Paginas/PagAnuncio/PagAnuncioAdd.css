@@ -62,7 +62,7 @@
 
 .input-descricao-add {
     width: 100%;
-    height: 25vh;
+    height: 250px;
     background: transparent;
     border: 2px solid var(--cor-borda-input);
     border-radius: 10px;
@@ -211,9 +211,11 @@
 }
 
 .input-numerico:focus {
+    background-color: var(--cor-borda-focus);
     border-color: var(--cor-borda-focus);
     color: var(--cor-texto-input-focus);
 }
+
 
 .input-icon-numerico {
     position: absolute;
