@@ -31,8 +31,6 @@ const Mensagens = () => {
     const [contatos, setContatos] = useState([]); // Estado para armazenar os contatos
     const [carregando, setCarregando] = useState(true); // Estado para loading
 
-
-
     const enviarMensagem = () => {
         if (novaMensagem.trim() !== "") {
             setMensagens((prevMensagens) => [

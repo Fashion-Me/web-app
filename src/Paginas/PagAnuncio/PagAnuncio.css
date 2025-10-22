@@ -82,7 +82,7 @@
     position: relative;
     width: 100%;
     max-width: 500px;
-    margin-bottom: 20px;
+    margin-bottom: 2vh;
 }
 
 .imagem-principal {
@@ -90,7 +90,7 @@
     aspect-ratio: 1/1;
     border-radius: 15px;
     overflow: hidden;
-    background-color: var(--cor-fundo-claro);
+    background-color: var(--cor-fundo-transparente);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -106,7 +106,7 @@
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: var(--cor-fundo-transparente);
     border: none;
     color: white;
     width: 30px;
@@ -140,7 +140,7 @@
 .thumbnails {
     width: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     gap: 10px;
     overflow-x: auto;
 }
@@ -211,6 +211,10 @@
 
 /* Informações do produto */
 .produto-info {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
     flex: 1;
     max-width: 400px;
 }
@@ -638,10 +642,6 @@
         z-index: 1;
     }
 
-    .conteudo-anuncio {
-        padding-bottom: 100px;  /* Mantém o espaço para não esconder conteúdo */
-    }
-
 }
 
 @media (max-width: 500px) {
@@ -670,6 +670,5 @@
         overflow-y: auto;
         height: 100vh;
         box-sizing: border-box;
-        padding-bottom: 100px;
     }
 }

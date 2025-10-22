@@ -95,7 +95,6 @@ const PagAnuncioVer = () => {
                                 <ArrowRight size={20} />
                             </button>
                         </div>
-
                         <div className="thumbnails">
                             {produtoExemplo.imagens.map((imagem, index) => (
                                 <div

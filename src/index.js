@@ -20,6 +20,8 @@ import Apresentacao from "./Paginas/Apresentacao/Apresentacao";
 import Denuncias from "./Paginas/Denuncias";
 import Perfil from "./Paginas/Perfil/Perfil";
 import PagAnuncioVer from "./Paginas/PagAnuncio/PagAnuncioVer";
+import PagAnuncioAdd from "./Paginas/PagAnuncio/PagAnuncioAdd";
+import PagAnuncioEdit from "./Paginas/PagAnuncio/PagAnuncioEdit";
 
 /* Criando as rotas */
 const router = createBrowserRouter([
@@ -36,6 +38,8 @@ const router = createBrowserRouter([
     { path: "/homeEspecifica", element: <HomeEspecifica /> },
     { path: "/novaSenha", element: <NovaSenha /> },
     { path: "/AnuncioVer", element: <PagAnuncioVer /> },
+    { path: "/AnuncioAdd", element: <PagAnuncioAdd /> },
+    { path: "/AnuncioEdit", element: <PagAnuncioEdit /> },
 
     /* Aplicação Moderação de Conteúdo */
 

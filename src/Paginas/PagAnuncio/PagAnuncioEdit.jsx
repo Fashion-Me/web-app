@@ -7,21 +7,39 @@ import HamburgerComponent from '../../Componentes/Menu/Hamburger';
 import useMenuTipo from "../../hooks/useMenuTipo";
 import { ArrowLeft, ArrowRight, Camera, MapPin, Pencil, Plus } from 'lucide-react';
 import Carrinho from "../../Componentes/Carrinho";
+import foto1 from "../../Imagens/FotoAnuncioTigrinho.png";
+import foto2 from "../../Imagens/AnuncioCasaco.png";
+import foto3 from "../../Imagens/camisetas.png";
+import foto4 from "../../Imagens/FotoPerfil.png";
+import foto5 from "../../Imagens/DetalheFoto_Note.png";
 
-const PagAnuncioAdd = () => {
+const produtoExemplo = {
+    id: 1,
+    titulo: "Camiseta tigrinho cea perfeita",
+    preco: "80",
+    descricao: "Camiseta de jogo duvidoso usado por 2 semanas tamanho G Camiseta de jogo duvidoso usado por 2 semanas tamanho G Camiseta de jogo duvidoso usado por 2 semanas tamanho G Camiseta de jogo duvidoso usado por 2 semanas tamanho G ",
+    tamanho: "G",
+    estado: "Usado",
+    categoria: "Camisa",
+    marca: "CEA",
+    localizacao: "Rua Jacinto Lucas n849, Roseira Pinto São Paulo - SP",
+    imagens: [foto1, foto2, foto3, foto4, foto5]
+};
+
+const PagAnuncioEdit = () => {
     const { menuTipo, menuOpen, setMenuOpen } = useMenuTipo(false);
     const [imagemAtual, setImagemAtual] = useState(0);
-    const [imagens, setImagens] = useState([]);
+    const [imagens, setImagens] = useState(produtoExemplo.imagens);
     const [formData, setFormData] = useState({
-        titulo: '',
-        preco: '',
-        descricao: '',
-        categoria: '',
-        tamanho: '',
+        titulo: produtoExemplo.titulo,
+        preco: `R$ ${produtoExemplo.preco}`,
+        descricao: produtoExemplo.descricao,
+        categoria: produtoExemplo.categoria,
+        tamanho: produtoExemplo.tamanho,
         tamanhoNumerico: '',
-        estado: '',
-        marca: '',
-        localizacao: ''
+        estado: produtoExemplo.estado,
+        marca: produtoExemplo.marca,
+        localizacao: produtoExemplo.localizacao
     });
 
     const categorias = ['Camisa', 'Casaco', 'Calça', 'Calçados', 'Acessórios'];
@@ -58,24 +76,19 @@ const PagAnuncioAdd = () => {
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         if (name === 'preco') {
-            // Remove "R$ " e caracteres não numéricos
             const numeros = value.replace(/[^\d]/g, '');
-
-            // Se tiver números, adiciona "R$ " na frente
             const valorFormatado = numeros ? `R$ ${numeros}` : '';
-
             setFormData(prev => ({
                 ...prev,
                 [name]: valorFormatado
             }));
             return;
         }
-        // Se selecionou um tamanho de letra (PP, P, M, G, GG), limpa o tamanho numérico
         if (name === 'tamanho') {
             setFormData(prev => ({
                 ...prev,
                 [name]: value,
-                tamanhoNumerico: '0'
+                tamanhoNumerico: ''
             }));
         } else {
             setFormData(prev => ({ ...prev, [name]: value }));
@@ -84,17 +97,15 @@ const PagAnuncioAdd = () => {
 
     const handleNumericInput = (e) => {
         const value = e.target.value.replace(/\D/g, '');
-
-        // Se digitou um número, limpa o tamanho de letra
         setFormData(prev => ({
             ...prev,
             tamanhoNumerico: value,
-            tamanho: value ? '' : prev.tamanho // Só limpa se tiver valor
+            tamanho: value ? '' : prev.tamanho
         }));
     };
 
     const handleSubmit = () => {
-        console.log('Dados do anúncio:', formData);
+        console.log('Dados atualizados do anúncio:', formData);
         console.log('Imagens:', imagens);
     };
 
@@ -128,12 +139,12 @@ const PagAnuncioAdd = () => {
                                 </div>
                             ) : (
                                 <div className="imagem-principal upload-placeholder-main">
-                                    <label htmlFor="upload-imagem-main" className="upload-label-main">
-                                        <Camera size={48} />
-                                        <span>Adicionar foto do produto</span>
+                                    <label htmlFor="upload-main" className="upload-label-main">
+                                        <Camera size={50} />
+                                        <span>Adicionar imagem principal</span>
                                     </label>
                                     <input
-                                        id="upload-imagem-main"
+                                        id="upload-main"
                                         type="file"
                                         accept="image/*"
                                         multiple
@@ -161,12 +172,12 @@ const PagAnuncioAdd = () => {
                             ))}
                             {imagens.length < 5 && (
                                 <label
-                                    htmlFor="upload-imagem-thumb"
+                                    htmlFor={`upload-thumb-${imagens.length}`}
                                     className="thumbnail thumbnail-placeholder"
                                 >
-                                    <Plus size={24} />
+                                    <Plus size={30} />
                                     <input
-                                        id="upload-imagem-thumb"
+                                        id={`upload-thumb-${imagens.length}`}
                                         type="file"
                                         accept="image/*"
                                         multiple
@@ -225,7 +236,6 @@ const PagAnuncioAdd = () => {
                         <div className="info-produto">
                             <h3>Informações do produto</h3>
 
-                            {/* Categoria */}
                             <div className="info-item-add">
                                 <span className="info-label">CATEGORIA</span>
                                 <div className="opcoes-container">
@@ -233,12 +243,7 @@ const PagAnuncioAdd = () => {
                                         <button
                                             key={cat}
                                             className={`opcao-btn ${formData.categoria === cat ? 'ativo' : ''}`}
-                                            onClick={() => setFormData(prev => ({
-                                                ...prev,
-                                                categoria: cat,
-                                                tamanho: '',
-                                                tamanhoNumerico: ''
-                                            }))}
+                                            onClick={() => handleInputChange({ target: { name: 'categoria', value: cat } })}
                                         >
                                             {cat}
                                         </button>
@@ -246,24 +251,19 @@ const PagAnuncioAdd = () => {
                                 </div>
                             </div>
 
-                            {/* Tamanho */}
                             {formData.categoria && (
                                 <div className="info-item-add">
                                     <span className="info-label">TAMANHO</span>
                                     <div className="opcoes-container">
-                                        {precisaTamanhoTexto() && (
-                                            <>
-                                                {tamanhos.map((tam) => (
-                                                    <button
-                                                        key={tam}
-                                                        className={`opcao-btn ${formData.tamanho === tam ? 'ativo' : ''}`}
-                                                        onClick={() => setFormData(prev => ({ ...prev, tamanho: tam }))}
-                                                    >
-                                                        {tam}
-                                                    </button>
-                                                ))}
-                                            </>
-                                        )}
+                                        {precisaTamanhoTexto() && tamanhos.map((tam) => (
+                                            <button
+                                                key={tam}
+                                                className={`opcao-btn ${formData.tamanho === tam ? 'ativo' : ''}`}
+                                                onClick={() => handleInputChange({ target: { name: 'tamanho', value: tam } })}
+                                            >
+                                                {tam}
+                                            </button>
+                                        ))}
                                         {(precisaTamanhoTexto() || precisaApenasTamanhoNumerico()) && (
                                             <div className="input-numerico-container">
                                                 <input
@@ -272,7 +272,6 @@ const PagAnuncioAdd = () => {
                                                     onChange={handleNumericInput}
                                                     placeholder="00"
                                                     className="input-numerico"
-                                                    maxLength={2}
                                                 />
                                                 <Pencil size={16} className="input-icon-numerico" />
                                             </div>
@@ -281,7 +280,6 @@ const PagAnuncioAdd = () => {
                                 </div>
                             )}
 
-                            {/* Estado */}
                             <div className="info-item-add">
                                 <span className="info-label">ESTADO</span>
                                 <div className="opcoes-container">
@@ -289,7 +287,7 @@ const PagAnuncioAdd = () => {
                                         <button
                                             key={est}
                                             className={`opcao-btn ${formData.estado === est ? 'ativo' : ''}`}
-                                            onClick={() => setFormData(prev => ({ ...prev, estado: est }))}
+                                            onClick={() => handleInputChange({ target: { name: 'estado', value: est } })}
                                         >
                                             {est}
                                         </button>
@@ -297,7 +295,6 @@ const PagAnuncioAdd = () => {
                                 </div>
                             </div>
 
-                            {/* Marca */}
                             <div className="info-item-add">
                                 <span className="info-label">MARCA</span>
                                 <div className="input-marca-container">
@@ -315,7 +312,6 @@ const PagAnuncioAdd = () => {
                         </div>
                     </div>
 
-                    {/* Localização */}
                     <div className="info-localizacao">
                         <h3>Localização</h3>
                         <div className="localizacao-input-container">
@@ -331,10 +327,9 @@ const PagAnuncioAdd = () => {
                         </div>
                     </div>
 
-                    {/* Botão Publicar */}
                     <div className="info-btn">
                         <button className="btn-Publicar" onClick={handleSubmit}>
-                            ANUNCIAR
+                            SALVAR ALTERAÇÕES
                         </button>
                     </div>
                 </div>
@@ -343,4 +338,4 @@ const PagAnuncioAdd = () => {
     );
 };
 
-export default PagAnuncioAdd;
+export default PagAnuncioEdit;

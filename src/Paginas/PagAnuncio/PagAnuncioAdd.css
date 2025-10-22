@@ -1,0 +1,310 @@
+/* Grupos de input com ícone */
+
+:root {
+    /* Cores */
+    --cor-borda-input: #4a4a4a;
+    --cor-borda-focus: #4066FF;
+    --cor-texto-placeholder: #666;
+    --cor-texto-placeholder-focus: #999;
+    --cor-texto-input: #999;
+    --cor-texto-input-focus: white;
+    --cor-fundo-hover: rgba(64, 102, 255, 0.1);
+    --cor-fundo-transparente: rgba(255, 255, 255, 0.05);
+    --cor-borda-dashed: #4a4a4a;
+}
+
+.input-group {
+    position: relative;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.input-preco-group {
+    width: 70%;
+    margin-bottom: 40px;
+}
+
+.input-descricao-group {
+    position: relative;
+}
+
+/* Estilos base para inputs */
+.input-add {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid var(--cor-borda-input);
+    color: var(--cor-texto-input);
+    font-size: var(--font-size-h1);
+    padding: 10px 40px 10px 0;
+    outline: none;
+    transition: all 0.3s;
+}
+
+.input-add:focus {
+    border-bottom-color: var(--cor-borda-focus);
+    color: var(--cor-texto-input-focus);
+}
+
+.input-add::placeholder {
+    color: var(--cor-texto-placeholder);
+}
+
+.input-add:focus::placeholder {
+    color: var(--cor-texto-placeholder-focus);
+}
+
+/* Input de descrição */
+
+.descricao-section-Add{
+    border: none;
+}
+
+.input-descricao-add {
+    width: 100%;
+    height: 25vh;
+    background: transparent;
+    border: 2px solid var(--cor-borda-input);
+    border-radius: 10px;
+    color: var(--cor-texto-input);
+    padding: 15px 40px 15px 15px;
+    font-size: var(--font-size-h2);
+    line-height: 1.5;
+    resize: vertical;
+    outline: none;
+    transition: all 0.3s;
+    font-family: inherit;
+}
+
+.input-descricao-add:focus {
+    border-color: var(--cor-borda-focus);
+    color: var(--cor-texto-input-focus);
+}
+
+/* Ícones nos inputs */
+.input-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--cor-texto-input);
+    pointer-events: none;
+}
+
+.icon-descricao {
+    top: 20px;
+    transform: none;
+}
+
+/* Upload de imagens - área principal */
+.upload-placeholder-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--cor-fundo-transparente);
+    border: 2px dashed var(--cor-borda-dashed);
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.upload-placeholder-main:hover {
+    border-color: var(--cor-borda-focus);
+    background-color: var(--cor-fundo-hover);
+}
+
+.upload-label-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    cursor: pointer;
+    color: var(--cor-texto-input);
+    transition: color 0.3s;
+    padding: 40px;
+}
+
+.upload-label-main:hover {
+    color: var(--cor-borda-focus);
+}
+
+.upload-label-main span {
+    font-size: var(--font-size-h2);
+}
+
+/* Thumbnails placeholders */
+.thumbnail-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--cor-fundo-transparente);
+    border: 2px dashed var(--cor-borda-dashed);
+    cursor: pointer;
+    transition: all 0.3s;
+    color: var(--cor-texto-input);
+}
+
+.thumbnail-placeholder:hover {
+    border-color: var(--cor-borda-focus);
+    background-color: var(--cor-fundo-hover);
+    color: var(--cor-borda-focus);
+}
+
+/* Info adicional */
+.info-item-add {
+    margin-bottom: 2vh;
+}
+
+.info-item-add .info-label {
+    display: block;
+    margin-bottom: 15px;
+    font-size: var(--font-size-h2);
+    font-weight: 600;
+}
+
+.opcoes-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+}
+
+.opcao-btn {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 2px solid var(--cor-borda-input);
+    color: var(--cor-texto-input);
+    padding: 8px 20px;
+    border-radius: 8px;
+    font-size: var(--font-size-h2);
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.opcao-btn:hover {
+    border-color: var(--cor-borda-focus);
+    background-color: var(--cor-fundo-hover);
+}
+
+.opcao-btn.ativo {
+    background-color: var(--cor-borda-focus);
+    border-color: var(--cor-borda-focus);
+    color: white;
+}
+
+.input-numerico-container {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+}
+
+.input-numerico {
+    width: 80px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 2px solid var(--cor-borda-input);
+    color: var(--cor-texto-input);
+    padding: 8px 30px 8px 12px;
+    border-radius: 8px;
+    font-size: var(--font-size-h2);
+    text-align: center;
+    outline: none;
+    transition: all 0.3s;
+}
+
+.input-numerico:focus {
+    border-color: var(--cor-borda-focus);
+    color: var(--cor-texto-input-focus);
+}
+
+.input-icon-numerico {
+    position: absolute;
+    right: 8px;
+    color: var(--cor-texto-input);
+    pointer-events: none;
+}
+
+.input-marca-container {
+    position: relative;
+    max-width: 300px;
+}
+
+.input-marca {
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 2px solid var(--cor-borda-input);
+    color: var(--cor-texto-input);
+    padding: 8px 35px 8px 12px;
+    border-radius: 8px;
+    font-size: var(--font-size-h2);
+    outline: none;
+    transition: all 0.3s;
+}
+
+.input-marca:focus {
+    border-color: var(--cor-borda-focus);
+    color: var(--cor-texto-input-focus);
+}
+
+.input-icon-marca {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--cor-texto-input);
+    pointer-events: none;
+}
+
+/* Localização */
+.localizacao-input-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.input-localizacao {
+    flex: 1;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid var(--cor-borda-input);
+    color: var(--cor-texto-input);
+    font-size: var(--font-size-h3);
+    padding: 10px 0;
+    outline: none;
+    transition: all 0.3s;
+    text-transform: uppercase;
+}
+
+.input-localizacao:focus {
+    border-bottom-color: var(--cor-borda-focus);
+    color: var(--cor-texto-input-focus);
+}
+
+.input-localizacao::placeholder {
+    color: var(--cor-texto-placeholder);
+    text-transform: uppercase;
+}
+
+/* Botão Publicar */
+.info-btn {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+.btn-Publicar {
+    background-color: var(--cor-borda-focus);
+    color: white;
+    border: none;
+    padding: 15px 80px;
+    border-radius: 25px;
+    font-size: var(--font-size-h2);
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-transform: uppercase;
+}
+
+.btn-Publicar:hover {
+    background-color: #3355cc;
+    transform: scale(1.02);
+}
