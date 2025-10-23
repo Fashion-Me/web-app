@@ -22,6 +22,7 @@ import Perfil from "./Paginas/Perfil/Perfil";
 import PagAnuncioVer from "./Paginas/PagAnuncio/PagAnuncioVer";
 import PagAnuncioAdd from "./Paginas/PagAnuncio/PagAnuncioAdd";
 import PagAnuncioEdit from "./Paginas/PagAnuncio/PagAnuncioEdit";
+import EnderecosCadastrados from "./Paginas/Pedidos/EnderecosCadastrados";
 
 /* Criando as rotas */
 const router = createBrowserRouter([
@@ -40,6 +41,7 @@ const router = createBrowserRouter([
     { path: "/AnuncioVer", element: <PagAnuncioVer /> },
     { path: "/AnuncioAdd", element: <PagAnuncioAdd /> },
     { path: "/AnuncioEdit", element: <PagAnuncioEdit /> },
+    { path: "/EnderecosCadastrados", element: <EnderecosCadastrados /> },
 
     /* Aplicação Moderação de Conteúdo */
 

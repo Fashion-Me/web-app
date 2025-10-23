@@ -41,44 +41,11 @@ const Apresentacao = () => {
         <>
             <div id="PaginaInicial" >
                 <div id="esquerda">
-                    <div
-                        style={{
-                            width: "10vw",
-                            height: "10vw",
-                            background: "linear-gradient(75deg, rgba(0, 0, 255, 0), rgba(84, 84, 210, 0.2))",
-                            borderRadius: "50%",
-                            position: "absolute",
-                            top: "22%",
-                            left: "26%",
-                            opacity: 0.8,
-                            animation: "float 8s ease-in-out infinite", // animação leve e contínua
-                        }}
+                    <div id='circulo1'
                     />
-                    <div
-                        style={{
-                            width: "30vw",
-                            height: "30vw",
-                            background: "linear-gradient(75deg, rgba(0, 0, 255, 0), rgba(84, 84, 210, 0.2))",
-                            borderRadius: "50%",
-                            position: "absolute",
-                            top: "70%",
-                            left: "10%",
-                            opacity: 0.8,
-                            animation: "float 12s ease-in-out infinite", // duração diferente para naturalidade
-                        }}
+                    <div id='circulo2'
                     />
-                    <div
-                        style={{
-                            width: "20vw",
-                            height: "20vw",
-                            background: "linear-gradient(75deg, rgba(0, 0, 255, 0), rgba(84, 84, 210, 0.2))",
-                            borderRadius: "50%",
-                            position: "absolute",
-                            top: "35%",
-                            left: "-6%",
-                            opacity: 0.8,
-                            animation: "float 10s ease-in-out infinite", // duração diferente
-                        }}
+                    <div id='circulo3'
                     />
                     <h1>FASHION ME</h1>
                     <h2>Seu melhor app e site de moda</h2>
@@ -105,27 +72,11 @@ const Apresentacao = () => {
                     </button>
                 </div>
                 <div id="direita">
-                    <img
-                        src={Celular1}            // variável importada ou caminho da imagem
-                        style={{
-                            position: "absolute",       // posicionamento absoluto
-                            top: "28%",                // distância do topo
-                            right: "-20%",              // distância da esquerda             // largura da imagem
-                            height: "34vw",             // mantém proporção
-                            width: "60vw",
-                            zIndex: 10,                 // garante que fique acima de outros elementos
-                        }}
+                    <img id='Iphone'
+                         src={Celular1}            // variável importada ou caminho da imagem
                     />
-                    <img
-                        src={Celular2}            // variável importada ou caminho da imagem
-                        style={{
-                            position: "absolute",       // posicionamento absoluto
-                            top: "18%",                // distância do topo
-                            right: "-3%",              // distância da esquerda           // largura da imagem
-                            height: "32vw",              // mantém proporção
-                            width: "54vw",
-                            zIndex: 10,                 // garante que fique acima de outros elementos
-                        }}
+                    <img id='Iphone2'
+                         src={Celular2}            // variável importada ou caminho da imagem
                     />
                     <div id="poligono1" style={{ backgroundImage: `url(${FundoAreaAzul})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundPosition: 'center' }}></div>
                     <div id="poligono" style={{ backgroundImage: `url(${FundoAreaAzul})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundPosition: 'center' }}></div>
@@ -161,29 +112,12 @@ const Apresentacao = () => {
                             <p>O projeto tem como objetivo unir sustentabilidade, moda e tecnologia em uma única plataforma. Ele conecta pessoas interessadas em consumir moda de forma consciente, oferecendo alternativas inovadoras para compra, troca e criação de looks personalizados.</p>
                         </div>
                         <div className="topico">
-                            <h1>04</h1>
-                            <h2>App: Armário Virtual</h2>
-                            <p>Dentro do app, cada usuário terá acesso a um armário virtual, onde poderá cadastrar suas peças (tanto compradas no brechó quanto as que já possui). Isso permitirá:
-                                Organizar roupas de forma prática;
-                                Visualizar todas as peças em um só lugar;
-                                Facilitar a combinação de looks sem precisar experimentar fisicamente.</p>
-                        </div>
-                    </div>
-                    <div className="divResto">
-                        <div className="topico">
                             <h1>02</h1>
                             <h2>Site – Brechó Online</h2>
                             <p>A parte web do projeto funcionará como um brechó virtual:
                                 Comprar e vender roupas de segunda mão;
                                 Pesquisar peças filtrando por tamanho, estilo e preço;
                                 Ter um espaço seguro para transações, garantindo praticidade e confiabilidade.</p>
-                        </div>
-                        <div className="topico">
-                            <h1>05</h1>
-                            <h2>Assistente com IA</h2>
-                            <p>O sistema contará com uma IA especializada em moda, que ajudará o usuário a:
-                                Montar outfits personalizados de acordo com preferências de estilo;
-                                Sugerir combinações baseadas no clima/tempo do dia;</p>
                         </div>
                     </div>
                     <div className="divResto">
@@ -195,6 +129,23 @@ const Apresentacao = () => {
                                 Sigam perfis de amigos ou influenciadores;
                                 Interajam através de curtidas, comentários e dicas de estilo;
                                 Criem uma comunidade ativa em torno da moda sustentável.</p>
+                        </div>
+                        <div className="topico">
+                            <h1>04</h1>
+                            <h2>App: Armário Virtual</h2>
+                            <p>Dentro do app, cada usuário terá acesso a um armário virtual, onde poderá cadastrar suas peças (tanto compradas no brechó quanto as que já possui). Isso permitirá:
+                                Organizar roupas de forma prática;
+                                Visualizar todas as peças em um só lugar;
+                                Facilitar a combinação de looks sem precisar experimentar fisicamente.</p>
+                        </div>
+                    </div>
+                    <div className="divResto">
+                        <div className="topico">
+                            <h1>05</h1>
+                            <h2>Assistente com IA</h2>
+                            <p>O sistema contará com uma IA especializada em moda, que ajudará o usuário a:
+                                Montar outfits personalizados de acordo com preferências de estilo;
+                                Sugerir combinações baseadas no clima/tempo do dia;</p>
                         </div>
                         <div className="topico">
                             <h1>06</h1>
@@ -214,7 +165,7 @@ const Apresentacao = () => {
                 </button>
                 <div className="divApresentacaoConj">
                     <div id="divApresentacaoimg" className={currentSlide === 1 ? 'overlap' : ''}>
-                        <img src={carouselData[currentSlide].image} alt="Detalhe do projeto"/>
+                        <img src={carouselData[currentSlide].image} alt="Detalhe do projeto" />
                     </div>
                     <div id="divApresentacaoTexto" className={currentSlide === 1 ? 'shifted' : ''}>
                         <p>{carouselData[currentSlide].text}</p>
