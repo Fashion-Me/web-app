@@ -157,13 +157,29 @@ const PagAnuncioAdd = () => {
                                     onClick={() => selecionarImagem(index)}
                                 >
                                     <img src={imagem} alt={`Thumbnail ${index + 1}`} />
+                                    <label htmlFor={`upload-thumb-${index}`} className="thumbnail-edit-overlay">
+                                        <Camera size={20} />
+                                        <input
+                                            id={`upload-thumb-${index}`}
+                                            type="file"
+                                            accept="image/*"
+                                            onChange={(e) => {
+                                                const file = e.target.files[0];
+                                                if (file) {
+                                                    const novaImagem = URL.createObjectURL(file);
+                                                    const imagensAtualizadas = [...imagens];
+                                                    imagensAtualizadas[index] = novaImagem;
+                                                    setImagens(imagensAtualizadas);
+                                                }
+                                            }}
+                                            style={{ display: 'none' }}
+                                            onClick={(e) => e.stopPropagation()}
+                                        />
+                                    </label>
                                 </div>
                             ))}
                             {imagens.length < 5 && (
-                                <label
-                                    htmlFor="upload-imagem-thumb"
-                                    className="thumbnail thumbnail-placeholder"
-                                >
+                                <label htmlFor="upload-imagem-thumb" className="thumbnail thumbnail-placeholder">
                                     <Plus size={24} />
                                     <input
                                         id="upload-imagem-thumb"

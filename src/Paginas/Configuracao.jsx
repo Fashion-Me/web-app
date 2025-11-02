@@ -57,7 +57,6 @@ const Configuracao = () => {
         return () => window.removeEventListener("resize", handleResize);
     }, []);
 
-
     const handleLogout = async () => {
         try {
             // Chama a API de logout

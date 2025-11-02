@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Menu from '../../Componentes/Menu';
 import "./PagAnuncio.css"
 import "@radix-ui/themes/styles.css";

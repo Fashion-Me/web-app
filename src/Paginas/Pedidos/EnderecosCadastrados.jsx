@@ -7,6 +7,7 @@ import "@radix-ui/themes/styles.css";
 import "../../Componentes/CompConfig/CompConfig.css"
 import "../../css/Configuracao.css"
 import "./EnderecosCadastrados.css"
+// import "./EnderecosNovos.css"
 import "../../Componentes/Css/Carrinho.css"
 
 import api from "../../services/authApi";
@@ -19,14 +20,13 @@ import FundoHome from "../../Imagens/DetalheFundo.png";
 
 import fotoPerfil from "../../Imagens/FotoPerfil.png";
 import imgAnuncioCamiseta from "../../Imagens/Anuncio_Titulo_1.png";
-
 import ItemCarrinho from "../../Componentes/ItemCarrinho"
 
 const Configuracao = () => {
     const { menuTipo, menuOpen, setMenuOpen } = useMenuTipo(false);
     const [mostrarMenu, setMostrarMenu] = useState(true);
     const navigate = useNavigate();
-    const [conteudoAtual, setConteudoAtual] = useState('');
+    const [conteudoAtual, setConteudoAtual] = useState('EnderecoCadastrados'); //pagina Padrao
     const [mostrarAbaConfig, setMostrarAbaConfig] = useState(true);
     const [mostrarAreaConfig, setMostrarAreaConfig] = useState(true);
     const [showLogoutPopup, setShowLogoutPopup] = useState(false); // Novo estado para o pop-up
@@ -58,10 +58,12 @@ const Configuracao = () => {
             <main className="Conteudo" id="ConteudoConfig">
                 {mostrarAbaConfig &&
                     <AbaConfig
+                        setConteudoAtual={setConteudoAtual}
                     />
                 }
                 {mostrarAreaConfig &&
                     <AreaConfig
+                        conteudoAtual={conteudoAtual}
                         setMostrarAbaConfig={setMostrarAbaConfig}
                         setMostrarAreaConfig={setMostrarAreaConfig}
                         setMostrarMenu={setMostrarMenu}
@@ -73,7 +75,7 @@ const Configuracao = () => {
 
 export default Configuracao;
 
-const AbaConfig = ({ }) => (
+const AbaConfig = ({setConteudoAtual}) => (
     <div id="divConfig">
         <div className='divCarrinhoAberto'>
             <div id='TopTitulo'>
@@ -128,7 +130,85 @@ const AbaConfig = ({ }) => (
     </div>
 );
 
-const AreaConfig = ({ setMostrarAbaConfig, setMostrarAreaConfig, setMostrarMenu }) => (
+const AreaConfig = ({ conteudoAtual, setMostrarAbaConfig, setMostrarAreaConfig, setMostrarMenu, setConteudoAtual }) => (
+    <div className="AreaConfig" >
+        {conteudoAtual === 'EnderecosNovos' &&
+            <>
+                <EnderecosNovos setConteudoAtual={setConteudoAtual} />
+            </>
+        }
+        {conteudoAtual === 'EnderecoCadastrados' &&
+            <>
+                <EnderecoCadastrados setConteudoAtual={setConteudoAtual} />
+            </>
+        }
+    </div>
+);
+
+const EnderecosNovos = ({ setMostrarAbaConfig, setMostrarAreaConfig, setMostrarMenu }) => (
+    <div className="AreaConfig" >
+        <>
+            <div className="divTituloArea">
+                {window.innerWidth < 500 &&
+                    <ArrowLeft size={30}
+                               strokeWidth={2.5}
+                               onClick={() => {
+                                   setMostrarAreaConfig(false);
+                                   setMostrarAbaConfig(true);
+                                   setMostrarMenu(true)
+                               }
+                               }
+                    />}
+                <h2 className="titulo">Adicionar Novo Endereço</h2>
+                <div className="address-form">
+                    <div className="form-row">
+                        <label>CEP</label>
+                        <input type="text" placeholder="01234-012" />
+                    </div>
+
+                    <div className="form-row">
+                        <label>RUA</label>
+                        <input type="text" placeholder="Estrada das Tulipas" />
+                    </div>
+
+                    <div className="form-row double">
+                        <div className="input-group">
+                            <label>COMPLEMENTO</label>
+                            <input type="text" placeholder="Bloco A, apt 1" />
+                        </div>
+                        <div className="input-group">
+                            <label>BAIRRO</label>
+                            <input type="text" placeholder="Linaúva" />
+                        </div>
+                    </div>
+
+                    <div className="form-row double">
+                        <div className="input-group">
+                            <label>CIDADE</label>
+                            <input type="text" placeholder="Xique-Xique" />
+                        </div>
+                        <div className="input-group">
+                            <label>ESTADO</label>
+                            <input type="text" placeholder="BA" />
+                        </div>
+                    </div>
+
+                    <div className="form-row">
+                        <label>NOME</label>
+                        <input type="text" placeholder="Apelido do Endereço" />
+                    </div>
+                </div>
+                <div className="BotoesEndereco">
+                    <button className="btnCancelar">Cancelar</button>
+                    <button className="btnProximo">Confirmar</button>
+                </div>
+
+            </div>
+        </>
+    </div>
+);
+
+const EnderecoCadastrados = ({ setMostrarAbaConfig, setMostrarAreaConfig, setMostrarMenu, setConteudoAtual }) => (
     <div className="AreaConfig" >
         <>
             <div className="divTituloArea">
@@ -148,10 +228,11 @@ const AreaConfig = ({ setMostrarAbaConfig, setMostrarAreaConfig, setMostrarMenu 
                 </div>
                 <h2 className="titulo">Endereço(s) Cadastrado(s)</h2>
                 <div className="Endereco"></div>
-                <div className="Endereco"></div>
+                <div className="EnderecoAdicionar" onClick={() => { setConteudoAtual('EnderecosNovos'); }}>
+                </div>
                 <div className="BotoesEndereco">
                     <button className="btnCancelar">Cancelar</button>
-                    <button className="btnProximo">Próximo</button>
+                    <button className="btnProximo" onClick={() => { setConteudoAtual('EnderecosNovos'); }}>Próximo</button>
                 </div>
 
             </div>

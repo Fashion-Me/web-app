@@ -17,7 +17,7 @@ import Pesquisar from "./Paginas/Pesquisar/Pesquisar";
 import Mensagens from "./Paginas/Mensagens";
 import Configuracao from "./Paginas/Configuracao";
 import Apresentacao from "./Paginas/Apresentacao/Apresentacao";
-import Denuncias from "./Paginas/Denuncias";
+import Moderacao from "./Paginas/Moderacao/Moderacao";
 import Perfil from "./Paginas/Perfil/Perfil";
 import PagAnuncioVer from "./Paginas/PagAnuncio/PagAnuncioVer";
 import PagAnuncioAdd from "./Paginas/PagAnuncio/PagAnuncioAdd";
@@ -44,10 +44,11 @@ const router = createBrowserRouter([
     { path: "/EnderecosCadastrados", element: <EnderecosCadastrados /> },
 
     /* Aplicação Moderação de Conteúdo */
-
-    { path: "/moderacao/denuncias", element: <Denuncias /> },
-    { path: "/moderacao/banimentos", element: <Denuncias /> },
-    { path: "/moderacao/cadastro", element: <Denuncias /> },
+    { path: "/moderacao", element: <Moderacao /> },
+    { path: "/moderacao/perfils", element: <Moderacao pag={"perfils"} /> },
+    { path: "/moderacao/anuncios", element: <Moderacao pag={"anuncios"}  /> },
+    { path: "/moderacao/posts", element: <Moderacao pag={"posts"}  /> },
+    { path: "/moderacao/cadastro", element: <Moderacao pag={"cadastro"}  /> },
 
 ]);
 
