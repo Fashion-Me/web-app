@@ -37,8 +37,79 @@ const Apresentacao = () => {
         setCurrentSlide((prev) => (prev - 1 + carouselData.length) % carouselData.length);
     };
 
+    const [menuAberto, setMenuAberto] = useState(false);
+
     return (
         <>
+
+            <div id="navbar-fixo">
+                <h1 className="navbar-logo">FASHION ME</h1>
+
+                {/* Links (versão desktop) */}
+                <div className="navbar-links-desktop">
+                    <a href="#PaginaInicial">Home</a>
+                    <a href="#faixa">Sobre</a>
+                    <a href="#projeto">Projeto</a>
+                    <a href="#PaginaContato">Contato</a>
+                </div>
+
+                {/* Botões (versão desktop) */}
+                <div className="navbar-direita-desktop">
+                    <button
+                        className="navbar-botao"
+                        onClick={() => {
+                            window.location.href = "../login";
+                        }}
+                    >
+                        Login
+                    </button>
+                    <button
+                        className="navbar-botao"
+                        onClick={() => {
+                            window.location.href = "/cadastro";
+                        }}
+                    >
+                        Cadastro
+                    </button>
+                </div>
+
+                {/* Ícone hambúrguer (visível só no mobile) */}
+                <div
+                    className={`navbar-hamburguer ${menuAberto ? "ativo" : ""}`}
+                    onClick={() => setMenuAberto(!menuAberto)}
+                >
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+
+            {/* MENU MOBILE FULLSCREEN */}
+            <div className={`navbar-menu-mobile ${menuAberto ? "mostrar" : ""}`}>
+                <a href="#PaginaInicial" onClick={() => setMenuAberto(false)}>Home</a>
+                <a href="#faixa" onClick={() => setMenuAberto(false)}>Sobre</a>
+                <a href="#projeto" onClick={() => setMenuAberto(false)}>Projeto</a>
+                <a href="#PaginaContato" onClick={() => setMenuAberto(false)}>Contato</a>
+                <div className="navbar-botoes-mobile">
+                    <button
+                        className="navbar-botao"
+                        onClick={() => {
+                            window.location.href = "../login";
+                        }}
+                    >
+                        Login
+                    </button>
+                    <button
+                        className="navbar-botao"
+                        onClick={() => {
+                            window.location.href = "/cadastro";
+                        }}
+                    >
+                        Cadastro
+                    </button>
+                </div>
+            </div>
+
             <div id="PaginaInicial" >
                 <div id="esquerda">
                     <div id='circulo1'
@@ -78,8 +149,8 @@ const Apresentacao = () => {
                     <img id='Iphone2'
                          src={Celular2}            // variável importada ou caminho da imagem
                     />
-                    <div id="poligono1" style={{ backgroundImage: `url(${FundoAreaAzul})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundPosition: 'center' }}></div>
-                    <div id="poligono" style={{ backgroundImage: `url(${FundoAreaAzul})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundPosition: 'center' }}></div>
+                    <div id="poligono1"></div>
+                    <div id="poligono"></div>
                 </div>
             </div>
             <div id="faixa" style={{ backgroundImage: `url(${FundoAreaAzul})`, backgroundSize: 'fit', backgroundRepeat: 'repeat', backgroundPosition: 'center' }}>

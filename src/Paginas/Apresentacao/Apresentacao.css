@@ -7,6 +7,178 @@
     overflow-x: hidden;
 }
 
+
+
+
+#navbar-fixo {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 65px;
+    background-color: rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 40px;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+    transition: background-color 0.3s ease;
+}
+
+.navbar-logo {
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    letter-spacing: 1px;
+}
+
+/* Links e botões desktop */
+.navbar-links-desktop {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.navbar-links-desktop a {
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.3s, transform 0.2s;
+}
+
+.navbar-links-desktop a:hover {
+    color: #00aaff;
+    font-weight: bold;
+    transform: translateY(-1px);
+}
+
+.navbar-direita-desktop {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* ==================== BOTÕES ==================== */
+.navbar-botao {
+    background: linear-gradient(145deg, #0077c7, #00a1e0);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 10px 24px;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: solid 1px rgba(255, 255, 255, 0.2);
+    box-shadow: 0 2px 5px rgba(0, 170, 255, 0.3);
+}
+
+.navbar-botao:hover {
+    background: white;
+    color: #007fd6;
+    transform: scale(1.08);
+    transition: all 0.3s ease;
+}
+
+/* ==================== ÍCONE HAMBÚRGUER ==================== */
+.navbar-hamburguer {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 24px;
+    height: 18px;
+    cursor: pointer;
+}
+
+.navbar-hamburguer span {
+    display: block;
+    height: 3px;
+    width: 100%;
+    background-color: white;
+    border-radius: 3px;
+    transition: 0.3s ease;
+}
+
+.navbar-hamburguer.ativo span:nth-child(1) {
+    transform: translateY(7.5px) rotate(45deg);
+}
+
+.navbar-hamburguer.ativo span:nth-child(2) {
+    opacity: 0;
+}
+
+.navbar-hamburguer.ativo span:nth-child(3) {
+    transform: translateY(-7.5px) rotate(-45deg);
+}
+
+/* ==================== MENU MOBILE FULLSCREEN ==================== */
+.navbar-menu-mobile {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.92);
+    backdrop-filter: blur(10px);
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    z-index: 999;
+    animation: fadeOut 0.3s ease forwards;
+}
+
+.navbar-menu-mobile.mostrar {
+    display: flex;
+    animation: fadeIn 0.3s ease forwards;
+}
+
+.navbar-menu-mobile a {
+    color: white;
+    font-size: 20px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.navbar-menu-mobile a:hover {
+    color: #00aaff;
+}
+
+.navbar-botoes-mobile {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 40px;
+}
+
+/* Animações */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+
+
+
+
+
 #Iphone {
     position: absolute;
     bottom: 20%;
@@ -114,9 +286,9 @@
 #poligono1,
 #poligono {
     background-image: url('../../Imagens/DetalheFundoOpa40.webp');
-    background-size: cover;
-    background-repeat: no-repeat;
     background-position: center;
+    background-repeat: repeat;
+    background-size: fit;
 }
 
 #poligono1 {
@@ -514,6 +686,28 @@ html {
 }
 
 @media (max-width: 500px) {
+
+    .navbar-links-desktop,
+    .navbar-direita-desktop {
+        display: none;
+    }
+
+    .navbar-hamburguer {
+        display: flex;
+    }
+
+    .navbar-logo {
+        font-size: 15px;
+    }
+
+    #navbar-fixo {
+        padding: 0 25px;
+    }
+
+
+
+
+
 
     #PaginaInicial {
         flex-direction: column;

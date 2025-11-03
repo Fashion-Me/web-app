@@ -22,7 +22,8 @@ import Perfil from "./Paginas/Perfil/Perfil";
 import PagAnuncioVer from "./Paginas/PagAnuncio/PagAnuncioVer";
 import PagAnuncioAdd from "./Paginas/PagAnuncio/PagAnuncioAdd";
 import PagAnuncioEdit from "./Paginas/PagAnuncio/PagAnuncioEdit";
-import EnderecosCadastrados from "./Paginas/Pedidos/EnderecosCadastrados";
+import EnderecosNovos from "./Paginas/Pedidos/EnderecosNovos";
+import StatusPagamento from "./Paginas/MeusPedidos/StatusPagamento";
 
 /* Criando as rotas */
 const router = createBrowserRouter([
@@ -41,7 +42,9 @@ const router = createBrowserRouter([
     { path: "/AnuncioVer", element: <PagAnuncioVer /> },
     { path: "/AnuncioAdd", element: <PagAnuncioAdd /> },
     { path: "/AnuncioEdit", element: <PagAnuncioEdit /> },
-    { path: "/EnderecosCadastrados", element: <EnderecosCadastrados /> },
+    { path: "/pagamento", element: <EnderecosNovos /> },
+    { path: "/MeusPedidos", element: <StatusPagamento /> },
+
 
     /* Aplicação Moderação de Conteúdo */
     { path: "/moderacao", element: <Moderacao /> },
