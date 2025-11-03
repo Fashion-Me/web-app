@@ -3,7 +3,7 @@ import Aba from "./Menu/Aba";
 import Logo from "./Menu/Imagens/LogoTexto.png";
 import logoSimples from "../Imagens/LogoSImples.png";
 import "./Css/Menu.css";
-import { House, Search, Mail, UserRound, TriangleAlert, Settings, Bell, ShieldAlert, UserRoundPlus, BookImage, BookA, BookUser  } from 'lucide-react';
+import { House, Search, Mail, UserRound, TriangleAlert, Settings, Bell, ShieldAlert, UserRoundPlus, BookImage, BookA, BookUser,LogOut   } from 'lucide-react';
 import { Link, Routes, useNavigate } from "react-router-dom";
 import CaixaDeEntrada from "./Menu/CaixaDeEntrada";
 
@@ -43,6 +43,8 @@ export default (props) => {
             navigate("/moderacao/posts");
         } else if (titulo === "Cadastro") {
             navigate("/moderacao/cadastro");
+        } else if (titulo === "Sair") {
+            navigate("/login");
         }
     }
 
@@ -127,6 +129,19 @@ export default (props) => {
                                 <hr />
                             </div>
                         </div>
+                        <div className="conjAba partMenu inferior">
+                            <hr />
+                            <Aba
+                                titulo="Sair"
+                                selecionado={abaSelecionada === "Sair"}
+                                onClick={() => {
+                                    handleSelecionarAba("Sair");
+                                    onNavegacao("Sair");
+                                }}
+                            >
+                                <LogOut />
+                            </Aba>
+                        </div>
                     </div>
                 )}
 
@@ -185,6 +200,18 @@ export default (props) => {
                                 </Aba>
                                 <hr />
                             </div>
+                        </div>
+                        <div className="conjAba partMenu inferior">
+                            <hr />
+                            <Aba
+                                selecionado={abaSelecionada === "Sair"}
+                                onClick={() => {
+                                    handleSelecionarAba("Sair");
+                                    onNavegacao("Sair");
+                                }}
+                            >
+                                <LogOut />
+                            </Aba>
                         </div>
                     </div>
                 )}

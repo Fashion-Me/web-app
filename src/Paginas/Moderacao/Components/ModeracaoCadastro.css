@@ -6,13 +6,14 @@
     min-height: 550px;
     height:  95vh;
     background: var(--background-pesquisa);
-    padding: 40px;
+    padding: 35px;
     border-radius: 25px;
     gap: 0;
     box-sizing: border-box;
 }
 .CadastroModeracao h1{
     display: flex;
+    margin-bottom: 4vh;
     align-items: center;
     width: 100%;
     color: white;

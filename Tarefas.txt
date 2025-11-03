@@ -2,4 +2,24 @@
 Baixa Prioridade
 
 1) Arrumar a paginas especificas para ocupar toda a tela em cima
-2) Arrumar o texto da ultima mensagem
+2) Colocar a função de Sair da Moderação
+
+
+Eu quero fazer um novo design para essa pagina seguindo o desing anexado.
+
+Nela temos na ordem de cima pra baixo:
+1) Titulo dá pagina, sendo nesse caso "Anuncios", mas coloque uma const para puder modificar rapido
+2) A Baixo temos uma barra de pesquisa e um filtro ao lado, que irá fazer a função de drop down, com as sendo também defiinidar por uma const, se adaptando a quantidade de filtro automaticamente
+3) Em baixo temos embaixo, 2 opções, sendo dois textos que vão funcionar como um menu simples, onde se alterna entre cada uma, modificando quais perfils apareceram em baixo
+4) Por fim temos uma lista, sendo "infinita" para baixo, comprindo a quantidade de perfils
+Faça essa lista por meio de um componente, AnuncioDenuncia, esse componente vai ter: FotoPerfil, sendo a foto do Perfil; NomePerfil, sendo o nome do perfil; BotãoVisualizar, vai mandar para a pagina do perfil; BotãoExcluir/Re
+
+
+Eu quero fazer um novo design para essa pagina seguindo o desing anexado.
+
+Nela temos na ordem de cima pra baixo:
+1) Titulo dá pagina, sendo nesse caso "Anuncios", mas coloque uma const para puder modificar rapido
+2) A Baixo temos uma barra de pesquisa e um filtro ao lado, que irá fazer a função de drop down, com as sendo também defiinidar por uma const, se adaptando a quantidade de filtro automaticamente
+3) Em baixo temos embaixo, 2 opções, sendo dois textos que vão funcionar como um menu simples, onde se alterna entre cada uma, modificando quais perfils apareceram em baixo
+4) Por fim temos uma lista, sendo "infinita" para baixo, comprindo a quantidade de perfils
+Faça essa lista por meio de um componente, AnuncioDenuncia, esse componente vai ter: FotoPerfil, sendo a foto do Perfil; NomePerfil, sendo o nome do perfil; BotãoVisualizar, vai mandar para a pagina do perfil; BotãoExcluir/Restaurar, sendo que se for, no menu em cima,Denunciados vai ser Excluir e se for Excluídos vai ser Restaurar;NumDenuncias, vai mostrar o numero de denuncias do Perfil denunciado; e por ulitmo uma seta para a direita comum pequeno texto, "verificar em cima.
