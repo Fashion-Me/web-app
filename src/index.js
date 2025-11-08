@@ -24,6 +24,9 @@ import PagAnuncioAdd from "./Paginas/PagAnuncio/PagAnuncioAdd";
 import PagAnuncioEdit from "./Paginas/PagAnuncio/PagAnuncioEdit";
 import EnderecosNovos from "./Paginas/Pedidos/EnderecosNovos";
 import StatusPagamento from "./Paginas/MeusPedidos/StatusPagamento";
+import ModeracaoEspecAnun from "./Paginas/Moderacao/ModeracaoEspecAnun";
+import ModeracaoEspecPerfil from "./Paginas/Moderacao/ModeracaoEspecPerfil";
+import ModeracaoEspecPost from "./Paginas/Moderacao/ModeracaoEspecPost";
 
 /* Criando as rotas */
 const router = createBrowserRouter([
@@ -48,10 +51,14 @@ const router = createBrowserRouter([
 
     /* Aplicação Moderação de Conteúdo */
     { path: "/moderacao", element: <Moderacao /> },
+    { path: "/moderacao/verPerfil", element: <Perfil acesso={"mod"}/>},
     { path: "/moderacao/perfils", element: <Moderacao pag={"perfils"} /> },
     { path: "/moderacao/anuncios", element: <Moderacao pag={"anuncios"}  /> },
     { path: "/moderacao/posts", element: <Moderacao pag={"posts"}  /> },
     { path: "/moderacao/cadastro", element: <Moderacao pag={"cadastro"}  /> },
+    { path: "/moderacao/especPerfil", element: <ModeracaoEspecPerfil/> },
+    { path: "/moderacao/especPost", element: <ModeracaoEspecPost /> },
+    { path: "/moderacao/especAnuncio", element: <ModeracaoEspecAnun /> },
 
 ]);
 

@@ -7,13 +7,14 @@ import imgPerfilVH from "../../../Imagens/FotoPerfilVH.jpg"
 import imgPerfil from "../../../Imagens/FotoPerfil.png"
 import imgPerfilDaniel from "../../../Imagens/FotoDaniel.jpg"
 import imgPerfilCaue from "../../../Imagens/FotoPerfilCaue.jpg"
+import {useNavigate} from "react-router-dom";
 
 
-const TITULO_PAGINA = "ANUNCIOS";
-const OPCOES_FILTRO = ["Ordem Alfabética", "Mais Denúncias", "Menos Denúncias"];
+const TITULO_PAGINA = "PERFILS";
+const OPCOES_FILTRO = ["Ordem Alfabética", "Mais Denúncias", "Mais Recentes"];
 const MENU_OPCOES = ["DENUNCIADOS", "EXCLUÍDOS"];
 
-const AnuncioDenuncia = ({ fotoPerfil, nomePerfil, descricao, numDenuncias, tipoMenu, onVisualizar, onAcao }) => {
+const PerfilDenuncia = ({ fotoPerfil, nomePerfil, descricao, numDenuncias, tipoMenu, onVisualizar, onAcao }) => {
     return (
         <div className="anuncio-denuncia-item">
             <div className="anuncio-info">
@@ -30,7 +31,7 @@ const AnuncioDenuncia = ({ fotoPerfil, nomePerfil, descricao, numDenuncias, tipo
                     <span className="denuncias-label">denuncias</span>
                     <span className="denuncias-numero">{numDenuncias}</span>
                 </div>
-                <div className="verificar-info">
+                <div className="verificar-info" onClick={onAcao}>
                     <span>verificar</span>
                     <ArrowRight size={20} />
                 </div>
@@ -44,6 +45,7 @@ const ModeracaoPerfil = () => {
     const [filtroSelecionado, setFiltroSelecionado] = useState(OPCOES_FILTRO[0]);
     const [menuAtivo, setMenuAtivo] = useState(MENU_OPCOES[0]);
     const [pesquisa, setPesquisa] = useState("");
+    const navigate = useNavigate();
 
     // Dados de exemplo - substituir pela API real
     const anunciosExemplo = [
@@ -125,7 +127,13 @@ const ModeracaoPerfil = () => {
     const handleVisualizar = (id) => {
         // Navegar para o perfil
         console.log("Visualizar anúncio:", id);
+        navigate(`/moderacao/verPerfil`);
     };
+    const handleNavegacao = (id) => {
+        console.log("Navegar anúncio:", id);
+        navigate(`/moderacao/especPerfil`);
+    };
+
     return (
         <div className="moderacao-anuncios-container">
             <h1 className="titulo-pagina">{TITULO_PAGINA}</h1>
@@ -179,7 +187,7 @@ const ModeracaoPerfil = () => {
 
             <div className="lista-anuncios">
                 {anunciosExemplo.map((anuncio) => (
-                    <AnuncioDenuncia
+                    <PerfilDenuncia
                         key={anuncio.id}
                         fotoPerfil={anuncio.fotoPerfil}
                         nomePerfil={anuncio.nomePerfil}
@@ -187,6 +195,7 @@ const ModeracaoPerfil = () => {
                         numDenuncias={anuncio.numDenuncias}
                         tipoMenu={menuAtivo}
                         onVisualizar={() => handleVisualizar(anuncio.id)}
+                        onAcao={() => handleNavegacao(anuncio.id)}
                     />
                 ))}
             </div>

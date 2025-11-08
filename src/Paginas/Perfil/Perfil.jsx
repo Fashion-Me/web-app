@@ -21,7 +21,7 @@ import FundoPerfil from "../../Imagens/camisetas.png";
 import fotoPerfil from "../../Imagens/FotoPerfil.png";
 
 
-const Perfil = () => {
+const Perfil = (props) => {
 
     const bioPerfil = "Sou o Luiz Ricardo e gosto de dar I no TCC"
     const NomePerfil = "Luiz Ricardo"
@@ -197,7 +197,7 @@ const Perfil = () => {
             {menuTipo === "mobile" ? (
                 <HamburgerComponent menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
             ) : (
-                <Menu tipo={menuTipo} />
+                <Menu tipo={menuTipo} acesso={props.acesso} />
             )}
             <main className="Conteudo ConteudoPerfil">
                 <div className="PerfilHeader" style={{ backgroundImage: `url(${FundoPerfil})` }}>
