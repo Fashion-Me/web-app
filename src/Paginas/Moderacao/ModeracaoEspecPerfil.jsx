@@ -1,46 +1,13 @@
 import React, { useState } from 'react';
-import { ArrowRight, Clock4  } from "lucide-react";
+import {ArrowRight, Clock4, X} from "lucide-react";
 import './ModeracaoEspecPerfil.css';
 import Menu from '../../Componentes/Menu';
 import HamburgerComponentMod from '../../Componentes/Menu/HamburgerMod';
 import useMenuTipo from "../../hooks/useMenuTipo";
+import PerfilHistorico from './Components/PerfilHistorico';
 import FundoHome from "../../Imagens/DetalheFundo.png";
 import imgPerfil from "../../Imagens/FotoPerfil.png";
 import {useNavigate} from "react-router-dom";
-
-const MENU_HISTORICO = ["PERFIL", "ANUNCIOS", "POSTS"];
-
-const PerfilHistorico = ({ denuncias, menuAtivo, setMenuAtivo }) => {
-    return (
-        <div className="perfilHistorico">
-            <div className="historicoHeader">
-                <div className="historicoTitulo">
-                    <Clock4 size={24} />
-                    <h2>HISTÓRICO</h2>
-                </div>
-                <div className="historicoMenu">
-                    {MENU_HISTORICO.map((opcao) => (
-                        <button
-                            key={opcao}
-                            className={`menuBtn ${menuAtivo === opcao ? 'ativo' : ''}`}
-                            onClick={() => setMenuAtivo(opcao)}
-                        >
-                            {opcao}
-                        </button>
-                    ))}
-                </div>
-            </div>
-            <div className="historicoLista">
-                {denuncias.map((denuncia, index) => (
-                    <div key={index} className="denunciaItem">
-                        <div className="denunciaBolinha"></div>
-                        <p className="denunciaTexto">{denuncia}</p>
-                    </div>
-                ))}
-            </div>
-        </div>
-    );
-};
 
 const ModeracaoEspecPerfil = () => {
     const { menuTipo, menuOpen, setMenuOpen } = useMenuTipo(true);
@@ -145,7 +112,7 @@ const ModeracaoEspecPerfil = () => {
                                     onClick={() => setModalPenaAberto(false)}
                                     className="btnFecharModal"
                                 >
-                                    ×
+                                    <X size={32}  cor={'#efefef'} />
                                 </button>
                             </div>
 

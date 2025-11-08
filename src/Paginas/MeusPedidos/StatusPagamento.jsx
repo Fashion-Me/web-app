@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Wallet, Truck, PackageCheck } from "lucide-react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Menu from '../../Componentes/Menu';
 import "../../css/Home.css";
@@ -181,38 +182,90 @@ const AreaConfig = ({
     </div>
 );
 
-
 const StatusPedidos = ({ setMostrarAbaConfig, setMostrarAreaConfig, setMostrarMenu, setConteudoAtual }) => {
-    const [concorda, setConcorda] = useState(false);
+    // Pode ser: "pagamento", "chegando" ou "chegou"
+    const [etapa, setEtapa] = useState("chegou");
+
+    const getProgressWidth = () => {
+        if (etapa === "pagamento") return "0%";
+        if (etapa === "chegando") return "50%";
+        if (etapa === "chegou") return "100%";
+        return "0%";
+    };
 
     return (
         <div className="AreaTotal">
-            <div className="divEspacoTodo">
+            <div className="divEspacoTodoStatus">
+
+                {/* LINHA DE STATUS DE PEDIDO */}
                 <div className="linesstatus">
-                    <div className="line line1"></div>
-                    <div className="line line2Finalizar"></div>
+                    <div className="progress-container">
+                        <div className="progress-bar">
+                            <div className="progress-background"></div>
+
+                            <div
+                                className="progress-fill"
+                                style={{ width: getProgressWidth() }}
+                            ></div>
+
+                            {/* Bolinhas fixas e cumulativas */}
+                            <div
+                                className={`dot ${["pagamento", "chegando", "chegou"].includes(etapa) ? "active" : ""}`}
+                                style={{ left: "0%" }}
+                            ></div>
+                            <div
+                                className={`dot ${["chegando", "chegou"].includes(etapa) ? "active" : ""}`}
+                                style={{ left: "50%" }}
+                            ></div>
+                            <div
+                                className={`dot ${etapa === "chegou" ? "active" : ""}`}
+                                style={{ left: "100%" }}
+                            ></div>
+                        </div>
+
+                        <div className="progress-labels">
+                            <div
+                                className={`label ${["pagamento", "chegando", "chegou"].includes(etapa) ? "active" : ""}`}
+                                style={{ left: "2%" }}
+                            >
+                                Confirmando<br />Pagamento
+                            </div>
+                            <div
+                                className={`label ${["chegando", "chegou"].includes(etapa) ? "active" : ""}`}
+                                style={{ left: "50%" }}
+                            >
+                                Pedido<br />Chegando
+                            </div>
+                            <div
+                                className={`label ${etapa === "chegou" ? "active" : ""}`}
+                                style={{ left: "98%" }}
+                            >
+                                Pedido<br />Chegou
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
+                {/* CONTEÚDO RESTANTE */}
                 <div className="areaTermos">
                     <div className="textoTermos">
-                        <h3 className='HBOLD'>28 SET/2025</h3>
+                        <h3 className="HBOLD">28 SET/2025</h3>
                         <p>
                             Pedido entregue ao destinatário: João Guilherme, o destinatário tem um período de 6 (seis) dias
                             corridos para solicitar a devolução do item, relembrando que qualquer dano ao produto impossibilita
                             a devolução do item!
                         </p>
 
-                        <h3 className='HBOLD'>27 SET/2025</h3>
+                        <h3 className="HBOLD">27 SET/2025</h3>
                         <p>
                             Pedido em processo de entrega ao destinatário, o destinatário tem um período de 6 (seis) dias
                             corridos para solicitar a devolução do item, relembrando que qualquer dano ao produto impossibilita
                             a devolução do item!
                         </p>
 
-                        <h3 className='HBOLD'>25 SET/2025</h3>
+                        <h3 className="HBOLD">25 SET/2025</h3>
                         <p>
-                            Pedido em processo de entrega ao destinatário, o destinatário tem um período de 6 (seis) dias
-                            corridos para solicitar a devolução do item, relembrando que qualquer dano ao produto impossibilita
-                            a devolução do item!
+                            Pedido em separação e preparo para envio ao destinatário.
                         </p>
                     </div>
                 </div>
@@ -228,11 +281,11 @@ const StatusPedidos = ({ setMostrarAbaConfig, setMostrarAreaConfig, setMostrarMe
                         Solicitar Devolução
                     </button>
                 </div>
-
             </div>
         </div>
     );
 };
+
 
 const DevolucaoPedidos = ({ setMostrarAbaConfig, setMostrarAreaConfig, setMostrarMenu, setConteudoAtual }) => {
     const [fotos, setFotos] = useState([null, null, null]);
@@ -270,9 +323,7 @@ const DevolucaoPedidos = ({ setMostrarAbaConfig, setMostrarAreaConfig, setMostra
                                         className="PreviewFoto"
                                     />
                                 ) : (
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="white" viewBox="0 0 24 24">
-                                        <path d="M12 5c1.65 0 3 1.35 3 3h5v11H4V8h5c0-1.65 1.35-3 3-3zm0 3c-.552 0-1 .447-1 1v1H9v2h2v1c0 .553.448 1 1 1s1-.447 1-1v-1h2v-2h-2V9c0-.553-.448-1-1-1zm0 11c3.309 0 6-2.691 6-6s-2.691-6-6-6-6 2.691-6 6 2.691 6 6 6z" />
-                                    </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-camera-icon lucide-camera"><path d="M13.997 4a2 2 0 0 1 1.76 1.05l.486.9A2 2 0 0 0 18.003 7H20a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h1.997a2 2 0 0 0 1.759-1.048l.489-.904A2 2 0 0 1 10.004 4z" /><circle cx="12" cy="13" r="3" /></svg>
                                 )}
                                 <input
                                     type="file"

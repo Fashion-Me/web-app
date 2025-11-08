@@ -10,6 +10,7 @@ import imgPerfil from "../../../Imagens/FotoPerfil.png"
 import imgAnuncioCamiseta from "../../../Imagens/AnuncioCamisa.png";
 import imgAnuncioCasaco from "../../../Imagens/AnuncioCasaco.png";
 import imgAnuncioCalcado from "../../../Imagens/AnuncioCalcado.png";
+import {useNavigate} from "react-router-dom";
 
 const TITULO_PAGINA = "ANUNCIOS";
 const OPCOES_FILTRO = ["Mais Recentes","Conteúdo sexual/nudez" ,"Golpe", "Conteúdo ilícito", "Conteúdo pejorativo"];
@@ -37,6 +38,7 @@ const ModeracaoPerfil = () => {
     const [filtroSelecionado, setFiltroSelecionado] = useState(OPCOES_FILTRO[0]);
     const [menuAtivo, setMenuAtivo] = useState(MENU_OPCOES[0]);
     const [pesquisa, setPesquisa] = useState("");
+    const navigate = useNavigate();
 
     // Dados de exemplo - substituir pela API real
     const anunciosExemplo = [
@@ -77,6 +79,7 @@ const ModeracaoPerfil = () => {
     const handleVerMais = (id) => {
         // Navegar para o perfil
         console.log("Enviando para o anuncio", id);
+        navigate(`/moderacao/especAnuncio`);
     };
     return (
         <div className="moderacao-anuncios-container">

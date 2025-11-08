@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ChevronDown, ArrowRight } from 'lucide-react';
 import "./ModeracaoPerfils.css"
+import PerfilHistorico from './PerfilHistorico';
 
 import imgPerfilEnzo from "../../../Imagens/FotoPerfilEnzo.png"
 import imgPerfilVH from "../../../Imagens/FotoPerfilVH.jpg"
@@ -18,7 +19,7 @@ const PerfilDenuncia = ({ fotoPerfil, nomePerfil, descricao, numDenuncias, tipoM
     return (
         <div className="anuncio-denuncia-item">
             <div className="anuncio-info">
-                <img src={fotoPerfil} alt={nomePerfil} className="foto-perfil" />
+                <img src={fotoPerfil} alt={nomePerfil} className="PerfilDenunciaFoto" />
                 <div className="info-texto">
                     <h3>{nomePerfil}</h3>
                 </div>

@@ -250,18 +250,6 @@ const EnderecosNovos = ({
 
             <>
                 <div className="divEspacoTodo">
-                    {window.innerWidth < 500 && (
-                        <ArrowLeft
-                            size={30}
-                            strokeWidth={2.5}
-                            onClick={() => {
-                                setMostrarAreaConfig(false);
-                                setMostrarAbaConfig(true);
-                                setMostrarMenu(true);
-                            }}
-                        />
-                    )}
-
                     <h2 className="titulo">Adicionar Novo Endereço</h2>
 
                     <div className="address-form">
@@ -372,17 +360,6 @@ const EnderecoCadastrados = ({ setMostrarAbaConfig, setMostrarAreaConfig, setMos
         <div className="AreaTotal">
             <>
                 <div className="divEspacoTodo">
-                    {window.innerWidth < 500 && (
-                        <ArrowLeft
-                            size={30}
-                            strokeWidth={2.5}
-                            onClick={() => {
-                                setMostrarAreaConfig(false);
-                                setMostrarAbaConfig(true);
-                                setMostrarMenu(true);
-                            }}
-                        />
-                    )}
 
                     <div className="lines">
                         <div className="line line1"></div>
@@ -487,17 +464,6 @@ const FormaPagamento = ({ setMostrarAbaConfig, setMostrarAreaConfig, setMostrarM
         <div className="AreaTotal">
             <div className="divEspacoTodo">
 
-                {window.innerWidth < 500 && (
-                    <ArrowLeft
-                        size={30}
-                        strokeWidth={2.5}
-                        onClick={() => {
-                            setMostrarAreaConfig(false);
-                            setMostrarAbaConfig(true);
-                            setMostrarMenu(true);
-                        }}
-                    />
-                )}
 
                 <div className="lines">
                     <div className="line line1"></div>
