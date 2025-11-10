@@ -31,8 +31,9 @@ export default () => {
                     placeholder="Digite novamente sua senha"
                 />
             </div>
-
-            <button className="botao-salvar" onClick={handleSalvar}> <h2>Renovar Senha</h2> </button>
+            <div className='centralizarbotaosalvar'>
+                <button className="botao-salvar" onClick={handleSalvar}> <h2>Renovar Senha</h2> </button>
+            </div>
         </>
     );
 

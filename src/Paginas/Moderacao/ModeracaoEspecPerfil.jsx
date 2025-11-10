@@ -59,6 +59,8 @@ const ModeracaoEspecPerfil = () => {
                 <Menu tipo={menuTipo} acesso={"mod"} />
             )}
             <main className="Conteudo" id="mainEspecPerfil" style={{backgroundImage: `url(${FundoHome})`}}>
+                <div className="FundoHamburguerCarrinho">
+                </div>
                 <div className="especPerfilContainer">
                     <div className="especHeader">
                         <h1>PERFIL</h1>

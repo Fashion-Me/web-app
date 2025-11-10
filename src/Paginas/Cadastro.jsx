@@ -52,7 +52,7 @@ const Cadastro = () => {
                 alert("Erro na API: " + err.message);
             }
         } else {
-            alert("Senhas Incompatíveis ");
+            alert("Senhas Incompatíveis");
         }
     };
 

@@ -142,16 +142,17 @@ const Mensagens = () => {
         setNovaMensagem("");
 
         try {
+            const fd = new FormData();
+            fd.append("body", novaMensagem)
             const response = await api.post(
                 `/chats/${contatoSelecionado.conversationId}/messages`,
-                { body: novaMensagem }
+                fd,
             );
 
-            // atualiza lastMessageIdRef com o id retornado
+
             const servidorMsg = Array.isArray(response.data) ? response.data[0] : response.data;
             lastMessageIdRef.current = servidorMsg.id ?? lastMessageIdRef.current;
 
-            // substitui a mensagem otimista (id temporário) pela mensagem formatada do servidor
             setMensagens(prev =>
                 prev.map(msg =>
                     msg.id === mensagemOtimista.id
@@ -167,22 +168,67 @@ const Mensagens = () => {
             }, 100);
         } catch (error) {
             console.error("Erro ao enviar mensagem:", error);
-            alert("Erro ao enviar mensagem");
+            console.error("Detalhes do erro:", error.response?.data);
+            alert(`Erro ao enviar mensagem: ${error.response?.data?.detail || error.message}`);
             setMensagens(prev => prev.filter(msg => msg.id !== mensagemOtimista.id));
         }
-    }, [novaMensagem, contatoSelecionado.conversationId, user, formatarMensagens]);
+    }, [novaMensagem, contatoSelecionado.conversationId, formatarMensagens]);
 
-    const enviarImagem = useCallback((imagem) => {
-        setMensagens((prevMensagens) => [
-            ...prevMensagens,
-            {
-                id: Date.now(),
-                MensagemLado: "remetente",
-                ImagemMensagem: imagem,
-                TextoMensagem: null
-            }
-        ]);
-    }, []);
+    const enviarImagem = useCallback(async (imagem) => {
+        if (!contatoSelecionado.conversationId) return;
+
+        const mensagemOtimista = {
+            id: Date.now(),
+            MensagemLado: "remetente",
+            ImagemMensagem: imagem,
+            TextoMensagem: null
+        };
+
+        setMensagens(prev => [...prev, mensagemOtimista]);
+
+        try {
+            // Converter data URL para Blob
+            const response = await fetch(imagem);
+            const blob = await response.blob();
+
+            // Criar FormData
+            const formData = new FormData();
+            formData.append('file', blob, 'image.png');
+
+            // Enviar para a API
+            const apiResponse = await api.post(
+                `/chats/${contatoSelecionado.conversationId}/messages`,
+                formData,
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                }
+            );
+
+            // Atualizar com mensagem do servidor
+            const servidorMsg = Array.isArray(apiResponse.data) ? apiResponse.data[0] : apiResponse.data;
+            lastMessageIdRef.current = servidorMsg.id ?? lastMessageIdRef.current;
+
+            setMensagens(prev =>
+                prev.map(msg =>
+                    msg.id === mensagemOtimista.id
+                        ? formatarMensagens([servidorMsg])[0]
+                        : msg
+                )
+            );
+
+            setTimeout(() => {
+                if (conversaRef.current) {
+                    conversaRef.current.scrollTop = conversaRef.current.scrollHeight;
+                }
+            }, 100);
+        } catch (error) {
+            console.error("Erro ao enviar imagem:", error);
+            alert("Erro ao enviar imagem");
+            setMensagens(prev => prev.filter(msg => msg.id !== mensagemOtimista.id));
+        }
+    }, [contatoSelecionado.conversationId, formatarMensagens]);
 
     // Efeito para iniciar/parar polling quando seleciona conversa
     useEffect(() => {

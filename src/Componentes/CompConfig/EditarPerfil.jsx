@@ -87,7 +87,10 @@ export default () => {
                 />
             </div>
 
-            <button className="botao-salvar" onClick={handleSalvar}> <h2>Salvar</h2> </button>
+            <div className='centralizarbotaosalvar'>
+                <button className="botao-salvar" onClick={handleSalvar}> <h2>Salvar</h2> </button>
+            </div>
+
         </>
     );
 

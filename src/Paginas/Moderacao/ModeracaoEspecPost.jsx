@@ -89,9 +89,6 @@ const ModeracaoEspecAnun = () => {
                 <Menu tipo={menuTipo} acesso={"mod"}/>
             )}
             <div className="conteudo-anuncio">
-                <div className="FundoHamburguerCarrinho">
-                </div>
-                <Carrinho className="Clicavel"/>
                 <div className="header-anuncio">
                     <button className="btn-voltar-Anuncio" onClick={() => window.history.back()}>
                         <ArrowLeft size={22} strokeWidth={3}/>

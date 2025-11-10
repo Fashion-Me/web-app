@@ -82,22 +82,13 @@ const Cadastro = () => {
                         style={{display: 'none'}}
                     />
                 </div>
-                <div className="campoCadastro">
-                    <h2>Nome:</h2>
-                    <input
-                        type="text"
-                        value={nome}
-                        onChange={(e) => setNome(e.target.value)}
-                        placeholder="Digite seu nome"
-                    />
-                </div>
 
                 <div className="campoCadastro">
                     <h2>Bibliografia:</h2>
                     <textarea
                         value={biografia}
                         onChange={(e) => setBiografia(e.target.value)}
-                        placeholder="Digite sua bibliografia"
+                        placeholder="Digite sua biografia"
                     />
                 </div>
                 <div className="divPrefRoupa">

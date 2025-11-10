@@ -56,6 +56,8 @@ input:disabled {
 .areaPagamento {
     display: flex;
     width: 80%;
+    height: 75%;
+    overflow-y: scroll;
     flex-direction: column;
 }
 
@@ -395,6 +397,7 @@ input:disabled {
 
 .Endereco,
 .EnderecoAdicionar {
+    min-height: 20vh;
     height: 20vh;
     display: flex;
     border-radius: 3vh;
@@ -548,7 +551,7 @@ input:disabled {
     }
 
     .areaTermos {
-        height: 60vh;
+        height: 65vh;
         overflow-y: scroll;
     }
 
