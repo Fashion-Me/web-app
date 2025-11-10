@@ -12,9 +12,17 @@ export default (params) => {
     const navigate = useNavigate();
 
     function onNavegacaoConjAnuncio() {
-        const queryParams = new URLSearchParams(window.location.search);
-        queryParams.set('titulo', params.titulo);
-        navigate(`/homeEspecifica?${queryParams.toString()}`);
+        if (params.titulo === "CASACOS") {
+            navigate("/home/Casacos");
+        } else if (params.titulo === "CALÇAS") {
+            navigate("/home/Calcas");
+        } else if (params.titulo === "CALÇADOS") {
+            navigate("/home/Calcados");
+        } else if (params.titulo === "ACESSÓRIOS") {
+            navigate("/home/Acessorios");
+        } else {
+            navigate("/home/Camisetas");
+        }
     }
 
     return(

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useLocation, useState } from 'react';
 import Aba from "./Menu/Aba";
 import Logo from "./Menu/Imagens/LogoTexto.png";
 import logoSimples from "../Imagens/LogoSImples.png";
@@ -10,25 +10,49 @@ import CaixaDeEntrada from "./Menu/CaixaDeEntrada";
 
 export default (props) => {
     const navigate = useNavigate();
-    const queryParams = new URLSearchParams(window.location.search);
 
+
+    function obterPagDirecao() {
+        const urlAtual = window.location.pathname;
+
+        if (urlAtual === "/home") {
+            return "Inicio";
+        } else if (urlAtual === "/pesquisar") {
+            return "Pesquisar";
+        } else if (urlAtual === "/mensagens") {
+            return "Mensagens";
+        } else if (urlAtual === "/meuPerfil" || urlAtual.includes("/perfil")) {
+            return "Perfil";
+        } else if (urlAtual === "/moderacao/perfils") {
+            return "Perfils";
+        } else if (urlAtual === "/moderacao/anuncios") {
+            return "Anuncios";
+        } else if (urlAtual === "/moderacao/posts") {
+            return "Posts";
+        } else if (urlAtual === "/moderacao/cadastro") {
+            return "Cadastro";
+        } else if (urlAtual.includes("/moderacao")) {
+            return "Perfils";
+        } else if (urlAtual.includes("/configuracao")) {
+            return "Configuração";
+        } else {
+            return "Inicio";
+        }
+    }
 
     function onNavegacao(titulo) {
-        const queryParams = new URLSearchParams(window.location.search);
-
-
         if (titulo === "Inicio") {
-            navigate(`/home?pagDirecao=${titulo}`);
+            navigate(`/home`);
         } else if (titulo === "Pesquisar") {
-            navigate(`/pesquisar?pagDirecao=${titulo}`);
+            navigate(`/pesquisar`);
         } else if (titulo === "Mensagens") {
-            navigate(`/mensagens?pagDirecao=${titulo}`);
+            navigate(`/mensagens`);
         } else if (titulo === "Perfil") {
-            navigate(`/perfil?pagDirecao=${titulo}`);
+            navigate(`/meuPerfil`);
         } else if (titulo === "Moderação") {
-            navigate(`/moderacao?pagDirecao=${titulo}`);
+            navigate(`/moderacao`);
         } else if (titulo === "Configuração") {
-            navigate(`/configuracao?pagDirecao=${titulo}`);
+            navigate(`/configuracao`);
         } else if (titulo === "Entrar") {
             navigate("/login");
         } else if (titulo === "Cadastrar") {
@@ -48,9 +72,7 @@ export default (props) => {
         }
     }
 
-    // Define a aba inicial padrão com base no tipo de acesso
-    const pagDirecao = queryParams.get("pagDirecao") || (props.acesso === "mod" ? "Moderacao" : "Inicio");
-    const [abaSelecionada, setAbaSelecionada] = useState(pagDirecao);
+    const [abaSelecionada, setAbaSelecionada] = useState(obterPagDirecao());
 
 
     const [mostrarCaixaDeEntrada, setMostrarCaixaDeEntrada] = useState(false);

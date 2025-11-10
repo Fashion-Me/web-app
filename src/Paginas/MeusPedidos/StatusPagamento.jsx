@@ -184,7 +184,7 @@ const AreaConfig = ({
 
 const StatusPedidos = ({ setMostrarAbaConfig, setMostrarAreaConfig, setMostrarMenu, setConteudoAtual }) => {
     // Pode ser: "pagamento", "chegando" ou "chegou"
-    const [etapa, setEtapa] = useState("chegou");
+    const [etapa, setEtapa] = useState("pagamento");
 
     const getProgressWidth = () => {
         if (etapa === "pagamento") return "0%";

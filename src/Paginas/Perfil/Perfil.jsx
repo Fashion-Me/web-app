@@ -2,7 +2,7 @@ import React , { useState, useEffect } from 'react';
 import Menu from '../../Componentes/Menu';
 import "../../css/Home.css"
 import "@radix-ui/themes/styles.css";
-import {useSearchParams} from "react-router-dom";
+import {useNavigate, useSearchParams} from "react-router-dom";
 import HamburgerComponent from '../../Componentes/Menu/Hamburger';
 import useMenuTipo from "../../hooks/useMenuTipo";
 import '../Pesquisar/Pesquisar.css';
@@ -22,8 +22,9 @@ import fotoPerfil from "../../Imagens/FotoPerfil.png";
 
 
 const Perfil = (props) => {
+    const navigate = useNavigate();
 
-    const bioPerfil = "Sou o Luiz Ricardo e gosto de dar I no TCC"
+    const bioPerfil = "Sou o Luiz Ricardo e gosto de dar I no TCC, Além disso o mundo é muito cruel Sou o Luiz Ricardo e gosto de dar I no TCC, Além disso o mundo é muito cruel"
     const NomePerfil = "Luiz Ricardo"
 
     const calculateItemsToShow = () => {
@@ -160,6 +161,16 @@ const Perfil = (props) => {
             setStartIndexAcessorios((prevIndex) => prevIndex - 1);
         }
     };
+    const handleEditar = () => {
+        // Navegar para o perfil
+        console.log("Ver perfil");
+        navigate(`/configuracao/EditarPerfil`);
+    };
+
+    const handleDenunciar = () => {
+        console.log("Denunciar perfil");
+        // Adicione a lógica de denúncia aqui
+    };
 
     const isAtStartUltimosProd = startIndexUltimosProd === 0;
     const isAtEndUltimosProd = startIndexUltimosProd + itemsToShow >= produtosUltimosProd.length;
@@ -203,10 +214,25 @@ const Perfil = (props) => {
                 <div className="PerfilHeader" style={{ backgroundImage: `url(${FundoPerfil})` }}>
                 </div>
                 <div className="PerfilInfo">
-                    <img src={fotoPerfil} alt="Foto de Luis Ricardo" className="FotoPerfil" />
-                    <h1 className="NomeUsuario">{NomePerfil}</h1>
-                    <h2>Sobre</h2>
-                    <p className="BioUsuario">{bioPerfil}</p>
+                        <img src={fotoPerfil} alt="Foto de Luis Ricardo" className="FotoPerfil" />
+                        <h1 className="NomeUsuario">{NomePerfil}</h1>
+                        <h2>Sobre</h2>
+                        <p className="BioUsuario">{bioPerfil}</p>
+                        {props.minha ? (
+                            <button
+                                className="btnEditarPerfil"
+                                onClick={handleEditar}
+                            >
+                                <p>Editar Perfil</p>
+                            </button>
+                        ) : (
+                            <button
+                                className="btnEditarPerfil"
+                                onClick={handleDenunciar}
+                            >
+                                <p>Denunciar</p>
+                            </button>
+                        )}
                 </div>
                 <div className="divBarraPesquisa">
                     <div className="barraPesquisa">

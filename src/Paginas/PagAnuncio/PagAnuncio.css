@@ -669,6 +669,7 @@
         align-items: center;
         flex: 1 1;
         padding: 5vh 5vw;
+        margin-top: 5vh;
         overflow-y: auto;
         height: 100vh;
         box-sizing: border-box;

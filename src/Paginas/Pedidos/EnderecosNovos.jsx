@@ -252,7 +252,7 @@ const EnderecosNovos = ({
                 <div className="divEspacoTodo">
                     <h2 className="titulo">Adicionar Novo Endereço</h2>
 
-                    <div className="address-form">
+                    <div className="address-form AreaEnderecos">
                         <div className="form-row">
                             <label>CEP</label>
                             <input
@@ -368,36 +368,116 @@ const EnderecoCadastrados = ({ setMostrarAbaConfig, setMostrarAreaConfig, setMos
 
                     <h2 className="titulo">Endereço(s) Cadastrado(s)</h2>
 
-                    <div className="Endereco">
-                        <div className="botaoselecionar">
-                            <input
-                                type="radio"
-                                className="concordo"
-                                name="endereco"
-                                onChange={() => setEnderecoSelecionado(true)}
-                            />
+                    <div id="AreaEnderecos">
+                        <div className="Endereco">
+                            <div className="botaoselecionar">
+                                <input
+                                    type="radio"
+                                    className="concordo"
+                                    name="endereco"
+                                    onChange={() => setEnderecoSelecionado(true)}
+                                />
+                            </div>
+                            <div className="informacoesendereco">
+                                <h2 className="bold">Casinha da Vovó</h2>
+                                <p>Estrada das Bonitas - Lucas Pinto, XiqueXique, BA</p>
+                                <p>06334024</p>
+                                <h2 className="bold">R$ 13.23</h2>
+                            </div>
+                            <div className="editarendereco">
+                                <ArrowRight/>
+                            </div>
                         </div>
-                        <div className="informacoesendereco">
-                            <h2 className="bold">Casinha da Vovó</h2>
-                            <p>Estrada das Bonitas - Lucas Pinto, XiqueXique, BA</p>
-                            <p>06334024</p>
-                            <h2 className="bold">R$ 13.23</h2>
+
+                        <div className="Endereco">
+                            <div className="botaoselecionar">
+                                <input
+                                    type="radio"
+                                    className="concordo"
+                                    name="endereco"
+                                    onChange={() => setEnderecoSelecionado(true)}
+                                />
+                            </div>
+                            <div className="informacoesendereco">
+                                <h2 className="bold">Casinha da Vovó</h2>
+                                <p>Estrada das Bonitas - Lucas Pinto, XiqueXique, BA</p>
+                                <p>06334024</p>
+                                <h2 className="bold">R$ 13.23</h2>
+                            </div>
+                            <div className="editarendereco">
+                                <ArrowRight/>
+                            </div>
                         </div>
-                        <div className="editarendereco">
-                            <ArrowRight/>
+
+                        <div className="Endereco">
+                            <div className="botaoselecionar">
+                                <input
+                                    type="radio"
+                                    className="concordo"
+                                    name="endereco"
+                                    onChange={() => setEnderecoSelecionado(true)}
+                                />
+                            </div>
+                            <div className="informacoesendereco">
+                                <h2 className="bold">Casinha da Vovó</h2>
+                                <p>Estrada das Bonitas - Lucas Pinto, XiqueXique, BA</p>
+                                <p>06334024</p>
+                                <h2 className="bold">R$ 13.23</h2>
+                            </div>
+                            <div className="editarendereco">
+                                <ArrowRight/>
+                            </div>
+                        </div>
+
+                        <div className="Endereco">
+                            <div className="botaoselecionar">
+                                <input
+                                    type="radio"
+                                    className="concordo"
+                                    name="endereco"
+                                    onChange={() => setEnderecoSelecionado(true)}
+                                />
+                            </div>
+                            <div className="informacoesendereco">
+                                <h2 className="bold">Casinha da Vovó</h2>
+                                <p>Estrada das Bonitas - Lucas Pinto, XiqueXique, BA</p>
+                                <p>06334024</p>
+                                <h2 className="bold">R$ 13.23</h2>
+                            </div>
+                            <div className="editarendereco">
+                                <ArrowRight/>
+                            </div>
+                        </div>
+
+                        <div className="Endereco">
+                            <div className="botaoselecionar">
+                                <input
+                                    type="radio"
+                                    className="concordo"
+                                    name="endereco"
+                                    onChange={() => setEnderecoSelecionado(true)}
+                                />
+                            </div>
+                            <div className="informacoesendereco">
+                                <h2 className="bold">Casinha da Vovó</h2>
+                                <p>Estrada das Bonitas - Lucas Pinto, XiqueXique, BA</p>
+                                <p>06334024</p>
+                                <h2 className="bold">R$ 13.23</h2>
+                            </div>
+                            <div className="editarendereco">
+                                <ArrowRight/>
+                            </div>
+                        </div>
+                        <div className="EnderecoAdicionar" onClick={() => setConteudoAtual("EnderecosNovos")}>
+                            <div className="botaoselecionar"></div>
+                            <div className="informacoesendereco">
+                                <h2 className="bold">Adicionar Novo Endereço</h2>
+                            </div>
+                            <div className="editarendereco">
+                                <ArrowRight/>
+                            </div>
                         </div>
                     </div>
-
-                    <div className="EnderecoAdicionar" onClick={() => setConteudoAtual("EnderecosNovos")}>
-                        <div className="botaoselecionar"></div>
-                        <div className="informacoesendereco">
-                            <h2 className="bold">Adicionar Novo Endereço</h2>
-                        </div>
-                        <div className="editarendereco">
-                            <ArrowRight/>
-                        </div>
-                    </div>
-
                     <div className="BotoesEndereco">
                         <button className="btnCancelar" onClick={() => setConteudoAtual("Home")}>
                             Cancelar

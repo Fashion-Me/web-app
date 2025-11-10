@@ -59,6 +59,29 @@
 }
 
 
+
+.btnEditarPerfil {
+    position: absolute;
+    top: 45%;
+    right: 15%;
+    color: var(--cor-linha);
+    border: 1px solid var(--cor-linha);
+    border-radius: 50vw;
+    padding: 10px 30px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.btnEditarPerfil:hover {
+    background: var(--cor-linha);
+}
+
+.btnEditarPerfil p {
+    margin: 0;
+    font-size: var(--font-size-h2);
+}
+
+
 .FotoPerfil {
     width: 150px;
     height: 150px;
@@ -68,6 +91,8 @@
     background-color: #2a2a2a;
 }
 
+
+/* --- Barra de Pesquisa --- */
 .divBarraPesquisa{
     width: 100%;
     display: flex;
@@ -204,5 +229,17 @@
     }
     .ConjAnuncioPerfil .Inferior .Anuncio {
         width: 129px;
+    }
+
+    .btnEditarPerfil {
+        position: absolute;
+        top: 35%;
+        right: 5%;
+        color: var(--cor-linha);
+        border: 1px solid var(--cor-linha);
+        border-radius: 50vw;
+        padding: 5px 20px;
+        cursor: pointer;
+        transition: background 0.3s ease;
     }
 }

@@ -45,7 +45,6 @@ const Moderacao = (props) => {
                         <ModeracaoPosts/>
                     </>
                 }
-
                 {props.pag === 'cadastro' &&
                     <>
                         <ModeracaoCadastro/>

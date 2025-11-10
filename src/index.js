@@ -40,7 +40,7 @@ const router = createBrowserRouter([
     { path: "/perfil", element: <Perfil /> },
     { path: "/configuracao", element: <Configuracao /> },
     { path: "/esquecerSenha", element: <EsquecerSenha /> },
-    { path: "/homeEspecifica", element: <HomeEspecifica /> },
+    { path: "/home/homeEspecifica", element: <HomeEspecifica /> },
     { path: "/novaSenha", element: <NovaSenha /> },
     { path: "/AnuncioVer", element: <PagAnuncioVer /> },
     { path: "/AnuncioAdd", element: <PagAnuncioAdd /> },
@@ -48,9 +48,20 @@ const router = createBrowserRouter([
     { path: "/pagamento", element: <EnderecosNovos /> },
     { path: "/MeusPedidos", element: <StatusPagamento /> },
 
+    /* HomeEspecifica */
+
+    { path: "/home/camisetas", element: <HomeEspecifica tipoEspec={"CAMISETAS"}/> },
+    { path: "/home/casacos", element: <HomeEspecifica tipoEspec={"CASACOS"}/> },
+    { path: "/home/calcas", element: <HomeEspecifica tipoEspec={"CALÇAS"}/> },
+    { path: "/home/calcados", element: <HomeEspecifica tipoEspec={"CALÇADOS"}/> },
+    { path: "/home/acessorios", element: <HomeEspecifica tipoEspec={"ACESSÓRIOS"}/> },
+    /* Navegação rapida */
+    { path: "/meuPerfil", element: <Perfil minha={true} /> },
+
+    { path: "/configuracao/EditarPerfil", element: <Configuracao conteudo={"EditarPerfil"} /> },
 
     /* Aplicação Moderação de Conteúdo */
-    { path: "/moderacao", element: <Moderacao /> },
+    { path: "/moderacao", element: <Moderacao pag={"perfils"}/> },
     { path: "/moderacao/verPerfil", element: <Perfil acesso={"mod"}/>},
     { path: "/moderacao/perfils", element: <Moderacao pag={"perfils"} /> },
     { path: "/moderacao/anuncios", element: <Moderacao pag={"anuncios"}  /> },

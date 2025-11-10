@@ -24,13 +24,13 @@ const nomePerfil = "João Silva";
 
 
 
-const Configuracao = () => {
+const Configuracao = (props) => {
     const {menuTipo, menuOpen, setMenuOpen} = useMenuTipo(false);
     const [mostrarMenu, setMostrarMenu] = useState(true);
 
     const navigate = useNavigate();
 
-    const [conteudoAtual, setConteudoAtual] = useState('');
+    const [conteudoAtual, setConteudoAtual] = useState(props.conteudo || '');
     const [mostrarAbaConfig, setMostrarAbaConfig] = useState(true);
     const [mostrarAreaConfig, setMostrarAreaConfig] = useState(true);
     const [showLogoutPopup, setShowLogoutPopup] = useState(false); // Novo estado para o pop-up

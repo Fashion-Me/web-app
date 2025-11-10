@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {ArrowRight, Clock4, X} from "lucide-react";
+import { ArrowRight, Clock4  } from "lucide-react";
 import './ModeracaoEspecPerfil.css';
 import Menu from '../../Componentes/Menu';
 import HamburgerComponentMod from '../../Componentes/Menu/HamburgerMod';
@@ -112,7 +112,7 @@ const ModeracaoEspecPerfil = () => {
                                     onClick={() => setModalPenaAberto(false)}
                                     className="btnFecharModal"
                                 >
-                                    <X size={32}  cor={'#efefef'} />
+                                    ×
                                 </button>
                             </div>
 
