@@ -299,13 +299,11 @@ hr {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 2vh;
 }
 
 .Notificacao {
     background-color: #efefef;
     width: 100%;
-    max-width: 350px;
     padding: 15px;
     border-radius: 25px;
     display: flex;
@@ -316,7 +314,7 @@ hr {
 .Notificacao p {
     margin: 0;
     font-size: clamp(10px, 20vw, 14px);
-    color: #353535;
+    color: #fff;
 }
 
 .Notificacao h3 {

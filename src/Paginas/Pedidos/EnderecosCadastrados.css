@@ -218,11 +218,6 @@ input:disabled {
     text-align: center;
 }
 
-.divTituloCaixaEntrada {
-    margin-bottom: 5vh;
-    margin-top: 5vh;
-}
-
 .divResumoCompraAberto {
     position: absolute;
     max-width: 450px;

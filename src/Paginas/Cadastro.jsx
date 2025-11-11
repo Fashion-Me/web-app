@@ -45,12 +45,13 @@ const Cadastro = () => {
             const name = e.target.nome.value.trim();
             const phone = codigoPais + telefone.replace(/\D/g, '');
             const birth_date = e.target.dataNasc.value.trim();
-            try {
-                await api.post("/users", { username,email, password,name,phone,birth_date });
-                navigate(`/cadastroAdicional`);   // login ok → home
-            } catch (err) {
-                alert("Erro na API: " + err.message);
-            }
+            // try {
+            //     await api.post("/users", { username,email, password,name,phone,birth_date });
+            //     navigate(`/cadastroAdicional`);   // login ok → home
+            // } catch (err) {
+            //     alert("Erro na API: " + err.message);
+            // }
+            navigate(`/cadastroAdicional`);   // login ok → home
         } else {
             alert("Senhas Incompatíveis");
         }

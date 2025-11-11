@@ -1,0 +1,148 @@
+/* --- Estilo do Container Principal (Mobile-First) --- */
+.CaixaDeEntrada {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: #222; /* Fundo escuro */
+    color: #f0f0f0;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.time-group {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+}
+
+.divTituloCaixaEntrada {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.divTituloCaixaEntrada .semibold {
+    margin: 0;
+}
+
+.IconFecharCaixa {
+    cursor: pointer;
+}
+
+/* --- Barra de Pesquisa --- */
+.search-bar {
+    position: relative;
+    margin-bottom: 30px;
+}
+
+.search-bar .search-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.search-bar input {
+    width: 100%;
+    padding: 12px 15px 12px 45px; /* Padding à esquerda para o ícone */
+    border-radius: 20px;
+    border: none;
+    background-color: #333;
+    color: #fff;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+.search-bar input::placeholder {
+    color: #888;
+}
+
+/* --- Lista e Grupos de Notificação --- */
+.ListaNotificacoes {
+    flex-grow: 1; /* Ocupa o espaço restante */
+    overflow-y: auto; /* Permite scroll */
+}
+
+.time-group h3 {
+    color: #aaa;
+    font-weight: bold;
+    margin: 20px 0 15px 0;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+}
+
+/* --- Componente Notificacao --- */
+.Notificacao {
+    width: 100%;
+    flex-direction: row;
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    margin-bottom: 10px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+/* Cores de Lido/Não Lido */
+.Notificacao.unread {
+    background-color: #3b3b5e; /* Azul/Roxo */
+}
+.Notificacao.read {
+    background-color: #333; /* Cinza */
+}
+.Notificacao:hover {
+    background-color: #444;
+}
+
+.avatar {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    margin-right: 15px;
+    flex-shrink: 0;
+}
+
+.notification-content {
+    flex-grow: 1;
+    min-width: 0;
+}
+
+/* Truncamento de Texto "..." */
+.notification-text {
+    margin: 0 0 5px 0;
+    color: #f0f0f0;
+    font-size: 0.95rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.notification-text strong {
+    color: #fff;
+}
+
+.notification-time {
+    color: #aaa;
+    font-size: 0.85rem;
+}
+
+/* --- 💻 SEÇÃO RESPONSIVA (Desktop) 💻 --- */
+@media (min-width: 768px) {
+    .CaixaDeEntrada {
+        /* ⭐️ MUDANÇA AQUI: Aumentei a largura máxima ⭐️ */
+        max-width: 450px; /* Era 600px */
+        width: 100%;
+        min-height: auto;
+        height: 100vh;
+        border-left: 1px solid #333;
+        border-right: 1px solid #333;
+
+        .IconFecharCaixa {
+            display: none;
+        }
+    }
+}
