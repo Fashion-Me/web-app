@@ -1,4 +1,3 @@
-
 .divCarrinhoAberto {
     position: absolute;
     max-width: 500px;
@@ -146,3 +145,26 @@
     background-color: #3050CC;
 }
 
+.divValoresFretes {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.listaFretes {
+    max-height: 120px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 5px;
+}
+
+.itemFrete {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9em;
+    color: #ccc;
+    padding: 3px 0;
+}

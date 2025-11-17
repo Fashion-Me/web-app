@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { Wallet, Truck, PackageCheck } from "lucide-react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Menu from '../../Componentes/Menu';
@@ -23,6 +23,10 @@ import FundoHome from "../../Imagens/DetalheFundo.png";
 import fotoPerfil from "../../Imagens/FotoPerfil.png";
 import imgAnuncioCamiseta from "../../Imagens/Anuncio_Titulo_1.png";
 import ItemCarrinho from "../../Componentes/ItemCarrinho"
+import foto1 from "../../Imagens/CamisetaPreta1.webp";
+import foto2 from "../../Imagens/calcados1.webp";
+import foto3 from "../../Imagens/calcas1.webp";
+import foto4 from "../../Imagens/AnuncioTituloCasacos1.png";
 
 const Configuracao = () => {
     const { menuTipo, menuOpen, setMenuOpen } = useMenuTipo(false);
@@ -83,71 +87,83 @@ const Configuracao = () => {
 
 export default Configuracao;
 
-const AbaConfig = ({ setMostrarAbaConfig, setMostrarAreaConfig }) => (
-    <div id="ResumoCompra">
-        <div className='divResumoCompraAberto'>
-            <div id='TopTitulo'>
-                <div className="TituloResumoCompra">
-                    <h1 style={{ fontWeight: "bold" }}>Resumo da Compra</h1>
-                </div>
-                <div className="divValoresPesquisa">
-                    <h2 id='produtos'>Produtos:</h2>
-                    <h2 id='preco'>R$ 75,00</h2>
-                </div>
-            </div>
-            <div className="ItensComprados">
-                <ItemCarrinho imgAnuncio={imgAnuncioCamiseta} nomeProduto="Camisa Branca" nomeVendedor="Victor Hugo" preco={40} />
-                <ItemCarrinho imgAnuncio={imgAnuncioCamiseta} nomeProduto="Camisa Branca" nomeVendedor="Victor Hugo" preco={40} />
-                <ItemCarrinho imgAnuncio={imgAnuncioCamiseta} nomeProduto="Camisa Branca" nomeVendedor="Victor Hugo" preco={40} />
-                <ItemCarrinho imgAnuncio={imgAnuncioCamiseta} nomeProduto="Camisa Branca" nomeVendedor="Victor Hugo" preco={40} />
-                <ItemCarrinho imgAnuncio={imgAnuncioCamiseta} nomeProduto="Camisa Branca" nomeVendedor="Victor Hugo" preco={40} />
-            </div>
-            <div className="ResultadoResumoCompra">
+const AbaConfig = ({ setMostrarAbaConfig, setMostrarAreaConfig }) => {
+    const itensCarrinho = [
+        { imgAnuncio: foto1, nomeProduto: "Camisa preta lisa", nomeVendedor: "Caue Santos", preco: 45, frete: 15.00 }
+    ];
 
-                <div className="divMensagensPesquisa divConfigPesquisa">
-                    {/*
-                    <div className="barraPesquisa">
-                        <input type="text" placeholder="Digite o seu CEP" />
-                        <Check className="iconeLupa" size={24} color="#efefef" />
-                    </div>
-                    */}
-                </div>
-                <div className="divValoresColumn">
-                    <div className='Frete'>
-                        <h2>Frete Total:</h2>
-                        <h2 className="bold">R$ 10,00</h2>
-                    </div>
-                    <div className='Frete'>
-                        <h2>Frete 1:</h2>
-                        <h2>R$ 10,00</h2>
-                    </div>
-                    <div className='Frete'>
-                        <h2>Frete 2:</h2>
-                        <h2>R$ 10,00</h2>
-                    </div>
-                </div>
-                <div className="divValores">
-                    <h2>Total:</h2>
-                    <h2 className="bold">R$ 106,00</h2>
-                </div>
-                <div id='buttonResumo'>
-                    <button
-                        className="btnResumoCompra"
-                        onClick={() => {
-                            setMostrarAbaConfig(false);  // esconde a div ResumoCompra
-                            setMostrarAreaConfig(true);  // mostra a div AreaTotal
-                        }}
-                    >
-                        Próximo
-                    </button>
+    const valorProdutos = useMemo(() => {
+        return itensCarrinho.reduce((total, item) => total + item.preco, 0);
+    }, [itensCarrinho]);
 
+    const valorFreteTotal = useMemo(() => {
+        return itensCarrinho.reduce((total, item) => total + item.frete, 0);
+    }, [itensCarrinho]);
 
+    const valorTotal = useMemo(() => {
+        return valorProdutos + valorFreteTotal;
+    }, [valorProdutos, valorFreteTotal]);
+
+    return (
+        <div id="ResumoCompra">
+            <div className='divResumoCompraAberto'>
+                <div id='TopTitulo'>
+                    <div className="TituloResumoCompra">
+                        <h1 style={{ fontWeight: "bold" }}>Resumo da Compra</h1>
+                    </div>
+                    <div className="divValoresPesquisa">
+                        <h2 id='produtos'>Produtos:</h2>
+                        <h2 id='preco'>R$ {valorProdutos.toFixed(2).replace('.', ',')}</h2>
+                    </div>
+                </div>
+                <div className="ItensComprados">
+                    {itensCarrinho.map((item, index) => (
+                        <ItemCarrinho
+                            key={index}
+                            imgAnuncio={item.imgAnuncio}
+                            nomeProduto={item.nomeProduto}
+                            nomeVendedor={item.nomeVendedor}
+                            preco={item.preco}
+                        />
+                    ))}
+                </div>
+                <div className="ResultadoResumoCompra">
+                    <div className="divMensagensPesquisa divConfigPesquisa">
+                    </div>
+                    <div className="divValoresColumn">
+                        <div className='Frete Fretetotal'>
+                            <h2>Frete Total:</h2>
+                            <h2 className="bold">R$ {valorFreteTotal.toFixed(2).replace('.', ',')}</h2>
+                        </div>
+                        <div className="listaFretesResumo">
+                            {itensCarrinho.map((item, index) => (
+                                <div key={index} className='Frete'>
+                                    <h2>{item.nomeProduto}:</h2>
+                                    <h2>R$ {item.frete.toFixed(2).replace('.', ',')}</h2>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                    <div className="divValores">
+                        <h2>Total:</h2>
+                        <h2 className="bold">R$ {valorTotal.toFixed(2).replace('.', ',')}</h2>
+                    </div>
+                    <div id='buttonResumo'>
+                        <button
+                            className="btnResumoCompra"
+                            onClick={() => {
+                                setMostrarAbaConfig(false);
+                                setMostrarAreaConfig(true);
+                            }}
+                        >
+                            Próximo
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-
-);
+    );
+};
 
 const AreaConfig = ({
                         conteudoAtual,
@@ -183,8 +199,8 @@ const AreaConfig = ({
 );
 
 const StatusPedidos = ({ setMostrarAbaConfig, setMostrarAreaConfig, setMostrarMenu, setConteudoAtual }) => {
-    // Pode ser: "pagamento", "chegando" ou "chegou"
-    const [etapa, setEtapa] = useState("pagamento");
+    const navigate = useNavigate();
+    const [etapa, setEtapa] = useState("chegando");
 
     const getProgressWidth = () => {
         if (etapa === "pagamento") return "0%";
@@ -251,7 +267,7 @@ const StatusPedidos = ({ setMostrarAbaConfig, setMostrarAreaConfig, setMostrarMe
                     <div className="textoTermos">
                         <h3 className="HBOLD">28 SET/2025</h3>
                         <p>
-                            Pedido entregue ao destinatário: João Guilherme, o destinatário tem um período de 6 (seis) dias
+                            Pedido entregue ao destinatário: Luis Ricardo, o destinatário tem um período de 6 (seis) dias
                             corridos para solicitar a devolução do item, relembrando que qualquer dano ao produto impossibilita
                             a devolução do item!
                         </p>
@@ -271,7 +287,7 @@ const StatusPedidos = ({ setMostrarAbaConfig, setMostrarAreaConfig, setMostrarMe
                 </div>
 
                 <div className="BotoesEndereco">
-                    <button className="btnCancelar" onClick={() => setConteudoAtual("Home")}>
+                    <button className="btnCancelar" onClick={() => navigate("/configuracao/MeusPedidos")}>
                         Voltar
                     </button>
                     <button

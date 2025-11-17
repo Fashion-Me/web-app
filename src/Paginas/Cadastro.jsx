@@ -1,7 +1,7 @@
 import "../css/Cadastro.css"
 import api from "../services/authApi";
 import {useNavigate} from "react-router-dom";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
 import { paises } from '../hooks/paises';
 /* Puxar do Banco */
@@ -17,6 +17,27 @@ const Cadastro = () => {
 
     const paisSelecionado = paises.find(p => p.codigo === codigoPais);
 
+    useEffect(() => {
+        const handleKeyDown = (e) => {
+            if (e.altKey && e.key === 'l') {
+                e.preventDefault();
+                preencherAutomatico();
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, []);
+
+    const preencherAutomatico = () => {
+        document.getElementById('nome').value = 'Luiz Ricardo';
+        document.getElementById('username').value = 'Luiz Ricardo';
+        document.getElementById('email').value = 'Luiz.souza@etec.sp.gov.br';
+        setTelefone('(11)98851-0353');
+        document.getElementById('dataNasc').value = '1970-11-11';
+        document.getElementById('senha').value = 'Luiz12345-';
+        document.getElementById('ConfirmarSenha').value = 'Luiz12345-';
+    };
     const formatarTelefone = (valor) => {
         const apenasNumeros = valor.replace(/\D/g, '');
 
@@ -45,13 +66,12 @@ const Cadastro = () => {
             const name = e.target.nome.value.trim();
             const phone = codigoPais + telefone.replace(/\D/g, '');
             const birth_date = e.target.dataNasc.value.trim();
-            // try {
-            //     await api.post("/users", { username,email, password,name,phone,birth_date });
-            //     navigate(`/cadastroAdicional`);   // login ok → home
-            // } catch (err) {
-            //     alert("Erro na API: " + err.message);
-            // }
-            navigate(`/cadastroAdicional`);   // login ok → home
+            try {
+                await api.post("/users", { username,email, password,name,phone,birth_date });
+                navigate(`/cadastroAdicional`);   // login ok → home
+            } catch (err) {
+                alert("Erro na API: " + err.message);
+            }
         } else {
             alert("Senhas Incompatíveis");
         }

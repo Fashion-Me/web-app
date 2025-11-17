@@ -4,7 +4,7 @@ import {SquarePen} from "lucide-react";
 
 export default (params) => {
     return (
-        <div className="Anuncio Clicavel" style={{ backgroundImage: `url(${params.imgFundo})` }}>
+        <div onClick={params.onClick} className="Anuncio Clicavel" style={{ backgroundImage: `url(${params.imgFundo})` }}>
             {params.preco && (
                 <div className="divPreco">
                     <p className="semibold">R$ {params.preco}</p>
@@ -12,29 +12,29 @@ export default (params) => {
             )}
             {params.editar && (
                 <div style={{ display: 'flex', justifyContent: 'flex-end', height: '100%', padding: '2px' }}>
-                    <SquarePen size={40} strokeWidth={1.5} className="IconeEditar"/>
+                    <SquarePen size={40} strokeWidth={1.5} color={'#fff'} className="IconeEditar"/>
                 </div>
             )}
         </div>
     );
 };
 
-// export default (params) => {
+// export default ({preco,tituloAnuncio,imagemAnun,editar,onClick}) => {
 //     return (
-//         <div className="anuncio-denuncia-card">
-//             <div className="anuncio-foto-container">
-//                 <img src={params.imgFundo} alt="Anúncio denunciado" className="anuncio-foto" />
+//         <div className="anuncio-card" onClick={onClick}>
+//             <div className="anuncioFotoContainer">
+//                 <img src={imagemAnun} className="anuncioFoto" />
 //                 <div className="divPreco">
-//                     <p className="semibold">R$ {params.preco}</p>
+//                     <p className="preco-texto semibold">R$ {preco}</p>
 //                 </div>
-//                 {params.editar && (
-//                     <div style={{ display: 'flex', justifyContent: 'flex-end', height: '100%', padding: '2px' }}>
+//                 {editar && (
+//                     <div className="iconeEditarContainer">
 //                         <SquarePen size={40} strokeWidth={1.5} className="IconeEditar"/>
 //                     </div>
 //                 )}
 //             </div>
-//             <div className="anuncio-denuncia-info">
-//                 <p className="denuncia-titulo">{params.titulo}</p>
+//             <div className="anuncioDenunciaInfo">
+//                 <p className="denunciaTitulo">{tituloAnuncio}</p>
 //             </div>
 //
 //         </div>

@@ -44,12 +44,12 @@ const ModeracaoPerfil = () => {
     const anunciosExemplo = [
         {
             id: 1,
-            fotoAnuncio: imgPerfilEnzo ,
-            TipoDenuncia: "Conteúdo de cunho sexual, nudez",
+            fotoAnuncio: imgPerfilVH ,
+            TipoDenuncia: "Conteúdo se trata à um golpe",
         },
         {
             id: 2,
-            fotoAnuncio: imgPerfilVH ,
+            fotoAnuncio: imgPerfilEnzo ,
             TipoDenuncia: "Conteúdo de cunho sexual, nudez",
         },
         {

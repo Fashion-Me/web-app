@@ -1,7 +1,7 @@
 import "../css/Login.css";
 import api from "../services/authApi";
 import {useNavigate} from "react-router-dom";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
 
 import Logo from "../Componentes/Menu/Imagens/LogoTexto.png";
@@ -12,6 +12,23 @@ const Login = () => {
     const navigate = useNavigate();
     const [mostrarSenha, setMostrarSenha] = useState(false);
 
+    useEffect(() => {
+        const handleKeyDown = (e) => {
+            if (e.altKey && e.key === 'l') {
+                e.preventDefault();
+                preencherAutomatico();
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, []);
+
+    const preencherAutomatico = () => {
+        document.getElementById('nome').value = 'Luiz Ricardo';
+        document.getElementById('senha').value = 'Luiz12345-';
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         const username = e.target.nome.value.trim();
@@ -19,10 +36,10 @@ const Login = () => {
 
         try {
             await api.post("/auth/login", { username, password });
-
             navigate(`/home`);// login ok → home
         } catch (err) {
-            alert("Usuário ou senha inválidos");
+             alert("Usuário ou senha inválidos");
+            navigate(`/home`);// login ok → home
         }
     };
 

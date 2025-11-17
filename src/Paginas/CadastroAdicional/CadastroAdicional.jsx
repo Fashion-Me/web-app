@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useRef, useState, useEffect} from 'react';
 import "../../css/Cadastro.css"
 import "./CadastroAdicional..css"
 import api from "../../services/authApi";
@@ -8,7 +8,9 @@ import {useNavigate} from "react-router-dom";
 import Logo from "../../Componentes/Menu/Imagens/LogoTexto.png";
 import {SquarePen} from "lucide-react";
 import AvatarPadrão from "../../Imagens/FotoPerfilAvatar.png";
-import FundoPadrão from "../../Imagens/FundoConjCamisetas2.png";
+import FundoLuiz from "../../Imagens/FundoConjCamisetas2.png";
+import FundoPadrão from "../../Imagens/FundoConjAcessorios.png";
+import AvatarPerfil from "../../Imagens/FotoPerfil.png";
 
 const Cadastro = () => {
     const navigate = useNavigate();
@@ -45,6 +47,25 @@ const Cadastro = () => {
     const inputPerfilRef = useRef(null);
     const inputFundoRef = useRef(null);
 
+    useEffect(() => {
+        const handleKeyDown = (e) => {
+            if (e.altKey && e.key === 'l') {
+                e.preventDefault();
+                preencherAutomatico();
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, []);
+
+    const preencherAutomatico = () => {
+        setBiografia('Professor de Desenvolvimento de sistemas, Luiz Ricardo.');
+        setPreferenciaRoupa('Masculino');
+        setFotoPerfil(AvatarPerfil);
+        setFotoFundo(FundoLuiz);
+    };
+
     const handleFotoPerfilChange = (e) => {
         const file = e.target.files[0];
         if (file) {
@@ -60,8 +81,8 @@ const Cadastro = () => {
     };
 
     const handleSalvar = () => {
-        alert('Perfil salvo!');
         console.log({ nome, biografia, fotoPerfil, fotoFundo });
+        navigate("/login")
     };
 
 

@@ -9,9 +9,9 @@ import useMenuTipo from "../../hooks/useMenuTipo";
 import { Star, MessagesSquare, CircleAlert, ArrowLeft, ArrowRight, ShoppingCart, User, MapPin, X } from 'lucide-react';
 
 import FundoHome from "../../Imagens/DetalheFundo.png";
-import foto1 from '../../Imagens/FotoAnuncioTigrinho.png';
-import foto2 from '../../Imagens/AnuncioCasaco.png';
-import foto3 from '../../Imagens/camisetas.png';
+import foto1 from '../../Imagens/CamisetaVermelha1.webp';
+import foto2 from '../../Imagens/CamisetaVermelha2.webp';
+import foto3 from '../../Imagens/CamisetaVermelha3.webp';
 import foto4 from '../../Imagens/FotoPerfil.png';
 import foto5 from '../../Imagens/DetalheFoto_Note.png';
 import Carrinho from "../../Componentes/Carrinho";
@@ -19,22 +19,19 @@ import {useNavigate} from "react-router-dom";
 
 const produtoExemplo = {
     id: 1,
-    titulo: "Camiseta tigrinho cea perfeita",
-    preco: "R$ 80",
-    descricao: "Camiseta de jogo duvidoso usado por 2 semanas tamanho G Camiseta de jogo duvidoso usado por 2 semanas tamanho G Camiseta de jogo duvidoso usado por 2 semanas tamanho G Camiseta de jogo duvidoso usado por 2 semanas tamanho G ",
+    titulo: "Camisa vermelha AVENUE",
+    preco: "R$ 45",
+    descricao: "Apresentamos a Camisa Avenue vermelha, perfeita para adicionar um toque de estilo ao seu visual! Com um design moderno e vibrante, esta camisa é ideal para diversas ocasiões. Combine conforto e elegância com esta peça única.",
     tamanho: "G",
     estado: "USADO",
     categoria: "CAMISETA",
-    localizacao: "Rua Jacinto Lucas n849, Roseira Pinto São Paulo - SP",
+    localizacao: "Av Brasil 700",
     imagens: [
         foto1,
         foto2,
         foto3,
-        foto4,
-        foto5,
     ]
 };
-
 const vendedorExemplo = {
     nome: "Luiz Ricardo",
     avatar: foto4,
@@ -46,13 +43,13 @@ const vendedorExemplo = {
 const ModeracaoEspecAnun = () => {
     const { menuTipo, menuOpen, setMenuOpen} = useMenuTipo(false);
     const [imagemAtual, setImagemAtual] = useState(0);
-    const [menuHistorico, setMenuHistorico] = useState("PERFIL");
+    const [menuHistorico, setMenuHistorico] = useState("");
     const [modalPenaAberto, setModalPenaAberto] = useState(false);
     const [opcaoPena, setOpcaoPena] = useState('');
     const navigate = useNavigate();
 
     const denunciasExemplo = [
-        "1111111111111111111111111111Perfil denunciado por conteúdo pejorativo ou referente a política",
+        "Perfil denunciado por conteúdo pejorativo ou referente a política",
         "Post com o título \"Outfit de Bolsonaro\" denunciado por conteúdo pejorativo ou referente a política",
         "Post com o título \"Outfit de Bolsonaro\" denunciado por conteúdo pejorativo ou referente a política",
         "Post com o título \"Outfit de Bolsonaro\" denunciado por conteúdo pejorativo ou referente a política",

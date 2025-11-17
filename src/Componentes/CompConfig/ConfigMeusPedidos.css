@@ -1,0 +1,101 @@
+.listaPedidos {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.itemPedido {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    gap: 15px;
+    border-bottom: 1px solid var(--cor-linha);
+}
+
+.infoPedido {
+    display: flex;
+    gap: 15px;
+    flex: 1;
+}
+
+.imagemProduto {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.detalhesPedido {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+}
+
+.detalhesPedido h3 {
+    font-size: 16px;
+    font-weight: bold;
+    color: #fefefe;
+    margin: 0;
+}
+
+.detalhesPedido p {
+    margin: 0;
+    font-size: 14px;
+    color: #ccc;
+}
+
+.vendedor {
+    color: #aaa;
+}
+
+.preco {
+    font-weight: bold;
+    color: #fefefe;
+}
+
+.frete {
+    color: #888;
+    font-size: 12px;
+}
+
+.btnEntrega {
+    padding: 10px 20px;
+    background-color: var(--cor-azul-claro);
+    color: #fefefe;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.btnEntrega:hover {
+    background-color: var(--cor-azul);
+    transform: scale(1.05);
+}
+
+.btnEntrega:active {
+    transform: scale(0.95);
+}
+
+@media (max-width: 768px) {
+    .itemPedido {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .btnEntrega {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .imagemProduto {
+        width: 60px;
+        height: 60px;
+    }
+}
+

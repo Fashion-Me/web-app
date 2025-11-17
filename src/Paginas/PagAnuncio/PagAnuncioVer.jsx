@@ -2,41 +2,39 @@ import React, { useState, useEffect } from 'react';
 import Menu from '../../Componentes/Menu';
 import "./PagAnuncio.css"
 import "@radix-ui/themes/styles.css";
-import { useSearchParams } from "react-router-dom";
+import {useNavigate, useSearchParams} from "react-router-dom";
 import HamburgerComponent from '../../Componentes/Menu/Hamburger';
 import useMenuTipo from "../../hooks/useMenuTipo";
 import { Star, MessagesSquare, CircleAlert, ArrowLeft, ArrowRight, ShoppingCart, User, MapPin, X } from 'lucide-react';
 
 import FundoHome from "../../Imagens/DetalheFundo.png";
-import foto1 from '../../Imagens/FotoAnuncioTigrinho.png';
-import foto2 from '../../Imagens/AnuncioCasaco.png';
-import foto3 from '../../Imagens/camisetas.png';
+import foto1 from '../../Imagens/CamisetaVermelha1.webp';
+import foto2 from '../../Imagens/CamisetaVermelha2.webp';
+import foto3 from '../../Imagens/CamisetaVermelha3.webp';
 import foto4 from '../../Imagens/FotoPerfil.png';
 import foto5 from '../../Imagens/DetalheFoto_Note.png';
 import Carrinho from "../../Componentes/Carrinho";
 
 const produtoExemplo = {
     id: 1,
-    titulo: "Camiseta tigrinho cea perfeita",
-    preco: "R$ 80",
-    descricao: "Camiseta de jogo duvidoso usado por 2 semanas tamanho G Camiseta de jogo duvidoso usado por 2 semanas tamanho G Camiseta de jogo duvidoso usado por 2 semanas tamanho G Camiseta de jogo duvidoso usado por 2 semanas tamanho G ",
-    tamanho: "G",
+    titulo: "Camisa vermelha AVENUE",
+    preco: "R$ 450",
+    descricao: "Apresentamos a Camisa Avenue vermelha, perfeita para adicionar um toque de estilo ao seu visual! Com um design moderno e vibrante, esta camisa é ideal para diversas ocasiões. Combine conforto e elegância com esta peça única.",
+    tamanho: "GG",
     estado: "USADO",
     categoria: "CAMISETA",
-    localizacao: "Rua Jacinto Lucas n849, Roseira Pinto São Paulo - SP",
+    localizacao: "Av Brasil 700",
     imagens: [
         foto1,
         foto2,
         foto3,
-        foto4,
-        foto5,
     ]
 };
 
 const vendedorExemplo = {
     nome: "Luiz Ricardo",
     avatar: foto4,
-    produtosAnunciados: 534,
+    produtosAnunciados: 86,
     dataCriacao: "nov/2022"
 };
 
@@ -45,12 +43,16 @@ const PagAnuncioVer = () => {
     const [imagemAtual, setImagemAtual] = useState(0);
     const [modalDenunciaAberto, setModalDenunciaAberto] = useState(false);
     const [opcaoDenuncia, setOpcaoDenuncia] = useState('');
+    const navigate = useNavigate();
     const [isFavorited, setIsFavorited] = useState(false);
 
     const handleFavoriteClick = () => {
         setIsFavorited(!isFavorited);
         // Adicione sua lógica aqui
         console.log('Favorito alterado:', !isFavorited);
+    };
+    const handleLinkVendedor = () => {
+        navigate('/meuPerfil');
     };
 
     const proximaImagem = () => {
@@ -167,7 +169,7 @@ const PagAnuncioVer = () => {
                         </div>
 
                         {/* Informações do vendedor */}
-                        <div className="info-vendedor">
+                        <div className="info-vendedor" onClick={handleLinkVendedor}>
                             <h3>Vendedor</h3>
                             <div className="vendedor-card">
                                 <div className="vendedor-avatar">

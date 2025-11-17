@@ -12,6 +12,7 @@ import {ArrowLeft, Search, SendHorizontal, Image, CircleSmall} from "lucide-reac
 import api from "../services/authApi";
 
 import fotoPerfil from "../Imagens/FotoPerfil.png";
+import fotoPerfilLucas from "../Imagens/FotoPerfilLucas.png";
 
 const Mensagens = () => {
     const { menuTipo, menuOpen, setMenuOpen} = useMenuTipo(false);
@@ -382,7 +383,7 @@ const AbaMensagens = ({setMostrarAbaConfig, setMostrarAreaConfig, setMostrarMenu
                     return (
                         <Contato
                             key={chat.conversation.id}
-                            ContatoFoto={fotoPerfil}
+                            ContatoFoto={fotoPerfilLucas}
                             nome={chat.peer.name || chat.peer.username}
                             ultimaMensagem={ultimaMensagem}
                             numNovaMensagem={temNovasMensagens}
@@ -419,7 +420,7 @@ const AreaMensagens = ({ContatoNome, ContatoFoto, setMostrarAbaConfig, setMostra
                             />
                         </div>
                     }
-                    <div className="divTituloContatoFoto"><img src={ContatoFoto} alt="Foto de Perfil"/></div>
+                    <div className="divTituloContatoFoto"><img src={fotoPerfilLucas} alt="Foto de Perfil"/></div>
                     <h2 className="tituloAreaMensagem">{ContatoNome}</h2>
                 </div>
                 {carregandoMensagens ? (

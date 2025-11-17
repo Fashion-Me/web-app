@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Menu from '../../Componentes/Menu';
 import "./PagAnuncio.css";
 import "./PagAnuncioAdd.css";
@@ -7,11 +7,13 @@ import HamburgerComponent from '../../Componentes/Menu/Hamburger';
 import useMenuTipo from "../../hooks/useMenuTipo";
 import { ArrowLeft, ArrowRight, Camera, MapPin, Pencil, Plus } from 'lucide-react';
 import Carrinho from "../../Componentes/Carrinho";
+import {useNavigate} from "react-router-dom";
 
 const PagAnuncioAdd = () => {
     const { menuTipo, menuOpen, setMenuOpen } = useMenuTipo(false);
     const [imagemAtual, setImagemAtual] = useState(0);
     const [imagens, setImagens] = useState([]);
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         titulo: '',
         preco: '',
@@ -24,12 +26,38 @@ const PagAnuncioAdd = () => {
         localizacao: ''
     });
 
-    const categorias = ['Camisa', 'Casaco', 'Calça', 'Calçados', 'Acessórios'];
+    const categorias = ['Camiseta', 'Casaco', 'Calça', 'Calçados', 'Acessórios'];
     const tamanhos = ['PP', 'P', 'M', 'G', 'GG'];
     const estados = ['Novo', 'Usado'];
 
+    useEffect(() => {
+        const handleKeyDown = (e) => {
+            if (e.altKey && e.key === 'l') {
+                e.preventDefault();
+                preencherAutomatico();
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, []);
+
+    const preencherAutomatico = () => {
+        setFormData({
+            titulo: 'Camisa vermelha AVENUE',
+            preco: 'R$ 450',
+            descricao: 'Apresentamos a Camisa Avenue vermelha, perfeita para adicionar um toque de estilo ao seu visual! Com um design moderno e vibrante, esta camisa é ideal para diversas ocasiões. Combine conforto e elegância com esta peça única.',
+            categoria: 'Camiseta',
+            tamanho: 'GG',
+            tamanhoNumerico: '',
+            estado: 'Usado',
+            marca: 'AVENUE',
+            localizacao: 'Av Brasil 700'
+        });
+    };
+
     const precisaTamanhoTexto = () => {
-        return ['Camisa', 'Casaco', 'Calça'].includes(formData.categoria);
+        return ['Camiseta', 'Casaco', 'Calça'].includes(formData.categoria);
     };
 
     const precisaApenasTamanhoNumerico = () => {
@@ -96,6 +124,7 @@ const PagAnuncioAdd = () => {
     const handleSubmit = () => {
         console.log('Dados do anúncio:', formData);
         console.log('Imagens:', imagens);
+        navigate("/AnuncioVer")
     };
 
     return (

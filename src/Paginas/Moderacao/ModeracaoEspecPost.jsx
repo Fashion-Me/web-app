@@ -12,25 +12,21 @@ import FundoHome from "../../Imagens/DetalheFundo.png";
 import foto1 from '../../Imagens/FotoAnuncioTigrinho.png';
 import foto2 from '../../Imagens/AnuncioCasaco.png';
 import foto3 from '../../Imagens/camisetas.png';
-import foto4 from '../../Imagens/FotoPerfil.png';
+import foto4 from '../../Imagens/FotoPerfilVH.jpg';
 import foto5 from '../../Imagens/DetalheFoto_Note.png';
 import Carrinho from "../../Componentes/Carrinho";
 import {useNavigate} from "react-router-dom";
 
 const produtoExemplo = {
     id: 1,
-    titulo: "Camiseta tigrinho cea perfeita",
+    titulo: "Colete novo gustarum?!, comprei na promoção",
     imagens: [
-        foto1,
-        foto2,
-        foto3,
         foto4,
-        foto5,
     ]
 };
 
 const vendedorExemplo = {
-    nome: "Luiz Ricardo",
+    nome: "Victor Hugo",
     avatar: foto4,
     produtosAnunciados: 534,
     dataCriacao: "nov/2022"
@@ -40,13 +36,13 @@ const vendedorExemplo = {
 const ModeracaoEspecAnun = () => {
     const { menuTipo, menuOpen, setMenuOpen} = useMenuTipo(false);
     const [imagemAtual, setImagemAtual] = useState(0);
-    const [menuHistorico, setMenuHistorico] = useState("PERFIL");
+    const [menuHistorico, setMenuHistorico] = useState("");
     const [modalPenaAberto, setModalPenaAberto] = useState(false);
     const [opcaoPena, setOpcaoPena] = useState('');
     const navigate = useNavigate();
 
     const denunciasExemplo = [
-        "1111111111111111111111111111Perfil denunciado por conteúdo pejorativo ou referente a política",
+        "Perfil denunciado por conteúdo pejorativo ou referente a política",
         "Post com o título \"Outfit de Bolsonaro\" denunciado por conteúdo pejorativo ou referente a política",
         "Post com o título \"Outfit de Bolsonaro\" denunciado por conteúdo pejorativo ou referente a política",
         "Post com o título \"Outfit de Bolsonaro\" denunciado por conteúdo pejorativo ou referente a política",
@@ -130,12 +126,12 @@ const ModeracaoEspecAnun = () => {
                                 MUDAR PENALIDADE
                             </button>
                             <button id="btnExcluir">
-                                EXCLUIR ANÚNCIO
+                                EXCLUIR POSTAGEM
                             </button>
                         </div>
                         <div className="descricao-section">
                             <div className="info-vendedor" onClick={handleVerPerfil}>
-                                <h3>Vendedor</h3>
+                                <h3>Usuario</h3>
                                 <div className="vendedor-card">
                                     <div className="vendedor-avatar">
                                         <img src={vendedorExemplo.avatar} alt={vendedorExemplo.nome} />

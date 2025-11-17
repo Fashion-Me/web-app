@@ -7,29 +7,29 @@ import HamburgerComponent from '../../Componentes/Menu/Hamburger';
 import useMenuTipo from "../../hooks/useMenuTipo";
 import { ArrowLeft, ArrowRight, Camera, MapPin, Pencil, Plus } from 'lucide-react';
 import Carrinho from "../../Componentes/Carrinho";
-import foto1 from "../../Imagens/FotoAnuncioTigrinho.png";
-import foto2 from "../../Imagens/AnuncioCasaco.png";
-import foto3 from "../../Imagens/camisetas.png";
-import foto4 from "../../Imagens/FotoPerfil.png";
-import foto5 from "../../Imagens/DetalheFoto_Note.png";
+import foto1 from "../../Imagens/CamisetaVermelha1.webp";
+import foto2 from "../../Imagens/CamisetaVermelha2.webp";
+import foto3 from "../../Imagens/CamisetaVermelha3.webp";
+import {useNavigate} from "react-router-dom";
 
 const produtoExemplo = {
     id: 1,
-    titulo: "Camiseta tigrinho cea perfeita",
-    preco: "80",
-    descricao: "Camiseta de jogo duvidoso usado por 2 semanas tamanho G Camiseta de jogo duvidoso usado por 2 semanas tamanho G Camiseta de jogo duvidoso usado por 2 semanas tamanho G Camiseta de jogo duvidoso usado por 2 semanas tamanho G ",
-    tamanho: "G",
+    titulo: "Camisa vermelha AVENUE",
+    preco: "450",
+    descricao: "Apresentamos a Camisa Avenue vermelha, perfeita para adicionar um toque de estilo ao seu visual! Com um design moderno e vibrante, esta camisa é ideal para diversas ocasiões. Combine conforto e elegância com esta peça única.",
     estado: "Usado",
-    categoria: "Camisa",
-    marca: "CEA",
-    localizacao: "Rua Jacinto Lucas n849, Roseira Pinto São Paulo - SP",
-    imagens: [foto1, foto2, foto3, foto4, foto5]
+    categoria: "Camiseta",
+    tamanho: 'GG',
+    marca: "AVENUE",
+    localizacao: "AV BRASIL 700",
+    imagens: [foto1, foto2, foto3]
 };
 
 const PagAnuncioEdit = () => {
     const { menuTipo, menuOpen, setMenuOpen } = useMenuTipo(false);
     const [imagemAtual, setImagemAtual] = useState(0);
     const [imagens, setImagens] = useState(produtoExemplo.imagens);
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         titulo: produtoExemplo.titulo,
         preco: `R$ ${produtoExemplo.preco}`,
@@ -42,12 +42,12 @@ const PagAnuncioEdit = () => {
         localizacao: produtoExemplo.localizacao
     });
 
-    const categorias = ['Camisa', 'Casaco', 'Calça', 'Calçados', 'Acessórios'];
+    const categorias = ['Camiseta', 'Casaco', 'Calça', 'Calçados', 'Acessórios'];
     const tamanhos = ['PP', 'P', 'M', 'G', 'GG'];
     const estados = ['Novo', 'Usado'];
 
     const precisaTamanhoTexto = () => {
-        return ['Camisa', 'Casaco', 'Calça'].includes(formData.categoria);
+        return ['Camiseta', 'Casaco', 'Calça'].includes(formData.categoria);
     };
 
     const precisaApenasTamanhoNumerico = () => {
@@ -107,6 +107,7 @@ const PagAnuncioEdit = () => {
     const handleSubmit = () => {
         console.log('Dados atualizados do anúncio:', formData);
         console.log('Imagens:', imagens);
+        navigate(`/home`);
     };
 
     return (

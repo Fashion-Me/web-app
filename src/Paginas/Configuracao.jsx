@@ -16,11 +16,12 @@ import EditarPerfil from "../Componentes/CompConfig/EditarPerfil";
 import AnunCurtidos from "../Componentes/CompConfig/AnunCurtidos";
 import AnunProprios from "../Componentes/CompConfig/AnunProprios";
 import ConfigTrocarSenha from "../Componentes/CompConfig/ConfigTrocarSenha";
+import MeusPedidos from "../Componentes/CompConfig/ConfigMeusPedidos";
 
 
-import FotoPerfil from "../Imagens/FotoPerfilAvatar.png"
+import FotoPerfil from "../Imagens/FotoPerfil.png"
 import api from "../services/authApi";
-const nomePerfil = "João Silva";
+const nomePerfil = "Luiz Ricardo";
 
 
 
@@ -200,7 +201,7 @@ const AbaConfig = ({ setConteudoAtual, setMostrarAbaConfig, setMostrarAreaConfig
                 icon={<ShoppingBag size={30} />}
                 texto="Meus Pedidos"
                 onClick={() => {
-                    setConteudoAtual('AnunciarItem');
+                    setConteudoAtual('MeusPedidos');
                     if (window.innerWidth < 500) {
                         setMostrarAbaConfig(false);
                         setMostrarAreaConfig(true);
@@ -288,6 +289,23 @@ const AreaConfig = ({ conteudoAtual,setMostrarAbaConfig, setMostrarAreaConfig, s
                     <h2 className="titulo">Trocar Senha</h2>
                 </div>
                 <ConfigTrocarSenha/>
+            </>
+        }
+        {conteudoAtual === 'MeusPedidos' &&
+            <>
+                <div className="divTituloArea">
+                    { window.innerWidth < 500 &&
+                        <ArrowLeft size={30}
+                                   strokeWidth={2.5}
+                                   onClick={() => {
+                                       setMostrarAreaConfig(false);
+                                       setMostrarAbaConfig(true);
+                                       setMostrarMenu(true)}
+                                   }
+                        />}
+                    <h2 className="titulo">Meus Pedidos</h2>
+                </div>
+                <MeusPedidos/>
             </>
         }
     </div>

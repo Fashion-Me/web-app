@@ -59,6 +59,7 @@ const router = createBrowserRouter([
     { path: "/meuPerfil", element: <Perfil minha={true} /> },
 
     { path: "/configuracao/EditarPerfil", element: <Configuracao conteudo={"EditarPerfil"} /> },
+    { path: "/configuracao/MeusPedidos", element: <Configuracao conteudo={"MeusPedidos"} /> },
 
     /* Aplicação Moderação de Conteúdo */
     { path: "/moderacao", element: <Moderacao pag={"perfils"}/> },

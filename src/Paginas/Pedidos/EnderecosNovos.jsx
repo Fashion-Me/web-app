@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Menu from '../../Componentes/Menu';
 import "../../css/Home.css";
@@ -21,6 +21,10 @@ import FundoHome from "../../Imagens/DetalheFundo.png";
 import fotoPerfil from "../../Imagens/FotoPerfil.png";
 import imgAnuncioCamiseta from "../../Imagens/Anuncio_Titulo_1.png";
 import ItemCarrinho from "../../Componentes/ItemCarrinho"
+import foto1 from "../../Imagens/CamisetaPreta1.webp";
+import foto2 from "../../Imagens/calcados1.webp";
+import foto3 from "../../Imagens/calcas1.webp";
+import foto4 from "../../Imagens/AnuncioTituloCasacos1.png";
 
 const Configuracao = () => {
     const { menuTipo, menuOpen, setMenuOpen } = useMenuTipo(false);
@@ -81,71 +85,86 @@ const Configuracao = () => {
 
 export default Configuracao;
 
-const AbaConfig = ({ setMostrarAbaConfig, setMostrarAreaConfig }) => (
-    <div id="ResumoCompra">
-        <div className='divResumoCompraAberto'>
-            <div id='TopTitulo'>
-                <div className="TituloResumoCompra">
-                    <h1 style={{ fontWeight: "bold" }}>Resumo da Compra</h1>
-                </div>
-                <div className="divValoresPesquisa">
-                    <h2 id='produtos'>Produtos:</h2>
-                    <h2 id='preco'>R$ 75,00</h2>
-                </div>
-            </div>
-            <div className="ItensComprados">
-                <ItemCarrinho imgAnuncio={imgAnuncioCamiseta} nomeProduto="Camisa Branca" nomeVendedor="Victor Hugo" preco={40} />
-                <ItemCarrinho imgAnuncio={imgAnuncioCamiseta} nomeProduto="Camisa Branca" nomeVendedor="Victor Hugo" preco={40} />
-                <ItemCarrinho imgAnuncio={imgAnuncioCamiseta} nomeProduto="Camisa Branca" nomeVendedor="Victor Hugo" preco={40} />
-                <ItemCarrinho imgAnuncio={imgAnuncioCamiseta} nomeProduto="Camisa Branca" nomeVendedor="Victor Hugo" preco={40} />
-                <ItemCarrinho imgAnuncio={imgAnuncioCamiseta} nomeProduto="Camisa Branca" nomeVendedor="Victor Hugo" preco={40} />
-            </div>
-            <div className="ResultadoResumoCompra">
+const AbaConfig = ({ setMostrarAbaConfig, setMostrarAreaConfig }) => {
+    const itensCarrinho = [
+        { imgAnuncio: foto1, nomeProduto: "Camisa preta lisa", nomeVendedor: "Caue Santos", preco: 45, frete: 15.00 },
+        { imgAnuncio: foto2, nomeProduto: "Sapato de couro marrom", nomeVendedor: "Luiza mel", preco: 82, frete: 25.00 },
+        { imgAnuncio: foto3, nomeProduto: "Calça preta", nomeVendedor: "Carlos biritno", preco: 65, frete: 18.00 },
+        { imgAnuncio: foto4, nomeProduto: "Casaco preto para motos", nomeVendedor: "Fabricio antonio", preco: 83, frete: 14.00 }
+    ];
 
-                <div className="divMensagensPesquisa divConfigPesquisa">
-                    {/*
-                    <div className="barraPesquisa">
-                        <input type="text" placeholder="Digite o seu CEP" />
-                        <Check className="iconeLupa" size={24} color="#efefef" />
-                    </div>
-                    */}
-                </div>
-                <div className="divValoresColumn">
-                    <div className='Frete'>
-                        <h2>Frete Total:</h2>
-                        <h2 className="bold">R$ 10,00</h2>
-                    </div>
-                    <div className='Frete'>
-                        <h2>Frete 1:</h2>
-                        <h2>R$ 10,00</h2>
-                    </div>
-                    <div className='Frete'>
-                        <h2>Frete 2:</h2>
-                        <h2>R$ 10,00</h2>
-                    </div>
-                </div>
-                <div className="divValores">
-                    <h2>Total:</h2>
-                    <h2 className="bold">R$ 106,00</h2>
-                </div>
-                <div id='buttonResumo'>
-                    <button
-                        className="btnResumoCompra"
-                        onClick={() => {
-                            setMostrarAbaConfig(false);  // esconde a div ResumoCompra
-                            setMostrarAreaConfig(true);  // mostra a div AreaTotal
-                        }}
-                    >
-                        Próximo
-                    </button>
+    const valorProdutos = useMemo(() => {
+        return itensCarrinho.reduce((total, item) => total + item.preco, 0);
+    }, [itensCarrinho]);
 
+    const valorFreteTotal = useMemo(() => {
+        return itensCarrinho.reduce((total, item) => total + item.frete, 0);
+    }, [itensCarrinho]);
 
+    const valorTotal = useMemo(() => {
+        return valorProdutos + valorFreteTotal;
+    }, [valorProdutos, valorFreteTotal]);
+
+    return (
+        <div id="ResumoCompra">
+            <div className='divResumoCompraAberto'>
+                <div id='TopTitulo'>
+                    <div className="TituloResumoCompra">
+                        <h1 style={{ fontWeight: "bold" }}>Resumo da Compra</h1>
+                    </div>
+                    <div className="divValoresPesquisa">
+                        <h2 id='produtos'>Produtos:</h2>
+                        <h2 id='preco'>R$ {valorProdutos.toFixed(2).replace('.', ',')}</h2>
+                    </div>
+                </div>
+                <div className="ItensComprados">
+                    {itensCarrinho.map((item, index) => (
+                        <ItemCarrinho
+                            key={index}
+                            imgAnuncio={item.imgAnuncio}
+                            nomeProduto={item.nomeProduto}
+                            nomeVendedor={item.nomeVendedor}
+                            preco={item.preco}
+                        />
+                    ))}
+                </div>
+                <div className="ResultadoResumoCompra">
+                    <div className="divMensagensPesquisa divConfigPesquisa">
+                    </div>
+                    <div className="divValoresColumn">
+                        <div className='Frete Fretetotal'>
+                            <h2>Frete Total:</h2>
+                            <h2 className="bold">R$ {valorFreteTotal.toFixed(2).replace('.', ',')}</h2>
+                        </div>
+                        <div className="listaFretesResumo">
+                            {itensCarrinho.map((item, index) => (
+                                <div key={index} className='Frete'>
+                                    <h2>{item.nomeProduto}:</h2>
+                                    <h2>R$ {item.frete.toFixed(2).replace('.', ',')}</h2>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                    <div className="divValores">
+                        <h2>Total:</h2>
+                        <h2 className="bold">R$ {valorTotal.toFixed(2).replace('.', ',')}</h2>
+                    </div>
+                    <div id='buttonResumo'>
+                        <button
+                            className="btnResumoCompra"
+                            onClick={() => {
+                                setMostrarAbaConfig(false);
+                                setMostrarAreaConfig(true);
+                            }}
+                        >
+                            Próximo
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-
-);
+    );
+};
 
 const AreaConfig = ({
                         conteudoAtual,
@@ -354,7 +373,46 @@ const EnderecosNovos = ({
 };
 
 const EnderecoCadastrados = ({ setMostrarAbaConfig, setMostrarAreaConfig, setMostrarMenu, setConteudoAtual }) => {
-    const [enderecoSelecionado, setEnderecoSelecionado] = useState(false);
+    const navigate = useNavigate();
+    const [enderecoSelecionado, setEnderecoSelecionado] = useState(null);
+
+    const enderecosCadastrados = [
+        {
+            id: 1,
+            nome: "Casinha da Vovó",
+            endereco: "Estrada das Acasisas - Mascios, XiqueXique, SP",
+            cep: "06334024",
+            frete: 72.00
+        },
+        {
+            id: 2,
+            nome: "Casa Principal",
+            endereco: "Rua das Flores, 123 - Centro, São Paulo, SP",
+            cep: "01234567",
+            frete: 250.50
+        },
+        {
+            id: 3,
+            nome: "Trabalho",
+            endereco: "Avenida Paulista, 1000 - Bela Vista, São Paulo, SP",
+            cep: "01310100",
+            frete: 180.00
+        },
+        {
+            id: 4,
+            nome: "Casa da Praia",
+            endereco: "Rua Beira Mar, 456 - Praia Grande, Santos, SP",
+            cep: "11700000",
+            frete: 302.00
+        },
+        {
+            id: 5,
+            nome: "Sítio",
+            endereco: "Estrada Rural, Km 15 - Zona Rural, Ibiúna, SP",
+            cep: "18150000",
+            frete: 230.00
+        }
+    ];
 
     return (
         <div className="AreaTotal">
@@ -369,105 +427,31 @@ const EnderecoCadastrados = ({ setMostrarAbaConfig, setMostrarAreaConfig, setMos
                     <h2 className="titulo">Endereço(s) Cadastrado(s)</h2>
 
                     <div id="AreaEnderecos">
-                        <div className="Endereco">
-                            <div className="botaoselecionar">
-                                <input
-                                    type="radio"
-                                    className="concordo"
-                                    name="endereco"
-                                    onChange={() => setEnderecoSelecionado(true)}
-                                />
+                        {enderecosCadastrados.map((endereco) => (
+                            <div key={endereco.id} className="Endereco">
+                                <div className="botaoselecionar">
+                                    <input
+                                        type="radio"
+                                        className="concordo"
+                                        name="endereco"
+                                        id={`endereco-${endereco.id}`}
+                                        value={endereco.id}
+                                        checked={enderecoSelecionado === endereco.id}
+                                        onChange={() => setEnderecoSelecionado(endereco.id)}
+                                    />
+                                </div>
+                                <div className="informacoesendereco">
+                                    <h2 className="bold">{endereco.nome}</h2>
+                                    <p>{endereco.endereco}</p>
+                                    <p>{endereco.cep}</p>
+                                    <h2 className="bold">R$ {endereco.frete.toFixed(2).replace('.', ',')}</h2>
+                                </div>
+                                <div className="editarendereco">
+                                    <ArrowRight/>
+                                </div>
                             </div>
-                            <div className="informacoesendereco">
-                                <h2 className="bold">Casinha da Vovó</h2>
-                                <p>Estrada das Bonitas - Lucas Pinto, XiqueXique, BA</p>
-                                <p>06334024</p>
-                                <h2 className="bold">R$ 13.23</h2>
-                            </div>
-                            <div className="editarendereco">
-                                <ArrowRight/>
-                            </div>
-                        </div>
+                        ))}
 
-                        <div className="Endereco">
-                            <div className="botaoselecionar">
-                                <input
-                                    type="radio"
-                                    className="concordo"
-                                    name="endereco"
-                                    onChange={() => setEnderecoSelecionado(true)}
-                                />
-                            </div>
-                            <div className="informacoesendereco">
-                                <h2 className="bold">Casinha da Vovó</h2>
-                                <p>Estrada das Bonitas - Lucas Pinto, XiqueXique, BA</p>
-                                <p>06334024</p>
-                                <h2 className="bold">R$ 13.23</h2>
-                            </div>
-                            <div className="editarendereco">
-                                <ArrowRight/>
-                            </div>
-                        </div>
-
-                        <div className="Endereco">
-                            <div className="botaoselecionar">
-                                <input
-                                    type="radio"
-                                    className="concordo"
-                                    name="endereco"
-                                    onChange={() => setEnderecoSelecionado(true)}
-                                />
-                            </div>
-                            <div className="informacoesendereco">
-                                <h2 className="bold">Casinha da Vovó</h2>
-                                <p>Estrada das Bonitas - Lucas Pinto, XiqueXique, BA</p>
-                                <p>06334024</p>
-                                <h2 className="bold">R$ 13.23</h2>
-                            </div>
-                            <div className="editarendereco">
-                                <ArrowRight/>
-                            </div>
-                        </div>
-
-                        <div className="Endereco">
-                            <div className="botaoselecionar">
-                                <input
-                                    type="radio"
-                                    className="concordo"
-                                    name="endereco"
-                                    onChange={() => setEnderecoSelecionado(true)}
-                                />
-                            </div>
-                            <div className="informacoesendereco">
-                                <h2 className="bold">Casinha da Vovó</h2>
-                                <p>Estrada das Bonitas - Lucas Pinto, XiqueXique, BA</p>
-                                <p>06334024</p>
-                                <h2 className="bold">R$ 13.23</h2>
-                            </div>
-                            <div className="editarendereco">
-                                <ArrowRight/>
-                            </div>
-                        </div>
-
-                        <div className="Endereco">
-                            <div className="botaoselecionar">
-                                <input
-                                    type="radio"
-                                    className="concordo"
-                                    name="endereco"
-                                    onChange={() => setEnderecoSelecionado(true)}
-                                />
-                            </div>
-                            <div className="informacoesendereco">
-                                <h2 className="bold">Casinha da Vovó</h2>
-                                <p>Estrada das Bonitas - Lucas Pinto, XiqueXique, BA</p>
-                                <p>06334024</p>
-                                <h2 className="bold">R$ 13.23</h2>
-                            </div>
-                            <div className="editarendereco">
-                                <ArrowRight/>
-                            </div>
-                        </div>
                         <div className="EnderecoAdicionar" onClick={() => setConteudoAtual("EnderecosNovos")}>
                             <div className="botaoselecionar"></div>
                             <div className="informacoesendereco">
@@ -479,7 +463,7 @@ const EnderecoCadastrados = ({ setMostrarAbaConfig, setMostrarAreaConfig, setMos
                         </div>
                     </div>
                     <div className="BotoesEndereco">
-                        <button className="btnCancelar" onClick={() => setConteudoAtual("Home")}>
+                        <button className="btnCancelar" onClick={() => navigate("/home")}>
                             Cancelar
                         </button>
                         <button
@@ -751,6 +735,11 @@ const FinalizarPedido = ({ setMostrarAbaConfig, setMostrarAreaConfig, setMostrar
 
 const PedidoFinalizado = ({ setMostrarAbaConfig, setMostrarAreaConfig, setMostrarMenu, setConteudoAtual }) => {
     const [concorda, setConcorda] = useState(false);
+    const navigate = useNavigate();
+
+    const handleFinalizado = ()  => {
+        navigate("/configuracao/MeusPedidos")
+    }
 
     return (
         <div className="AreaTotal">
@@ -764,7 +753,7 @@ const PedidoFinalizado = ({ setMostrarAbaConfig, setMostrarAreaConfig, setMostra
 
                 <div className="areaTermos">
                     <div className="textoTermos">
-                        <h3 className='HBOLD'>Seu pedido poderá ser acompanhado após o envio</h3>
+                        <h3 className='HBOLD'>Seu pedido poderá ser acompanhado após o envio pela aba de MEUS PEDIDOS em configurações.</h3>
                         <p>
                             Nosso compromisso é garantir a entrega correta dos pedidos. Porém, não nos responsabilizamos
                             pela perda de prazo de devolução. É responsabilidade do cliente acompanhar os prazos
@@ -774,11 +763,9 @@ const PedidoFinalizado = ({ setMostrarAbaConfig, setMostrarAreaConfig, setMostra
                 </div>
 
                 <div className="BotoesFinalizadosPedido">
-                    <button className="btnProximo" onClick={() => { setConteudoAtual('EnderecoCadastrados'); }}>Pronto</button>
+                    <button className="btnProximo" onClick={handleFinalizado} >Pronto</button>
                 </div>
             </div>
         </div>
     );
 };
-
-

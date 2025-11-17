@@ -8,12 +8,13 @@ import imgPerfilVH from "../../../Imagens/FotoPerfilVH.jpg"
 import imgPerfil from "../../../Imagens/FotoPerfil.png"
 import imgPerfilDaniel from "../../../Imagens/FotoDaniel.jpg"
 import imgPerfilCaue from "../../../Imagens/FotoPerfilCaue.jpg"
+import imgPerfilAvatar from "../../../Imagens/FotoPerfilAvatar.png"
 import {useNavigate} from "react-router-dom";
 
 
 const TITULO_PAGINA = "PERFILS";
 const OPCOES_FILTRO = ["Ordem Alfabética", "Mais Denúncias", "Mais Recentes"];
-const MENU_OPCOES = ["DENUNCIADOS", "EXCLUÍDOS"];
+const MENU_OPCOES = ["DENUNCIADOS", "PUNIDOS"];
 
 const PerfilDenuncia = ({ fotoPerfil, nomePerfil, descricao, numDenuncias, tipoMenu, onVisualizar, onAcao }) => {
     return (
@@ -48,12 +49,51 @@ const ModeracaoPerfil = () => {
     const [pesquisa, setPesquisa] = useState("");
     const navigate = useNavigate();
 
+    const ordenarPerfis = (perfis) => {
+        const perfisOrdenados = [...perfis];
+
+        switch (filtroSelecionado) {
+            case "Ordem Alfabética":
+                return perfisOrdenados.sort((a, b) =>
+                    a.nomePerfil.localeCompare(b.nomePerfil)
+                );
+            case "Mais Denúncias":
+                return perfisOrdenados.sort((a, b) =>
+                    b.numDenuncias - a.numDenuncias
+                );
+            case "Mais Recentes":
+                return perfisOrdenados.sort((a, b) =>
+                    b.id - a.id
+                );
+            default:
+                return perfisOrdenados;
+        }
+    };
+
+    const obterAnunciosPorMenu = () => {
+        let perfis = [];
+        if (menuAtivo === "DENUNCIADOS") {
+            perfis = anunciosExemploDenunciados;
+        } else if (menuAtivo === "PUNIDOS") {
+            perfis = anunciosExemploExcluidos;
+        }
+
+        // Aplicar filtro de pesquisa
+        if (pesquisa.trim()) {
+            perfis = perfis.filter(perfil =>
+                perfil.nomePerfil.toLowerCase().includes(pesquisa.toLowerCase())
+            );
+        }
+
+        return ordenarPerfis(perfis);
+    };
+
     // Dados de exemplo - substituir pela API real
-    const anunciosExemplo = [
+    const anunciosExemploDenunciados = [
         {
             id: 1,
             fotoPerfil: imgPerfilEnzo ,
-            nomePerfil: "Enzo del Medico",
+            nomePerfil: "Enzo deu o Medico",
             numDenuncias: 80
         },
         {
@@ -65,13 +105,13 @@ const ModeracaoPerfil = () => {
         {
             id: 3,
             fotoPerfil:  imgPerfil,
-            nomePerfil: "Luis",
-            numDenuncias: 80
+            nomePerfil: "Luiz Ricardo",
+            numDenuncias: 55
         },
         {
             id: 4,
             fotoPerfil:  imgPerfilDaniel,
-            nomePerfil: "Daniel E_Ama_A_Moto",
+            nomePerfil: "Daniel I AmaMoto",
             numDenuncias: 3456
         },
         {
@@ -82,44 +122,47 @@ const ModeracaoPerfil = () => {
         },
         {
             id: 6,
-            fotoPerfil:  imgPerfil,
-            nomePerfil: "Luis",
+            fotoPerfil:  imgPerfilAvatar,
+            nomePerfil: "Carlos Abe_rto",
             numDenuncias: 80
         },
+        // Adicionar mais anúncios conforme necessário
+    ];
+    const anunciosExemploExcluidos = [
         {
             id: 1,
-            fotoPerfil: imgPerfilEnzo ,
-            nomePerfil: "Enzo del Medico",
+            fotoPerfil: imgPerfilVH  ,
+            nomePerfil: "Jacinto Leite",
             numDenuncias: 80
         },
         {
             id: 2,
-            fotoPerfil: imgPerfilVH ,
-            nomePerfil: "Victor Hugo",
+            fotoPerfil: imgPerfilEnzo ,
+            nomePerfil: "Atual do VH",
             numDenuncias: 80
         },
         {
             id: 3,
             fotoPerfil:  imgPerfil,
-            nomePerfil: "Luis",
-            numDenuncias: 80
+            nomePerfil: "Luis Ricardo",
+            numDenuncias: 55
         },
         {
             id: 4,
-            fotoPerfil:  imgPerfilDaniel,
-            nomePerfil: "Daniel E_Ama_A_Moto",
+            fotoPerfil:  imgPerfilCaue,
+            nomePerfil: "K.U.E",
             numDenuncias: 3456
         },
         {
             id: 5,
-            fotoPerfil:  imgPerfilCaue,
-            nomePerfil: "Caue",
+            fotoPerfil: imgPerfilDaniel,
+            nomePerfil: "Amor ao Davi",
             numDenuncias: 800
         },
         {
             id: 6,
-            fotoPerfil:  imgPerfil,
-            nomePerfil: "Luis",
+            fotoPerfil:  imgPerfilAvatar,
+            nomePerfil: "Tomas Urbano",
             numDenuncias: 80
         },
         // Adicionar mais anúncios conforme necessário
@@ -187,7 +230,7 @@ const ModeracaoPerfil = () => {
             </div>
 
             <div className="lista-anuncios">
-                {anunciosExemplo.map((anuncio) => (
+                {obterAnunciosPorMenu().map((anuncio) => (
                     <PerfilDenuncia
                         key={anuncio.id}
                         fotoPerfil={anuncio.fotoPerfil}

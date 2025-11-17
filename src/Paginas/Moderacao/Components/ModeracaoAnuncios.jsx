@@ -6,6 +6,7 @@ import "./ModeracaoAnuncios.css"
 import imgPerfilEnzo from "../../../Imagens/FotoPerfilEnzo.png"
 import imgPerfilVH from "../../../Imagens/FotoPerfilVH.jpg"
 import imgPerfil from "../../../Imagens/FotoPerfil.png"
+import camisetaVermelha from "../../../Imagens/CamisetaVermelha1.webp"
 
 import imgAnuncioCamiseta from "../../../Imagens/AnuncioCamisa.png";
 import imgAnuncioCasaco from "../../../Imagens/AnuncioCasaco.png";
@@ -13,7 +14,7 @@ import imgAnuncioCalcado from "../../../Imagens/AnuncioCalcado.png";
 import {useNavigate} from "react-router-dom";
 
 const TITULO_PAGINA = "ANUNCIOS";
-const OPCOES_FILTRO = ["Mais Recentes","Conteúdo sexual/nudez" ,"Golpe", "Conteúdo ilícito", "Conteúdo pejorativo"];
+const OPCOES_FILTRO = ["Mais Recentes","Conteúdo sexual" ,"Golpe", "Conteúdo ilícito", "Conteúdo pejorativo"];
 const MENU_OPCOES = ["DENUNCIADOS", "PUNIDOS"];
 
 const AnuncioDenuncia = ({ fotoAnuncio, tipoDenuncia, onVerMais }) => {
@@ -44,8 +45,8 @@ const ModeracaoPerfil = () => {
     const anunciosExemplo = [
         {
             id: 1,
-            fotoAnuncio: imgPerfilEnzo ,
-            TipoDenuncia: "Conteúdo de cunho sexual, nudez",
+            fotoAnuncio: camisetaVermelha,
+            TipoDenuncia: "Conteúdo se trata à um golpe",
         },
         {
             id: 2,
@@ -55,17 +56,17 @@ const ModeracaoPerfil = () => {
         {
             id: 3,
             fotoAnuncio: imgPerfil,
-            TipoDenuncia: "Conteúdo de cunho sexual, nudez",
+            TipoDenuncia: "Conteúdo ilícito, fora da lei",
         },
         {
             id: 4,
             fotoAnuncio: imgAnuncioCamiseta ,
-            TipoDenuncia: "Conteúdo de cunho sexual, nudez",
+            TipoDenuncia: "Conteúdo pejorativo ou referente a política",
         },
         {
             id: 5,
             fotoAnuncio: imgAnuncioCasaco ,
-            TipoDenuncia: "Conteúdo de cunho sexual, nudez",
+            TipoDenuncia: "Conteúdo pejorativo ou referente a política",
         },
         {
             id: 6,

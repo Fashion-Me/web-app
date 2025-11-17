@@ -11,7 +11,7 @@ import {useNavigate} from "react-router-dom";
 
 const ModeracaoEspecPerfil = () => {
     const { menuTipo, menuOpen, setMenuOpen } = useMenuTipo(true);
-    const [menuHistorico, setMenuHistorico] = useState("PERFIL");
+    const [menuHistorico, setMenuHistorico] = useState("");
     const [mostrarMenu, setMostrarMenu] = useState(true);
     const [modalPenaAberto, setModalPenaAberto] = useState(false);
     const [opcaoPena, setOpcaoPena] = useState('');
@@ -20,13 +20,13 @@ const ModeracaoEspecPerfil = () => {
     // Dados de exemplo
     const perfilDados = {
         foto: imgPerfil,
-        nome: "Luiz Ricardo Rocha Lopes Lima",
-        status: "Banido",
+        nome: "Luiz Ricardo",
+        status: "Denunciado",
         numDenuncias: 55
     };
 
     const denunciasExemplo = [
-        "1111111111111111111111111111Perfil denunciado por conteúdo pejorativo ou referente a política",
+        "Perfil denunciado por conteúdo pejorativo ou referente a política",
         "Post com o título \"Outfit de Bolsonaro\" denunciado por conteúdo pejorativo ou referente a política",
         "Post com o título \"Outfit de Bolsonaro\" denunciado por conteúdo pejorativo ou referente a política",
         "Post com o título \"Outfit de Bolsonaro\" denunciado por conteúdo pejorativo ou referente a política",

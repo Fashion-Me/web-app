@@ -12,6 +12,7 @@ import Anuncio from '../../Componentes/ConjAnuncio/Anuncio';
 
 // Puxar do Banco
 import imgAnuncioCamiseta from "../../Imagens/AnuncioCamisa.png";
+import CamisetaVermelha from "../../Imagens/CamisetaVermelha1.webp";
 import imgAnuncioCasaco from "../../Imagens/AnuncioCasaco.png";
 import imgAnuncioCalca from "../../Imagens/AnuncioCalca.png";
 import imgAnuncioCalcado from "../../Imagens/AnuncioCalcado.png";
@@ -24,7 +25,7 @@ import fotoPerfil from "../../Imagens/FotoPerfil.png";
 const Perfil = (props) => {
     const navigate = useNavigate();
 
-    const bioPerfil = "Sou o Luiz Ricardo e gosto de dar I no TCC, Além disso o mundo é muito cruel Sou o Luiz Ricardo e gosto de dar I no TCC, Além disso o mundo é muito cruel"
+    const bioPerfil = "Professor de Desenvolvimento de sistemas, Luiz Ricardo."
     const NomePerfil = "Luiz Ricardo"
 
     const calculateItemsToShow = () => {
@@ -44,7 +45,7 @@ const Perfil = (props) => {
     const [startIndexAcessorios, setStartIndexAcessorios] = useState(0);
 
     const produtosUltimosProd = [
-        { preco: '10', imagem: imgAnuncioCamiseta },
+        { preco: '450', imagem: CamisetaVermelha, onClick: () => navigate("/anuncioEdit") },
         { preco: '20', imagem: imgAnuncioCasaco },
         { preco: '30', imagem: imgAnuncioCalca },
         { preco: '40', imagem: imgAnuncioCalcado },
@@ -62,7 +63,7 @@ const Perfil = (props) => {
     ];
 
     const produtosCamisetas = [
-        { preco: '25', imagem: imgAnuncioCamiseta },
+        { preco: '450', imagem: CamisetaVermelha },
         { preco: '35', imagem: imgAnuncioCamiseta },
         { preco: '45', imagem: imgAnuncioCamiseta },
         { preco: '55', imagem: imgAnuncioCamiseta },
@@ -251,7 +252,7 @@ const Perfil = (props) => {
                         </button>
                         <div className="ConjAnuncioPerfil">
                             {produtosUltimosProd.slice(startIndexUltimosProd, startIndexUltimosProd + itemsToShow).map((produto, index) => (
-                                <Anuncio key={index} preco={produto.preco} imgFundo={produto.imagem}/>
+                                <Anuncio key={index} preco={produto.preco} imgFundo={produto.imagem} editar={props.minha} onClick={produto.onClick}/>
                             ))}
                         </div>
                         <button
@@ -273,7 +274,7 @@ const Perfil = (props) => {
                         </button>
                         <div className="ConjAnuncioPerfil">
                             {produtosCamisetas.slice(startIndexCamisetas, startIndexCamisetas + itemsToShow).map((produto, index) => (
-                                <Anuncio key={index} preco={produto.preco} imgFundo={produto.imagem}/>
+                                <Anuncio key={index} preco={produto.preco} imgFundo={produto.imagem} editar={props.minha}/>
                             ))}
                         </div>
                         <button
@@ -295,7 +296,7 @@ const Perfil = (props) => {
                         </button>
                         <div className="ConjAnuncioPerfil">
                             {produtosCalcas.slice(startIndexCalcas, startIndexCalcas + itemsToShow).map((produto, index) => (
-                                <Anuncio key={index} preco={produto.preco} imgFundo={produto.imagem}/>
+                                <Anuncio key={index} preco={produto.preco} imgFundo={produto.imagem} editar={props.minha}/>
                             ))}
                         </div>
                         <button
@@ -317,7 +318,7 @@ const Perfil = (props) => {
                         </button>
                         <div className="ConjAnuncioPerfil">
                             {produtosCalcados.slice(startIndexCalcados, startIndexCalcados + itemsToShow).map((produto, index) => (
-                                <Anuncio key={index} preco={produto.preco} imgFundo={produto.imagem}/>
+                                <Anuncio key={index} preco={produto.preco} imgFundo={produto.imagem} editar={props.minha}/>
                             ))}
                         </div>
                         <button
@@ -339,7 +340,7 @@ const Perfil = (props) => {
                         </button>
                         <div className="ConjAnuncioPerfil">
                             {produtosAcessorios.slice(startIndexAcessorios, startIndexAcessorios + itemsToShow).map((produto, index) => (
-                                <Anuncio key={index} preco={produto.preco} imgFundo={produto.imagem}/>
+                                <Anuncio key={index} preco={produto.preco} imgFundo={produto.imagem} editar={props.minha}/>
                             ))}
                         </div>
                         <button

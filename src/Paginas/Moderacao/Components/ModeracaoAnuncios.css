@@ -12,6 +12,7 @@
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
 }
 
 .anuncio-foto-container {
