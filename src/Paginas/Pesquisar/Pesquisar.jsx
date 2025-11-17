@@ -25,6 +25,8 @@ import Calcados from "../../Imagens/AnuncioTituloCasacos1.png";
 import Casacos from "../../Imagens/AnuncioTituloCasacos1.png";
 import Casacos2 from "../../Imagens/AnuncioCasaco.png";
 
+// 👉 importa seu client da API (ajuste o caminho se for diferente)
+import api from "../../services/authApi";
 
 const Pesquisar = () => {
 
@@ -42,35 +44,75 @@ const Pesquisar = () => {
 
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 500);
 
-    const anuncios = [
-        { id: 1, preco: '139.99', imgFundo: CalcasPretas },
-        { id: 2, preco: '85.50', imgFundo: imgAnuncioCamiseta },
-        { id: 3, preco: '95.99', imgFundo: CamisetaPreta },
-        { id: 4, preco: '119.99', imgFundo: Casacos },
-        { id: 5, preco: '75.00', imgFundo: CamisetaPreta },
-        { id: 6, preco: '65.00', imgFundo: imgAnuncioCamiseta },
-        { id: 7, preco: '150.00', imgFundo: CalcasPretas },
-        { id: 8, preco: '200.00', imgFundo: Calcados },
-        { id: 9, preco: '55.00', imgFundo: Casacos2 },
-        { id: 10, preco: '89.90', imgFundo: imgAnuncioCamiseta },
-        { id: 11, preco: '135.00', imgFundo: CalcasPretas },
-        { id: 12, preco: '180.00', imgFundo: Casacos },
-        { id: 13, preco: '70.00', imgFundo: CamisetaPreta },
-        { id: 14, preco: '220.00', imgFundo: Calcados },
-    ];
-
-    const anunciosFiltrados = () => {
-        if (pesquisa.toLowerCase() === "roupas pretas") {
-            return anuncios.filter(anuncio => [1, 3,4,9].includes(anuncio.id));
-        }
-        return anuncios;
-    };
+    // 👉 aqui agora vem da API
+    const [anuncios, setAnuncios] = useState([]);
+    const [carregando, setCarregando] = useState(false);
+    const [erro, setErro] = useState(null);
 
     useEffect(() => {
         const handleResize = () => setIsMobile(window.innerWidth <= 500);
         window.addEventListener("resize", handleResize);
         return () => window.removeEventListener("resize", handleResize);
     }, []);
+
+    useEffect(() => {
+        const carregarAnuncios = async () => {
+            try {
+                setCarregando(true);
+                setErro(null);
+
+                // GET /listings?limit=20&offset=0
+                const response = await api.get("/listings", {
+                    params: { limit: 20, offset: 0 },
+                });
+
+                // response.data é um array de ListingOut
+                const data = response.data || [];
+
+                // mapeia pro formato que o componente Anuncio já usa
+                const mapeados = data.map((listing) => {
+                    const primeiraMidia = listing.medias && listing.medias.length > 0
+                        ? listing.medias[0].url
+                        : imgAnuncioCamiseta; // fallback se não tiver mídia
+
+                    return {
+                        id: listing.id,
+                        preco: (listing.price_cents / 100).toFixed(2).replace(".", ","), // "139,99"
+                        imgFundo: primeiraMidia,
+                        titulo: listing.title,
+                        size: listing.size,
+                        categoria: listing.category,
+                    };
+                });
+
+                setAnuncios(mapeados);
+            } catch (e) {
+                console.error("Erro ao carregar anúncios:", e);
+                setErro("Erro ao carregar anúncios. Tente novamente mais tarde.");
+            } finally {
+                setCarregando(false);
+            }
+        };
+
+        carregarAnuncios();
+    }, []);
+
+    const anunciosFiltrados = () => {
+        // exemplo antigo de filtro específico
+        if (pesquisa.toLowerCase() === "roupas pretas") {
+            return anuncios.filter(anuncio => [1, 3, 4, 9].includes(anuncio.id));
+        }
+
+        // se quiser, pode fazer um filtro mais "real" por título:
+        if (pesquisa.trim() !== "") {
+            const termo = pesquisa.toLowerCase();
+            return anuncios.filter((anuncio) =>
+                (anuncio.titulo || "").toLowerCase().includes(termo)
+            );
+        }
+
+        return anuncios;
+    };
 
     return (
         <div className='Home'>
@@ -79,16 +121,17 @@ const Pesquisar = () => {
             ) : (
                 <Menu tipo={menuTipo} />
             )}
-            <main className="Conteudo Pesquisar" style={{backgroundImage: `url(${FundoHome})`}}>
+            <main className="Conteudo Pesquisar" style={{ backgroundImage: "url(" + FundoHome + ")"}}>
                 <div className="FundoHamburguerCarrinho">
                 </div>
                 <Carrinho className="Clicavel"/>
                 <div className="divBarraPesquisa divBarraPesquisaMob">
                     <div className="barraPesquisa">
-                        <input type="text"
-                               placeholder="Pesquisar..."
-                               onChange={(e) => setPesquisa(e.target.value)}
-                               value={pesquisa}
+                        <input
+                            type="text"
+                            placeholder="Pesquisar..."
+                            onChange={(e) => setPesquisa(e.target.value)}
+                            value={pesquisa}
                         />
                         <Search className="iconeLupa" size={24} color="#efefef" />
                     </div>
@@ -101,9 +144,7 @@ const Pesquisar = () => {
                             <div className="buscas-recentes-chips">
                                 {buscasRecentes.map((busca, index) => (
                                     <div key={index} className="chip">
-                                        <p
-                                            onClick={() => adicionarBuscaNaBarra(busca)}
-                                        >
+                                        <p onClick={() => adicionarBuscaNaBarra(busca)}>
                                             {busca}
                                         </p>
                                         <span
@@ -143,15 +184,18 @@ const Pesquisar = () => {
                         </div>
                     </div>
                 </div>
-                <div className="ConjAnuncio ConjAnuncioConfig" >
+
+                <div className="ConjAnuncio ConjAnuncioConfig">
                     <div className="Inferior">
-                        {anunciosFiltrados().map((prod, i) => (
-                               <Anuncio
-                                    key={i}
-                                    imgFundo={prod.imgFundo}
-                                    preco={prod.preco}
-                               />
-                            ))}
+                        {carregando && <p>Carregando anúncios...</p>}
+                        {erro && <p className="erro-anuncios">{erro}</p>}
+                        {!carregando && !erro && anunciosFiltrados().map((prod, i) => (
+                            <Anuncio
+                                key={prod.id ?? i}
+                                imgFundo={prod.imgFundo}
+                                preco={prod.preco}
+                            />
+                        ))}
                     </div>
                 </div>
             </main>
@@ -159,4 +203,4 @@ const Pesquisar = () => {
     );
 };
 
-export default Pesquisar;
+export default Pesquisar;
