@@ -44,7 +44,7 @@ const PagAnuncioEdit = () => {
 
     const categorias = ['Camiseta', 'Casaco', 'Calça', 'Calçados', 'Acessórios'];
     const tamanhos = ['PP', 'P', 'M', 'G', 'GG'];
-    const estados = ['Novo', 'Usado'];
+    const estados = ['Novo','Seminovo', 'Bom estado','Usado'];
 
     const precisaTamanhoTexto = () => {
         return ['Camiseta', 'Casaco', 'Calça'].includes(formData.categoria);

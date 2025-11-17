@@ -46,7 +46,7 @@
 
 .imgPerfil img {
     width: 35px;
-    height: 100%;
+    height: 35px;
     object-fit: cover;
     border-radius: 50%;
 }

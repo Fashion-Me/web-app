@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Menu from '../../Componentes/Menu';
 import "./PagAnuncio.css";
 import "./PagAnuncioAdd.css";
@@ -9,10 +9,15 @@ import { ArrowLeft, ArrowRight, Camera, MapPin, Pencil, Plus } from 'lucide-reac
 import Carrinho from "../../Componentes/Carrinho";
 import {useNavigate} from "react-router-dom";
 
+import api from "../../services/authApi";
+import useAuth from "../../hooks/useAuth";
+
 const PagAnuncioAdd = () => {
     const { menuTipo, menuOpen, setMenuOpen } = useMenuTipo(false);
     const [imagemAtual, setImagemAtual] = useState(0);
     const [imagens, setImagens] = useState([]);
+    const [imagensFiles, setImagensFiles] = useState([]);
+    const [fotoPerfil, setFotoPerfil] = useState(null);
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         titulo: '',
@@ -28,7 +33,21 @@ const PagAnuncioAdd = () => {
 
     const categorias = ['Camiseta', 'Casaco', 'Calça', 'Calçados', 'Acessórios'];
     const tamanhos = ['PP', 'P', 'M', 'G', 'GG'];
-    const estados = ['Novo', 'Usado'];
+    const estados = ['Novo','Seminovo', 'Bom estado','Usado'];
+
+    // Buscar dados do usuário
+    useEffect(() => {
+        const buscarDadosUsuario = async () => {
+            try {
+                const response = await api.get("/users/me");
+                setFotoPerfil(response.data.profile_url);
+            } catch (err) {
+                console.error("Erro ao buscar dados do usuário:", err);
+            }
+        };
+
+        buscarDadosUsuario();
+    }, []);
 
     useEffect(() => {
         const handleKeyDown = (e) => {
@@ -64,11 +83,25 @@ const PagAnuncioAdd = () => {
         return ['Calçados', 'Acessórios'].includes(formData.categoria);
     };
 
+    // Converter arquivo para base64
+    const fileToBase64 = (file) => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result.split(',')[1]);
+            reader.onerror = (error) => reject(error);
+        });
+    };
+
     const handleImageUpload = (e) => {
         const files = Array.from(e.target.files);
+
+        // Adiciona os arquivos originais
+        setImagensFiles(prev => [...prev, ...files].slice(0, 5));
+
+        // Cria URLs para preview
         const novasImagens = files.map(file => URL.createObjectURL(file));
-        const imagensAtualizadas = [...imagens, ...novasImagens].slice(0, 5);
-        setImagens(imagensAtualizadas);
+        setImagens(prev => [...prev, ...novasImagens].slice(0, 5));
     };
 
     const proximaImagem = () => {
@@ -86,19 +119,14 @@ const PagAnuncioAdd = () => {
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         if (name === 'preco') {
-            // Remove "R$ " e caracteres não numéricos
             const numeros = value.replace(/[^\d]/g, '');
-
-            // Se tiver números, adiciona "R$ " na frente
             const valorFormatado = numeros ? `R$ ${numeros}` : '';
-
             setFormData(prev => ({
                 ...prev,
                 [name]: valorFormatado
             }));
             return;
         }
-        // Se selecionou um tamanho de letra (PP, P, M, G, GG), limpa o tamanho numérico
         if (name === 'tamanho') {
             setFormData(prev => ({
                 ...prev,
@@ -112,21 +140,89 @@ const PagAnuncioAdd = () => {
 
     const handleNumericInput = (e) => {
         const value = e.target.value.replace(/\D/g, '');
-
-        // Se digitou um número, limpa o tamanho de letra
         setFormData(prev => ({
             ...prev,
             tamanhoNumerico: value,
-            tamanho: value ? '' : prev.tamanho // Só limpa se tiver valor
+            tamanho: value ? '' : prev.tamanho
         }));
     };
 
-    const handleSubmit = () => {
-        console.log('Dados do anúncio:', formData);
-        console.log('Imagens:', imagens);
-        navigate("/AnuncioVer")
-    };
+    const handleSubmit = async () => {
+        try {
+            // Validações
+            if (!formData.titulo || !formData.preco || !formData.categoria) {
+                alert("Por favor, preencha os campos obrigatórios: Título, Preço e Categoria");
+                return;
+            }
 
+            const tamanhoFinal = formData.tamanho || formData.tamanhoNumerico;
+            if (!tamanhoFinal) {
+                alert("Por favor, informe o tamanho do produto");
+                return;
+            }
+
+            if (imagensFiles.length === 0) {
+                alert("Adicione pelo menos uma imagem do produto");
+                return;
+            }
+
+            // Converter preço para centavos
+            const precoNumerico = formData.preco.replace(/[^\d]/g, '');
+            const precoCentavos = parseInt(precoNumerico, 10);
+
+            // Mapear condição pro enum do backend
+            const conditionMap = {
+                'Novo': 'new',
+                'Seminovo': 'like_new',
+                'Bom estado': 'good',
+                'Usado': 'fair',
+            };
+            // Mapear categorias para inglês
+            const categoryMap = {
+                'Camiseta': 'shirt',
+                'Casaco': 'coat',
+                'Calça': 'pants',
+                'Calçados': 'shoes',
+                'Acessórios': 'accessories'
+            };
+            const category = categoryMap[formData.categoria] || 'shirt';
+
+            const condition = conditionMap[formData.estado] || 'good';
+
+            // 🔴 IMPORTANTE: NÃO usar o mesmo nome "formData" aqui
+            const fd = new FormData();
+
+            // Campos do anúncio (nomes iguais ao backend!)
+            fd.append('title', formData.titulo);
+            if (formData.descricao) {
+                fd.append('description', formData.descricao);
+            }
+            fd.append('size', tamanhoFinal);
+            fd.append('category', category);
+            fd.append('condition', condition);
+            fd.append('price_cents', String(precoCentavos));
+
+            // Arquivos (cada um com a chave "files")
+            imagensFiles.forEach((file) => {
+                fd.append('files', file);
+            });
+
+            await api.post('/listings', fd, {
+                headers: {
+                    // Em geral dá pra até omitir isso que o browser seta sozinho,
+                    // mas aqui garantimos que NÃO será application/json
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+
+            alert('Anúncio publicado com sucesso!');
+            navigate('/home');
+        } catch (err) {
+            console.error('Erro ao publicar anúncio:', err);
+            console.log('response.data:', err.response?.data);
+            alert('Erro ao publicar anúncio: ' + (err.response?.data?.detail || err.message));
+        }
+    };
     return (
         <div className='PagAnuncio'>
             {menuTipo === "mobile" ? (
@@ -195,6 +291,10 @@ const PagAnuncioAdd = () => {
                                             onChange={(e) => {
                                                 const file = e.target.files[0];
                                                 if (file) {
+                                                    const imagensFilesAtualizados = [...imagensFiles];
+                                                    imagensFilesAtualizados[index] = file;
+                                                    setImagensFiles(imagensFilesAtualizados);
+
                                                     const novaImagem = URL.createObjectURL(file);
                                                     const imagensAtualizadas = [...imagens];
                                                     imagensAtualizadas[index] = novaImagem;
@@ -232,6 +332,7 @@ const PagAnuncioAdd = () => {
                                     onChange={handleInputChange}
                                     placeholder="Adicionar nome do produto"
                                     className="input-add"
+                                    maxLength={120}
                                 />
                                 <Pencil size={20} className="input-icon" />
                             </div>
@@ -270,7 +371,6 @@ const PagAnuncioAdd = () => {
                         <div className="info-produto">
                             <h3>Informações do produto</h3>
 
-                            {/* Categoria */}
                             <div className="info-item-add">
                                 <span className="info-label">CATEGORIA</span>
                                 <div className="opcoes-container">
@@ -291,7 +391,6 @@ const PagAnuncioAdd = () => {
                                 </div>
                             </div>
 
-                            {/* Tamanho */}
                             {formData.categoria && (
                                 <div className="info-item-add">
                                     <span className="info-label">TAMANHO</span>
@@ -326,7 +425,6 @@ const PagAnuncioAdd = () => {
                                 </div>
                             )}
 
-                            {/* Estado */}
                             <div className="info-item-add">
                                 <span className="info-label">ESTADO</span>
                                 <div className="opcoes-container">
@@ -342,7 +440,6 @@ const PagAnuncioAdd = () => {
                                 </div>
                             </div>
 
-                            {/* Marca */}
                             <div className="info-item-add">
                                 <span className="info-label">MARCA</span>
                                 <div className="input-marca-container">
@@ -360,23 +457,21 @@ const PagAnuncioAdd = () => {
                         </div>
                     </div>
 
-                    {/* Localização */}
-                    <div className="info-localizacao">
-                        <h3>Localização</h3>
-                        <div className="localizacao-input-container">
-                            <MapPin size={24} className="localizacao-icon" />
-                            <input
-                                type="text"
-                                name="localizacao"
-                                value={formData.localizacao}
-                                onChange={handleInputChange}
-                                placeholder="CLIQUE PARA ADICIONAR SUA LOCALIZAÇÃO"
-                                className="input-localizacao"
-                            />
-                        </div>
-                    </div>
+                    {/*<div className="info-localizacao">*/}
+                    {/*    <h3>Localização</h3>*/}
+                    {/*    <div className="localizacao-input-container">*/}
+                    {/*        <MapPin size={24} className="localizacao-icon" />*/}
+                    {/*        <input*/}
+                    {/*            type="text"*/}
+                    {/*            name="localizacao"*/}
+                    {/*            value={formData.localizacao}*/}
+                    {/*            onChange={handleInputChange}*/}
+                    {/*            placeholder="CLIQUE PARA ADICIONAR SUA LOCALIZAÇÃO"*/}
+                    {/*            className="input-localizacao"*/}
+                    {/*        />*/}
+                    {/*    </div>*/}
+                    {/*</div>*/}
 
-                    {/* Botão Publicar */}
                     <div className="info-btn">
                         <button className="btn-Publicar" onClick={handleSubmit}>
                             ANUNCIAR

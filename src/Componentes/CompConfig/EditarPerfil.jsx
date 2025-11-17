@@ -19,9 +19,9 @@ export default () => {
 
     // Mapeamento reverso (da API para interface)
     const genderMapReverso = {
-        'MALE': 'Masculino',
-        'FEMALE': 'Feminino',
-        'UNISEX': 'Unissex'
+        'male': 'Masculino',
+        'female': 'Feminino',
+        'unisex': 'Unissex'
     };
 
     useEffect(() => {
@@ -39,9 +39,9 @@ export default () => {
                 setFotoFundo(background_url || FundoPadrão);
 
                 // Buscar clothing_gender da rota de perfil
-                const profileResponse = await api.get("/users/me/profile");
-                const clothingGender = profileResponse.data.clothing_gender;
-                setPreferenciaRoupa(genderMapReverso[clothingGender] || 'Unissex');
+                console.log(responseMe);
+                const clothingGender = responseMe.data.clothing_gender;
+                setPreferenciaRoupa(genderMapReverso[clothingGender]);
 
             } catch (err) {
                 console.error("Erro ao buscar dados do perfil:", err);
@@ -53,14 +53,6 @@ export default () => {
         buscarDadosPerfil();
     }, []);
 
-    const fileToBase64 = (file) => {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = () => resolve(reader.result.split(',')[1]);
-            reader.onerror = (error) => reject(error);
-        });
-    };
 
     const handleFotoPerfilChange = (e) => {
         const file = e.target.files[0];
@@ -86,22 +78,29 @@ export default () => {
                 'Unissex': 'UNISEX'
             };
 
-            const data = {
-                bio: biografia || null,
-                clothing_gender: genderMap[preferenciaRoupa] || 'UNISEX',
-                profile_image: null,
-                banner_image: null
-            };
+            const fd = new FormData();
+
+            if (biografia) {
+                fd.append('bio', biografia);
+            }
+
+            if(genderMap[preferenciaRoupa]) {
+                fd.append('clothing_gender', genderMap[preferenciaRoupa]);
+            }
 
             if (fotoPerfilFile) {
-                data.profile_image = await fileToBase64(fotoPerfilFile);
+                fd.append('profile_image', fotoPerfilFile);
             }
 
             if (fotoFundoFile) {
-                data.banner_image = await fileToBase64(fotoFundoFile);
+                fd.append('banner_image', fotoFundoFile);
             }
 
-            await api.patch("/users/me/profile", data);
+            await api.patch("/users/me/profile", fd, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
             alert('Perfil atualizado com sucesso!');
         } catch (err) {
             console.error("Erro ao salvar perfil:", err);
