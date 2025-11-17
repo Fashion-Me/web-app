@@ -11,8 +11,7 @@ import FundoHome from "../Imagens/DetalheFundo.png";
 import {ArrowLeft, Search, SendHorizontal, Image, CircleSmall} from "lucide-react";
 import api from "../services/authApi";
 
-import fotoPerfil from "../Imagens/FotoPerfil.png";
-import fotoPerfilLucas from "../Imagens/FotoPerfilLucas.png";
+import fotoPerfilLucas from "../Imagens/FotoPerfil.png";
 
 const Mensagens = () => {
     const { menuTipo, menuOpen, setMenuOpen} = useMenuTipo(false);

@@ -1,20 +1,37 @@
-import fotoPerfil from "../Imagens/FotoPerfil.png";
+import fotoPerfil from "../Imagens/FotoPerfilAvatar.png";
 import imgAnuncioCamiseta from "../Imagens/Anuncio_Titulo_1.png";
 import {Search, ShoppingCart} from "lucide-react";
-import React, {useState, useMemo} from "react";
+import React, {useState, useMemo, useEffect} from "react";
 import {X, Check } from 'lucide-react';
 import "./Css/Carrinho.css"
 import ItemCarrinho from "./ItemCarrinho"
 import {useNavigate} from "react-router-dom";
+import api from "../services/authApi";
 
-import foto1 from "../Imagens/CamisetaPreta1.webp";
-import foto2 from "../Imagens/calcados1.webp";
-import foto3 from "../Imagens/calcas1.webp";
+import foto1 from "../Imagens/AnuncioTituloCasacos1.png";
+import foto2 from "../Imagens/AnuncioTituloCasacos1.png";
+import foto3 from "../Imagens/AnuncioTituloCasacos1.png";
 import foto4 from "../Imagens/AnuncioTituloCasacos1.png";
 
 const Carrinho = () => {
     const navigate = useNavigate();
     const [carrinhoAberto, setCarrinhoAberto] = useState(false);
+    const [imagemPerfil, setImagemPerfil] = useState(fotoPerfil);
+
+    useEffect(() => {
+        const buscarDadosUsuario = async () => {
+            try {
+                const response = await api.get("/users/me");
+                if (response.data.profile_url) {
+                    setImagemPerfil(response.data.profile_url);
+                }
+            } catch (err) {
+                console.error("Erro ao buscar dados do usuário:", err);
+            }
+        };
+
+        buscarDadosUsuario();
+    }, []);
 
     const itensCarrinho = [
         { imgAnuncio: foto1, nomeProduto: "Camisa preta lisa", nomeVendedor: "Caue Santos", preco: 45, frete: 15.00 },
@@ -44,7 +61,15 @@ const Carrinho = () => {
         <>
             {!carrinhoAberto ? (
                 <div className='divCarinho' onClick={() => setCarrinhoAberto(true)}>
-                    <div className="imgPerfil"><img src={fotoPerfil} alt="Foto de Perfil"/></div>
+                    <div className="imgPerfil">
+                        <img
+                            src={imagemPerfil}
+                            alt="Foto de Perfil"
+                            onError={(e) => {
+                                e.target.src = fotoPerfil;
+                            }}
+                        />
+                    </div>
                     <div className="IconeCarinho"><ShoppingCart  stroke={"#fefefe"}/></div>
                 </div>
             ) : (

@@ -23,10 +23,10 @@ import FundoHome from "../../Imagens/DetalheFundo.png";
 import fotoPerfil from "../../Imagens/FotoPerfil.png";
 import imgAnuncioCamiseta from "../../Imagens/Anuncio_Titulo_1.png";
 import ItemCarrinho from "../../Componentes/ItemCarrinho"
-import foto1 from "../../Imagens/CamisetaPreta1.webp";
-import foto2 from "../../Imagens/calcados1.webp";
-import foto3 from "../../Imagens/calcas1.webp";
-import foto4 from "../../Imagens/AnuncioTituloCasacos1.png";
+import foto1 from "../../Componentes/ItemCarrinho";
+import foto2 from "../../Componentes/ItemCarrinho";
+import foto3 from "../../Componentes/ItemCarrinho";
+import foto4 from "../../Componentes/ItemCarrinho";
 
 const Configuracao = () => {
     const { menuTipo, menuOpen, setMenuOpen } = useMenuTipo(false);

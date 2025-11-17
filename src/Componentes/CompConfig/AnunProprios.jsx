@@ -6,7 +6,7 @@ import './CompConfig.css';
 
 import imgAnuncioCamiseta from "../../Imagens/AnuncioCamisa.png";
 import {SquarePen} from "lucide-react";
-import CamisetaVermelha from "../../Imagens/CamisetaVermelha1.webp";
+import CamisetaVermelha from "../../Imagens/AnuncioTituloCasacos1.png";
 import imgPerfilVH from "../../Imagens/FotoPerfilVH.jpg";
 import imgPerfil from "../../Imagens/FotoPerfil.png";
 import imgAnuncioCasaco from "../../Imagens/AnuncioCasaco.png";

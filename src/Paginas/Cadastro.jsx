@@ -68,10 +68,16 @@ const Cadastro = () => {
             const birth_date = e.target.dataNasc.value.trim();
             try {
                 await api.post("/users", { username,email, password,name,phone,birth_date });
-                navigate(`/cadastroAdicional`);   // login ok → home
             } catch (err) {
-                alert("Erro na API: " + err.message);
+                alert("Erro na API cad: " + err.message);
             }
+            try {
+                await api.post("/auth/login", { username, password });
+                navigate(`/cadastroAdicional`);
+            } catch (err) {
+                alert("Erro na API log: " + err.message);
+            }
+
         } else {
             alert("Senhas Incompatíveis");
         }

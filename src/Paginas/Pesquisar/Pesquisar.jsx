@@ -19,9 +19,9 @@ import calcadosImg from  "../../Imagens/FundoBtnCalcados.png";
 import acessoriosImg from  "../../Imagens/FundoBtnAcessorios.png";
 
 import imgAnuncioCamiseta from "../../Imagens/AnuncioCamisa.png";
-import CamisetaPreta from "../../Imagens/CamisetaPreta1.webp";
-import CalcasPretas from "../../Imagens/calcas1.webp";
-import Calcados from "../../Imagens/calcados1.webp";
+import CamisetaPreta from "../../Imagens/AnuncioTituloCasacos1.png";
+import CalcasPretas from "../../Imagens/AnuncioTituloCasacos1.png";
+import Calcados from "../../Imagens/AnuncioTituloCasacos1.png";
 import Casacos from "../../Imagens/AnuncioTituloCasacos1.png";
 import Casacos2 from "../../Imagens/AnuncioCasaco.png";
 

@@ -4,7 +4,6 @@ import "./CadastroAdicional..css"
 import api from "../../services/authApi";
 import {useNavigate} from "react-router-dom";
 
-/* Puxar do Banco */
 import Logo from "../../Componentes/Menu/Imagens/LogoTexto.png";
 import {SquarePen} from "lucide-react";
 import AvatarPadrão from "../../Imagens/FotoPerfilAvatar.png";
@@ -15,35 +14,14 @@ import AvatarPerfil from "../../Imagens/FotoPerfil.png";
 const Cadastro = () => {
     const navigate = useNavigate();
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        if(e.target.senha.value === e.target.ConfirmarSenha.value){
-            const username = e.target.username.value.trim();
-            const email = e.target.email.value.trim();
-            const password = e.target.senha.value.trim();
-            const name = e.target.nome.value.trim();
-            const phone = e.target.fone.value.trim();
-            const birth_date = e.target.dataNasc.value.trim();
-            try {
-                await api.post("/users", { username,email, password,name,phone,birth_date });
-                navigate(`/login`);   // login ok → home
-            } catch (err) {
-                alert("Erro na API: " + err.message);
-            }
-        } else {
-            alert("Senhas Incompatíveis ");
-        }
-    };
-
-
-    const [nome, setNome] = useState('');
     const [biografia, setBiografia] = useState('');
     const [fotoPerfil, setFotoPerfil] = useState(AvatarPadrão);
     const [fotoFundo, setFotoFundo] = useState(FundoPadrão);
-
+    const [fotoPerfilFile, setFotoPerfilFile] = useState(null);
+    const [fotoFundoFile, setFotoFundoFile] = useState(null);
     const [preferenciaRoupa, setPreferenciaRoupa] = useState('Unissex');
-    const opcoesRoupa = ['Masculino', 'Feminino', 'Unissex'];
 
+    const opcoesRoupa = ['Masculino', 'Feminino', 'Unissex'];
     const inputPerfilRef = useRef(null);
     const inputFundoRef = useRef(null);
 
@@ -66,9 +44,19 @@ const Cadastro = () => {
         setFotoFundo(FundoLuiz);
     };
 
+    const fileToBase64 = (file) => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result.split(',')[1]);
+            reader.onerror = (error) => reject(error);
+        });
+    };
+
     const handleFotoPerfilChange = (e) => {
         const file = e.target.files[0];
         if (file) {
+            setFotoPerfilFile(file);
             setFotoPerfil(URL.createObjectURL(file));
         }
     };
@@ -76,15 +64,43 @@ const Cadastro = () => {
     const handleFotoFundoChange = (e) => {
         const file = e.target.files[0];
         if (file) {
+            setFotoFundoFile(file);
             setFotoFundo(URL.createObjectURL(file));
         }
     };
 
-    const handleSalvar = () => {
-        console.log({ nome, biografia, fotoPerfil, fotoFundo });
-        navigate("/login")
-    };
+    const handleSalvar = async () => {
+        try {
+            // Mapeamento das preferências
+            const genderMap = {
+                'Masculino': 'MALE',
+                'Feminino': 'FEMALE',
+                'Unissex': 'UNISEX'
+            };
 
+            const data = {
+                bio: biografia || null,
+                clothing_gender: genderMap[preferenciaRoupa] || 'UNISEX',
+                profile_image: null,
+                banner_image: null
+            };
+
+            if (fotoPerfilFile) {
+                data.profile_image = await fileToBase64(fotoPerfilFile);
+            }
+
+            if (fotoFundoFile) {
+                data.banner_image = await fileToBase64(fotoFundoFile);
+            }
+
+            await api.patch("/users/me/profile", data);
+
+            navigate("/home");
+        } catch (err) {
+            console.error("Erro ao salvar perfil:", err);
+            alert("Erro ao salvar perfil: " + (err.response?.data?.message || err.message));
+        }
+    };
 
     return (
         <main className="divCadLogin">
@@ -118,9 +134,7 @@ const Cadastro = () => {
                         {opcoesRoupa.map((opcao) => (
                             <div
                                 key={opcao}
-                                // Adiciona a classe 'selecionado' se a opção atual for a que está no estado
                                 className={`escolha ${opcao === preferenciaRoupa ? 'selecionado' : ''}`}
-                                // Ao clicar, atualiza o estado com a nova opção
                                 onClick={() => setPreferenciaRoupa(opcao)}
                             >
                                 <h3>{opcao}</h3>

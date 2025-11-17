@@ -2,15 +2,16 @@ import React , { useState, useEffect } from 'react';
 import Menu from '../../Componentes/Menu';
 import "../../css/Home.css"
 import "@radix-ui/themes/styles.css";
-import {useNavigate, useSearchParams} from "react-router-dom";
+import {useNavigate, useSearchParams, useParams} from "react-router-dom";
 import HamburgerComponent from '../../Componentes/Menu/Hamburger';
 import useMenuTipo from "../../hooks/useMenuTipo";
 import '../Pesquisar/Pesquisar.css';
 import './Perfil.css';
 import { Search, ArrowRight, ArrowLeft } from 'lucide-react';
 import Anuncio from '../../Componentes/ConjAnuncio/Anuncio';
+import api from "../../services/authApi";
 
-// Puxar do Banco
+// Imagens padrão
 import imgAnuncioCamiseta from "../../Imagens/AnuncioCamisa.png";
 import CamisetaVermelha from "../../Imagens/CamisetaVermelha1.webp";
 import imgAnuncioCasaco from "../../Imagens/AnuncioCasaco.png";
@@ -24,9 +25,15 @@ import fotoPerfil from "../../Imagens/FotoPerfil.png";
 
 const Perfil = (props) => {
     const navigate = useNavigate();
+    const { username: usernameUrl } = useParams();
 
-    const bioPerfil = "Professor de Desenvolvimento de sistemas, Luiz Ricardo."
-    const NomePerfil = "Luiz Ricardo"
+    const [dadosPerfil, setDadosPerfil] = useState({
+        username: '',
+        profile_url: fotoPerfil,
+        background_url: FundoPerfil,
+        bio: ''
+    });
+    const [carregando, setCarregando] = useState(true);
 
     const calculateItemsToShow = () => {
         if (window.innerWidth <= 300)       { return 1; }
@@ -43,6 +50,39 @@ const Perfil = (props) => {
     const [startIndexCalcas, setStartIndexCalcas] = useState(0);
     const [startIndexCalcados, setStartIndexCalcados] = useState(0);
     const [startIndexAcessorios, setStartIndexAcessorios] = useState(0);
+
+    useEffect(() => {
+        const buscarDadosPerfil = async () => {
+            try {
+                setCarregando(true);
+                let username = usernameUrl;
+
+                // Se for perfil próprio, busca username do usuário logado
+                if (props.minha) {
+                    const responseMe = await api.get("/users/me");
+                    username = responseMe.data.username;
+                }
+
+                // Busca dados completos do perfil
+                const response = await api.get(`/users/${username}`);
+                const { username: nome, profile_url, background_url, bio } = response.data;
+
+                setDadosPerfil({
+                    username: nome,
+                    profile_url: profile_url || fotoPerfil,
+                    background_url: background_url || FundoPerfil,
+                    bio: bio || ''
+                });
+            } catch (err) {
+                console.error("Erro ao buscar dados do perfil:", err);
+                // Mantém dados padrão em caso de erro
+            } finally {
+                setCarregando(false);
+            }
+        };
+
+        buscarDadosPerfil();
+    }, [props.minha, usernameUrl]);
 
     const produtosUltimosProd = [
         { preco: '450', imagem: CamisetaVermelha, onClick: () => navigate("/anuncioEdit") },
@@ -163,14 +203,12 @@ const Perfil = (props) => {
         }
     };
     const handleEditar = () => {
-        // Navegar para o perfil
         console.log("Ver perfil");
         navigate(`/configuracao/EditarPerfil`);
     };
 
     const handleDenunciar = () => {
         console.log("Denunciar perfil");
-        // Adicione a lógica de denúncia aqui
     };
 
     const isAtStartUltimosProd = startIndexUltimosProd === 0;
@@ -203,6 +241,20 @@ const Perfil = (props) => {
         return () => window.removeEventListener("resize", handleResize);
     }, []);
 
+    if (carregando) {
+        return (
+            <div className="Home">
+                {menuTipo === "mobile" ? (
+                    <HamburgerComponent menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
+                ) : (
+                    <Menu tipo={menuTipo} acesso={props.acesso} />
+                )}
+            <main className="Conteudo ConteudoPerfil">
+                Carregando perfil...
+            </main>
+            </div>
+        );
+    }
 
     return (
         <div className='Home'>
@@ -212,28 +264,33 @@ const Perfil = (props) => {
                 <Menu tipo={menuTipo} acesso={props.acesso} />
             )}
             <main className="Conteudo ConteudoPerfil">
-                <div className="PerfilHeader" style={{ backgroundImage: `url(${FundoPerfil})` }}>
+                <div className="PerfilHeader" style={{ backgroundImage: `url(${dadosPerfil.background_url})` }}>
                 </div>
                 <div className="PerfilInfo">
-                        <img src={fotoPerfil} alt="Foto de Luis Ricardo" className="FotoPerfil" />
-                        <h1 className="NomeUsuario">{NomePerfil}</h1>
-                        <h2>Sobre</h2>
-                        <p className="BioUsuario">{bioPerfil}</p>
-                        {props.minha ? (
-                            <button
-                                className="btnEditarPerfil"
-                                onClick={handleEditar}
-                            >
-                                <p>Editar Perfil</p>
-                            </button>
-                        ) : (
-                            <button
-                                className="btnEditarPerfil"
-                                onClick={handleDenunciar}
-                            >
-                                <p>Denunciar</p>
-                            </button>
-                        )}
+                    <img
+                        src={dadosPerfil.profile_url}
+                        alt={`Foto de ${dadosPerfil.username}`}
+                        className="FotoPerfil"
+                        onError={(e) => { e.target.src = fotoPerfil; }}
+                    />
+                    <h1 className="NomeUsuario">{dadosPerfil.username}</h1>
+                    <h2>Sobre</h2>
+                    <p className="BioUsuario">{dadosPerfil.bio || "Nenhuma biografia disponível"}</p>
+                    {props.minha ? (
+                        <button
+                            className="btnEditarPerfil"
+                            onClick={handleEditar}
+                        >
+                            <p>Editar Perfil</p>
+                        </button>
+                    ) : (
+                        <button
+                            className="btnEditarPerfil"
+                            onClick={handleDenunciar}
+                        >
+                            <p>Denunciar</p>
+                        </button>
+                    )}
                 </div>
                 <div className="divBarraPesquisa">
                     <div className="barraPesquisa">
