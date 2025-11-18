@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import './ConfigMeusPedidos.css';
-import foto1 from "../../Imagens/AnuncioTituloCasacos1.png";
-import foto2 from "../../Imagens/AnuncioTituloCasacos1.png";
-import foto3 from "../../Imagens/AnuncioTituloCasacos1.png";
+import foto1 from "../../Imagens/CamisaPretaLisa.jpg";
+import foto2 from "../../Imagens/SapatoCouroMarrom.jpg";
+import foto3 from "../../Imagens/CalcaPreta.webp";
 import foto4 from "../../Imagens/AnuncioTituloCasacos1.png";
 import {useNavigate} from "react-router-dom";
 

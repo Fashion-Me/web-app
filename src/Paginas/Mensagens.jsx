@@ -1,3 +1,4 @@
+// javascript
 import React, { useEffect, useState, useRef, useCallback } from 'react';
 import Menu from '../Componentes/Menu';
 import "../css/Home.css";
@@ -11,13 +12,13 @@ import FundoHome from "../Imagens/DetalheFundo.png";
 import {ArrowLeft, Search, SendHorizontal, Image, CircleSmall} from "lucide-react";
 import api from "../services/authApi";
 
-import fotoPerfilLucas from "../Imagens/FotoPerfil.png";
+const DEFAULT_AVATAR = '/default-avatar.png';
 
 const Mensagens = () => {
     const { menuTipo, menuOpen, setMenuOpen} = useMenuTipo(false);
     const [mostrarMenu, setMostrarMenu] = useState(true);
     const navigate = useNavigate();
-    const { user, isLoading: userLoading } = useAuth(); // Desestrutura corretamente
+    const { user, isLoading: userLoading } = useAuth();
 
     const [mostrarAbaConfig, setMostrarAbaConfig] = useState(true);
     const [mostrarAreaConfig, setMostrarAreaConfig] = useState(true);
@@ -35,7 +36,6 @@ const Mensagens = () => {
     const formatarMensagens = useCallback((apiMessages) => {
         if (!apiMessages || apiMessages.length === 0) return [];
 
-        // função auxiliar para extrair id, sender_id e created_at com várias chaves possíveis
         const extract = (msg) => {
             const id = msg.id ?? msg.message?.id ?? msg.message_id ?? null;
             const senderId = msg.sender_id ?? msg.senderId ?? msg.sender?.id ?? msg.sender?.user_id ?? msg.user_id ?? null;
@@ -69,7 +69,6 @@ const Mensagens = () => {
                 lastMessageIdRef.current = mensagensFormatadas[mensagensFormatadas.length - 1].id;
             }
 
-            // Scroll automático para o final
             setTimeout(() => {
                 if (conversaRef.current) {
                     conversaRef.current.scrollTop = conversaRef.current.scrollHeight;
@@ -88,36 +87,24 @@ const Mensagens = () => {
         if (!conversationId) return;
 
         try {
-            const params = lastMessageIdRef.current
-                ? { after_id: lastMessageIdRef.current } // ajustar para after_id (compatível com backend)
-                : {};
-
-            const response = await api.get(
-                `/chats/${conversationId}/messages`,
-                { params }
-            );
-
+            const params = lastMessageIdRef.current ? { after_id: lastMessageIdRef.current } : {};
+            const response = await api.get(`/chats/${conversationId}/messages`, { params });
             const todasNovasMensagens = formatarMensagens(response.data);
 
             if (todasNovasMensagens.length > 0) {
-                // evita duplicatas comparando ids existentes
                 setMensagens(prev => {
                     const existingIds = new Set(prev.map(m => m.id));
                     const toAdd = todasNovasMensagens.filter(m => m.id != null && !existingIds.has(m.id));
                     if (toAdd.length === 0) return prev;
                     const novo = [...prev, ...toAdd];
-
-                    // Scroll automático
                     setTimeout(() => {
                         if (conversaRef.current) {
                             conversaRef.current.scrollTop = conversaRef.current.scrollHeight;
                         }
                     }, 100);
-
                     return novo;
                 });
 
-                // atualiza lastMessageIdRef com o último id recebido
                 const last = todasNovasMensagens[todasNovasMensagens.length - 1];
                 if (last && last.id != null) {
                     lastMessageIdRef.current = last.id;
@@ -144,11 +131,7 @@ const Mensagens = () => {
         try {
             const fd = new FormData();
             fd.append("body", novaMensagem)
-            const response = await api.post(
-                `/chats/${contatoSelecionado.conversationId}/messages`,
-                fd,
-            );
-
+            const response = await api.post(`/chats/${contatoSelecionado.conversationId}/messages`, fd);
 
             const servidorMsg = Array.isArray(response.data) ? response.data[0] : response.data;
             lastMessageIdRef.current = servidorMsg.id ?? lastMessageIdRef.current;
@@ -187,26 +170,18 @@ const Mensagens = () => {
         setMensagens(prev => [...prev, mensagemOtimista]);
 
         try {
-            // Converter data URL para Blob
             const response = await fetch(imagem);
             const blob = await response.blob();
 
-            // Criar FormData
             const formData = new FormData();
             formData.append('file', blob, 'image.png');
 
-            // Enviar para a API
             const apiResponse = await api.post(
                 `/chats/${contatoSelecionado.conversationId}/messages`,
                 formData,
-                {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                }
+                { headers: { 'Content-Type': 'multipart/form-data' } }
             );
 
-            // Atualizar com mensagem do servidor
             const servidorMsg = Array.isArray(apiResponse.data) ? apiResponse.data[0] : apiResponse.data;
             lastMessageIdRef.current = servidorMsg.id ?? lastMessageIdRef.current;
 
@@ -230,12 +205,9 @@ const Mensagens = () => {
         }
     }, [contatoSelecionado.conversationId, formatarMensagens]);
 
-    // Efeito para iniciar/parar polling quando seleciona conversa
     useEffect(() => {
         if (contatoSelecionado.conversationId) {
             buscarMensagens(contatoSelecionado.conversationId);
-
-            // Inicia polling passando o conversationId
             pollIntervalRef.current = setInterval(
                 () => pollNovasMensagens(contatoSelecionado.conversationId),
                 5000
@@ -341,7 +313,13 @@ const Contato = ({ nome, ultimaMensagem, numNovaMensagem, ContatoFoto, conversat
              setContatoSelecionado({ nome, foto: ContatoFoto, conversationId });
          }}
     >
-        <div className="imgContato"><img src={ContatoFoto} alt="Foto de Perfil"/></div>
+        <div className="imgContato">
+            <img
+                src={ContatoFoto || DEFAULT_AVATAR}
+                alt="Foto de Perfil"
+                onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = DEFAULT_AVATAR; }}
+            />
+        </div>
         <div className="textoContato">
             <h3 className="ContatoNome semibold">{nome}</h3>
             <p className="ContatoP">{ultimaMensagem}</p>
@@ -374,15 +352,17 @@ const AbaMensagens = ({setMostrarAbaConfig, setMostrarAreaConfig, setMostrarMenu
             ) : contatos.length > 0 ? (
                 contatos.map((chat) => {
                     const ultimaMensagem = chat.last_message
-                        ? (chat.last_message.body || "Imagem")
+                        ? (chat.last_message.body || "Imagem anexada")
                         : "Sem mensagens";
 
                     const temNovasMensagens = false;
 
+                    const profileUrl = (chat.peer && chat.peer.profile_url) ? chat.peer.profile_url : DEFAULT_AVATAR;
+
                     return (
                         <Contato
                             key={chat.conversation.id}
-                            ContatoFoto={fotoPerfilLucas}
+                            ContatoFoto={profileUrl}
                             nome={chat.peer.name || chat.peer.username}
                             ultimaMensagem={ultimaMensagem}
                             numNovaMensagem={temNovasMensagens}
@@ -419,7 +399,13 @@ const AreaMensagens = ({ContatoNome, ContatoFoto, setMostrarAbaConfig, setMostra
                             />
                         </div>
                     }
-                    <div className="divTituloContatoFoto"><img src={fotoPerfilLucas} alt="Foto de Perfil"/></div>
+                    <div className="divTituloContatoFoto">
+                        <img
+                            src={ContatoFoto || DEFAULT_AVATAR}
+                            alt="Foto de Perfil"
+                            onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = DEFAULT_AVATAR; }}
+                        />
+                    </div>
                     <h2 className="tituloAreaMensagem">{ContatoNome}</h2>
                 </div>
                 {carregandoMensagens ? (
@@ -487,13 +473,13 @@ const Mensagem = React.memo(({ MensagemLado, TextoMensagem, ImagemMensagem }) =>
         {MensagemLado === 'remetente' &&
             <div className="divMensagemRemetente">
                 {TextoMensagem && <p>{TextoMensagem}</p>}
-                {ImagemMensagem && <img src={ImagemMensagem} alt="Imagem enviada" className="imagemMensagem" />}
+                {ImagemMensagem && <img src={ImagemMensagem} alt="Imagem enviada" className="imagemMensagem" onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = DEFAULT_AVATAR; }} />}
             </div>
         }
         {MensagemLado === 'destinatario' &&
             <div className="divMensagemDestinatario">
                 {TextoMensagem && <p>{TextoMensagem}</p>}
-                {ImagemMensagem && <img src={ImagemMensagem} alt="Imagem recebida" className="imagemMensagem" />}
+                {ImagemMensagem && <img src={ImagemMensagem} alt="Imagem recebida" className="imagemMensagem" onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = DEFAULT_AVATAR; }} />}
             </div>
         }
     </>

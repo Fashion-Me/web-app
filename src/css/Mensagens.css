@@ -26,7 +26,6 @@
 
 .divMensagemDestinatario p ,.divMensagemRemetente p{
     font-size: var(--font-size-Mensagens);
-    color: var(--cor-branco);
 }
 
 /* Codigo */
@@ -231,7 +230,7 @@
 .divMensagemDestinatario {
     background-color: #D4AF5F;
     border-radius: 10px 10px 10px 0;
-    color: var(--cor-preto);
+    color: var(--cor-preto) !important;
     margin-right: auto;
 }
 

@@ -4,14 +4,14 @@ import {SquarePen} from "lucide-react";
 
 export default (params) => {
     return (
-        <div onClick={params.onClick} className="Anuncio Clicavel" style={{ backgroundImage: `url(${params.imgFundo})` }}>
+        <div onClick={params.onClick} className="Anuncio Clicavel" style={{ backgroundImage: `url(${params.imgFundo})`, position: 'relative' }}>
             {params.preco && (
                 <div className="divPreco">
                     <p className="semibold">R$ {params.preco}</p>
                 </div>
             )}
             {params.editar && (
-                <div style={{ display: 'flex', justifyContent: 'flex-end', height: '100%', padding: '2px' }}>
+                <div style={{ position: 'absolute', top: '5px', right: '4px' }}>
                     <SquarePen size={40} strokeWidth={1.5} color={'#fff'} className="IconeEditar"/>
                 </div>
             )}

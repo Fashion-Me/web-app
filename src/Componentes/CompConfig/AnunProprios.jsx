@@ -1,81 +1,70 @@
-import React, {useRef, useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import Anuncio from '../ConjAnuncio/Anuncio';
 import './CompConfig.css';
+import { useNavigate } from "react-router-dom";
+import api from "../../services/authApi";
+import imagemPadrao from "../../Imagens/AnuncioCasaco.png";
+import CamisetaVermelha from "../../Imagens/CamisetaVermelha1.webp";
 
-/*   */
+const AnunciosProprios = () => {
+    const navigate = useNavigate();
+    const [anuncios, setAnuncios] = useState([]);
+    const [carregando, setCarregando] = useState(true);
 
-import imgAnuncioCamiseta from "../../Imagens/AnuncioCamisa.png";
-import {SquarePen} from "lucide-react";
-import CamisetaVermelha from "../../Imagens/AnuncioTituloCasacos1.png";
-import imgPerfilVH from "../../Imagens/FotoPerfilVH.jpg";
-import imgPerfil from "../../Imagens/FotoPerfil.png";
-import imgAnuncioCasaco from "../../Imagens/AnuncioCasaco.png";
-import imgAnuncioCalcado from "../../Imagens/AnuncioCalcado.png"; // Importe a imagem real
+    useEffect(() => {
+        const buscarAnunciosProprios = async () => {
+            try {
+                const userResponse = await api.get("/users/me");
+                const userId = userResponse.data.id;
 
-const AnunciosCurtidos = () => {
-    const anunciosCurtidos = [
-        {
-            id: 1,
-            preco: 45,
-            fotoAnuncio: CamisetaVermelha ,
-            tituloAnuncio: "Conteúdo de cunho sexual, nudez",
-        },
-        {
-            id: 2,
-            preco: 50,
-            fotoAnuncio: imgPerfilVH ,
-            tituloAnuncio: "Conteúdo de cunho sexual, nudez",
-        },
-        {
-            id: 3,
-            preco: 50,
-            fotoAnuncio: imgPerfil,
-            tituloAnuncio: "Conteúdo de cunho sexual, nudez",
-        },
-        {
-            id: 4,
-            preco: 50,
-            fotoAnuncio: imgAnuncioCamiseta ,
-            tituloAnuncio: "Conteúdo de cunho sexual, nudez",
-        },
-        {
-            id: 5,
-            preco: 50,
-            fotoAnuncio: imgAnuncioCasaco ,
-            tituloAnuncio: "Conteúdo de cunho sexual, nudez",
-        },
-        {
-            id: 6,
-            preco: 50,
-            fotoAnuncio: imgAnuncioCalcado,
-            tituloAnuncio: "Conteúdo de cunho sexual, nudez",
-        },
-    ];
+                const response = await api.get(`/listings/${userId}`);
+                setAnuncios(response.data || []);
+            } catch (err) {
+                console.error("Erro ao buscar anúncios próprios:", err);
+                setAnuncios([]);
+            } finally {
+                setCarregando(false);
+            }
+        };
+
+        buscarAnunciosProprios();
+    }, []);
+
+    const onCliqueAnuncio = (anuncio) => {
+        navigate(`/anuncio/${anuncio.id}`);
+    };
 
     return (
-        <>
-            <div className="ConjAnuncio ConjAnuncioConfig" >
-                <div className="Inferior">
-                    {anunciosCurtidos.map((item, index) => (
-                        <>
-                            <Anuncio key={index} preco={item.preco} imgFundo={item.fotoAnuncio} editar={true}/>
-                        </>
-                    ))}
-                </div>
+        <div className="ConjAnuncio ConjAnuncioConfig">
+            <div className="Inferior">
+                {carregando ? (
+                    <p style={{ textAlign: 'center', width: '100%', padding: '20px' }}>Carregando...</p>
+                ) : anuncios.length > 0 ? (
+                    anuncios.map((anuncio) => {
+                        const imagemPrincipal = anuncio.medias && anuncio.medias.length > 0
+                            ? anuncio.medias.sort((a, b) => a.position - b.position)[0].url
+                            : imagemPadrao;
+
+                        const precoReais = (anuncio.price_cents / 100).toFixed(2);
+
+                        return (
+                            <>
+                                <Anuncio
+                                    key={anuncio.id}
+                                    preco={precoReais}
+                                    imgFundo={imagemPrincipal || imagemPadrao}
+                                    editar={true}
+                                    onClick={() => onCliqueAnuncio(anuncio)}
+                                />
+                            </>
+                        );
+                    })
+                ) : (
+                    <p style={{ textAlign: 'center', width: '100%', padding: '20px' }}>Nenhum anúncio próprio</p>
+                )}
             </div>
-            {/*<div className="lista-anunciosP">*/}
-            {/*    {anunciosCurtidos.map((anuncio) => (*/}
-            {/*    <Anuncio*/}
-            {/*        key={anuncio.id}*/}
-            {/*        preco={anuncio.preco}*/}
-            {/*        tituloAnuncio={anuncio.tituloAnuncio}*/}
-            {/*        imagemAnun={anuncio.fotoAnuncio}*/}
-            {/*        editar={true}*/}
-            {/*    />*/}
-            {/*    ))}*/}
-            {/*</div>*/}
-        </>
+        </div>
     );
 };
 
-export default AnunciosCurtidos;
+export default AnunciosProprios;

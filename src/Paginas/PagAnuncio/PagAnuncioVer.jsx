@@ -189,15 +189,15 @@ const PagAnuncioVer = () => {
                     </div>
 
                     {/* Localização */}
-                    {produtoExemplo?.localizacao ? (
-                        <div className="info-localizacao">
-                            <h3>Localização</h3>
-                            <div className="localizacao-content">
-                                <MapPin size={30} className="localizacao-icon" />
-                                <span className="localizacao-texto">{produtoExemplo.localizacao}</span>
-                            </div>
-                        </div>
-                    ) : null}
+                    {/*{produtoExemplo?.localizacao ? (*/}
+                    {/*    <div className="info-localizacao">*/}
+                    {/*        <h3>Localização</h3>*/}
+                    {/*        <div className="localizacao-content">*/}
+                    {/*            <MapPin size={30} className="localizacao-icon" />*/}
+                    {/*            <span className="localizacao-texto">{produtoExemplo.localizacao}</span>*/}
+                    {/*        </div>*/}
+                    {/*    </div>*/}
+                    {/*) : null}*/}
                     {modalDenunciaAberto && (
                         <div className="modal-overlay" onClick={() => setModalDenunciaAberto(false)}>
                             <div className="modal-denuncia" onClick={(e) => e.stopPropagation()}>

@@ -33,7 +33,7 @@ const Pesquisar = () => {
     const { menuTipo, menuOpen, setMenuOpen } = useMenuTipo();
     const [searchParams] = useSearchParams();
 
-    const [buscasRecentes, setBuscasRecentes] = useState(["Roupas Pretas", "jaqueta"]);
+    const [buscasRecentes, setBuscasRecentes] = useState(["Cor preta", "jaqueta"]);
     const [pesquisa, setPesquisa] = useState("");
     const adicionarBuscaNaBarra = (busca) => {
         setPesquisa(busca);
@@ -98,12 +98,14 @@ const Pesquisar = () => {
     }, []);
 
     const anunciosFiltrados = () => {
-        // exemplo antigo de filtro específico
-        if (pesquisa.toLowerCase() === "roupas pretas") {
-            return anuncios.filter(anuncio => [1, 3, 4, 9].includes(anuncio.id));
+        const posicoesDesejadas = [0, 1, 3, 8, 10, 15, 16, 18];
+
+        // Filtro específico para "cor preta" - filtra por posições
+        if (pesquisa.toLowerCase() === "cor preta") {
+            return anuncios.filter((anuncio, index) => posicoesDesejadas.includes(index));
         }
 
-        // se quiser, pode fazer um filtro mais "real" por título:
+        // Filtro genérico por título
         if (pesquisa.trim() !== "") {
             const termo = pesquisa.toLowerCase();
             return anuncios.filter((anuncio) =>
@@ -111,6 +113,7 @@ const Pesquisar = () => {
             );
         }
 
+        // Retorna todos os anúncios se não houver pesquisa
         return anuncios;
     };
 

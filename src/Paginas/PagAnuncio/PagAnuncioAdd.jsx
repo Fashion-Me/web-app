@@ -148,80 +148,81 @@ const PagAnuncioAdd = () => {
     };
 
     const handleSubmit = async () => {
-        try {
-            // Validações
-            if (!formData.titulo || !formData.preco || !formData.categoria) {
-                alert("Por favor, preencha os campos obrigatórios: Título, Preço e Categoria");
-                return;
-            }
-
-            const tamanhoFinal = formData.tamanho || formData.tamanhoNumerico;
-            if (!tamanhoFinal) {
-                alert("Por favor, informe o tamanho do produto");
-                return;
-            }
-
-            if (imagensFiles.length === 0) {
-                alert("Adicione pelo menos uma imagem do produto");
-                return;
-            }
-
-            // Converter preço para centavos
-            const precoNumerico = formData.preco.replace(/[^\d]/g, '');
-            const precoCentavos = parseInt(precoNumerico, 10);
-
-            // Mapear condição pro enum do backend
-            const conditionMap = {
-                'Novo': 'new',
-                'Seminovo': 'like_new',
-                'Bom estado': 'good',
-                'Usado': 'fair',
-            };
-            // Mapear categorias para inglês
-            const categoryMap = {
-                'Camiseta': 'shirt',
-                'Casaco': 'coat',
-                'Calça': 'pants',
-                'Calçados': 'shoes',
-                'Acessórios': 'accessories'
-            };
-            const category = categoryMap[formData.categoria] || 'shirt';
-
-            const condition = conditionMap[formData.estado] || 'good';
-
-            // 🔴 IMPORTANTE: NÃO usar o mesmo nome "formData" aqui
-            const fd = new FormData();
-
-            // Campos do anúncio (nomes iguais ao backend!)
-            fd.append('title', formData.titulo);
-            if (formData.descricao) {
-                fd.append('description', formData.descricao);
-            }
-            fd.append('size', tamanhoFinal);
-            fd.append('category', category);
-            fd.append('condition', condition);
-            fd.append('price_cents', String(precoCentavos));
-
-            // Arquivos (cada um com a chave "files")
-            imagensFiles.forEach((file) => {
-                fd.append('files', file);
-            });
-
-            await api.post('/listings', fd, {
-                headers: {
-                    // Em geral dá pra até omitir isso que o browser seta sozinho,
-                    // mas aqui garantimos que NÃO será application/json
-                    'Content-Type': 'multipart/form-data',
-                },
-            });
-
-            alert('Anúncio publicado com sucesso!');
-            navigate('/home');
-        } catch (err) {
-            console.error('Erro ao publicar anúncio:', err);
-            console.log('response.data:', err.response?.data);
-            alert('Erro ao publicar anúncio: ' + (err.response?.data?.detail || err.message));
-        }
+        // try {
+        //     // Validações
+        //     if (!formData.titulo || !formData.preco || !formData.categoria) {
+        //         alert("Por favor, preencha os campos obrigatórios: Título, Preço e Categoria");
+        //         return;
+        //     }
+        //
+        //     const tamanhoFinal = formData.tamanho || formData.tamanhoNumerico;
+        //     if (!tamanhoFinal) {
+        //         alert("Por favor, informe o tamanho do produto");
+        //         return;
+        //     }
+        //
+        //     if (imagensFiles.length === 0) {
+        //         alert("Adicione pelo menos uma imagem do produto");
+        //         return;
+        //     }
+        //
+        //     // Converter preço para centavos
+        //     const precoNumerico = formData.preco.replace(/[^\d]/g, '');
+        //     const precoCentavos = parseInt(precoNumerico, 10);
+        //
+        //     // Mapear condição pro enum do backend
+        //     const conditionMap = {
+        //         'Novo': 'new',
+        //         'Seminovo': 'like_new',
+        //         'Bom estado': 'good',
+        //         'Usado': 'fair',
+        //     };
+        //     // Mapear categorias para inglês
+        //     const categoryMap = {
+        //         'Camiseta': 'shirt',
+        //         'Casaco': 'coat',
+        //         'Calça': 'pants',
+        //         'Calçados': 'shoes',
+        //         'Acessórios': 'accessories'
+        //     };
+        //     const category = categoryMap[formData.categoria] || 'shirt';
+        //
+        //     const condition = conditionMap[formData.estado] || 'good';
+        //
+        //     // 🔴 IMPORTANTE: NÃO usar o mesmo nome "formData" aqui
+        //     const fd = new FormData();
+        //
+        //     // Campos do anúncio (nomes iguais ao backend!)
+        //     fd.append('title', formData.titulo);
+        //     if (formData.descricao) {
+        //         fd.append('description', formData.descricao);
+        //     }
+        //     fd.append('size', tamanhoFinal);
+        //     fd.append('category', category);
+        //     fd.append('condition', condition);
+        //     fd.append('price_cents', String(precoCentavos));
+        //
+        //     // Arquivos (cada um com a chave "files")
+        //     imagensFiles.forEach((file) => {
+        //         fd.append('files', file);
+        //     });
+        //
+        //     await api.post('/listings', fd, {
+        //         headers: {
+        //             // Em geral dá pra até omitir isso que o browser seta sozinho,
+        //             // mas aqui garantimos que NÃO será application/json
+        //             'Content-Type': 'multipart/form-data',
+        //         },
+        //     });
+        //
+        //     alert('Anúncio publicado com sucesso!');
+        //     navigate('/home');
+        // } catch (err) {
+        //     console.error('Erro ao publicar anúncio:', err);
+        //     console.log('response.data:', err.response?.data);
+        //     alert('Erro ao publicar anúncio: ' + (err.response?.data?.detail || err.message));
+        // }
+        navigate('/AnuncioVer');
     };
     return (
         <div className='PagAnuncio'>

@@ -39,7 +39,6 @@ const Login = () => {
             navigate(`/home`);// login ok → home
         } catch (err) {
              alert("Usuário ou senha inválidos");
-            navigate(`/home`);// login ok → home
         }
     };
 

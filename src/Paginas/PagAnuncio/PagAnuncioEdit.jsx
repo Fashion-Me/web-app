@@ -329,20 +329,20 @@ const PagAnuncioEdit = () => {
                         </div>
                     </div>
 
-                    <div className="info-localizacao">
-                        <h3>Localização</h3>
-                        <div className="localizacao-input-container">
-                            <MapPin size={24} className="localizacao-icon" />
-                            <input
-                                type="text"
-                                name="localizacao"
-                                value={formData.localizacao}
-                                onChange={handleInputChange}
-                                placeholder="CLIQUE PARA ADICIONAR SUA LOCALIZAÇÃO"
-                                className="input-localizacao"
-                            />
-                        </div>
-                    </div>
+                    {/*<div className="info-localizacao">*/}
+                    {/*    <h3>Localização</h3>*/}
+                    {/*    <div className="localizacao-input-container">*/}
+                    {/*        <MapPin size={24} className="localizacao-icon" />*/}
+                    {/*        <input*/}
+                    {/*            type="text"*/}
+                    {/*            name="localizacao"*/}
+                    {/*            value={formData.localizacao}*/}
+                    {/*            onChange={handleInputChange}*/}
+                    {/*            placeholder="CLIQUE PARA ADICIONAR SUA LOCALIZAÇÃO"*/}
+                    {/*            className="input-localizacao"*/}
+                    {/*        />*/}
+                    {/*    </div>*/}
+                    {/*</div>*/}
 
                     <div className="info-btn">
                         <button className="btn-Publicar" onClick={handleSubmit}>

@@ -43,7 +43,7 @@ body{
     --font-size-h1: 24px;
     --font-size-titulo: 32px;
     --font-size-caixa: 18px;
-    --font-size-Mensagens: 16px;
+    --font-size-Mensagens: 17px;
 
     @media (max-width: 500px) {
         --font-size-p2: 11px;
@@ -53,7 +53,7 @@ body{
         --font-size-h1: 19px;
         --font-size-titulo: 27px;
         --font-size-caixa: 16px;
-        --font-size-Mensagens: 14px;
+        --font-size-Mensagens: 15px;
 
     }
 }
