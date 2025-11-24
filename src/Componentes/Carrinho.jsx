@@ -1,22 +1,19 @@
 import fotoPerfil from "../Imagens/FotoPerfilAvatar.png";
-import imgAnuncioCamiseta from "../Imagens/Anuncio_Titulo_1.png";
-import {Search, ShoppingCart} from "lucide-react";
-import React, {useState, useMemo, useEffect} from "react";
-import {X, Check } from 'lucide-react';
+import {ShoppingCart} from "lucide-react";
+import React, {useState, useEffect} from "react";
+import {X} from 'lucide-react';
 import "./Css/Carrinho.css"
 import ItemCarrinho from "./ItemCarrinho"
 import {useNavigate} from "react-router-dom";
 import api from "../services/authApi";
 
-import foto1 from "../Imagens/CamisaPretaLisa.jpg";
-import foto2 from "../Imagens/SapatoCouroMarrom.jpg";
-import foto3 from "../Imagens/CalcaPreta.webp";
-import foto4 from "../Imagens/AnuncioTituloCasacos1.png";
-
 const Carrinho = () => {
     const navigate = useNavigate();
     const [carrinhoAberto, setCarrinhoAberto] = useState(false);
     const [imagemPerfil, setImagemPerfil] = useState(fotoPerfil);
+    const [carrinhoData, setCarrinhoData] = useState(null);
+    const [carregando, setCarregando] = useState(false);
+    const [erro, setErro] = useState(null);
 
     useEffect(() => {
         const buscarDadosUsuario = async () => {
@@ -33,29 +30,43 @@ const Carrinho = () => {
         buscarDadosUsuario();
     }, []);
 
-    const itensCarrinho = [
-        { imgAnuncio: foto1, nomeProduto: "Camisa preta lisa", nomeVendedor: "Caue Santos", preco: 45, frete: 15.00 },
-        { imgAnuncio: foto2, nomeProduto: "Sapato de couro marrom", nomeVendedor: "Luiza mel", preco: 82, frete: 25.00 },
-        { imgAnuncio: foto3, nomeProduto: "Calça preta", nomeVendedor: "Carlos biritno", preco: 65, frete: 20.00 },
-        { imgAnuncio: foto4, nomeProduto: "Casaco preto para motos", nomeVendedor: "Fabricio antonio", preco: 83, frete: 14.00 }
-    ];
+    useEffect(() => {
+        if (carrinhoAberto) {
+            buscarCarrinho();
+        }
+    }, [carrinhoAberto]);
 
-    const valorProdutos = useMemo(() => {
-        return itensCarrinho.reduce((total, item) => total + item.preco, 0);
-    }, [itensCarrinho]);
+    const buscarCarrinho = async () => {
+        try {
+            setCarregando(true);
+            setErro(null);
 
-    const valorFreteTotal = useMemo(() => {
-        return itensCarrinho.reduce((total, item) => total + item.frete, 0);
-    }, [itensCarrinho]);
+            console.log('Buscando carrinho...');
+            const response = await api.get("/cart");
+            console.log('Dados do carrinho:', response.data);
 
-    const valorTotal = useMemo(() => {
-        return valorProdutos + valorFreteTotal;
-    }, [valorProdutos, valorFreteTotal]);
+            setCarrinhoData(response.data);
+        } catch (err) {
+            console.error("Erro ao buscar carrinho:", err);
+            console.error("Detalhes do erro:", err.response?.data);
+            setErro(err.response?.data?.message || "Erro ao carregar o carrinho");
+        } finally {
+            setCarregando(false);
+        }
+    };
 
     const handlePagamento = () => {
+        if (!carrinhoData || carrinhoData.total_items === 0) {
+            alert('Seu carrinho está vazio');
+            return;
+        }
         setCarrinhoAberto(false);
         navigate("/Pagamento");
-    }
+    };
+
+    const formatarPreco = (centavos) => {
+        return (centavos / 100).toFixed(2).replace('.', ',');
+    };
 
     return (
         <>
@@ -70,7 +81,9 @@ const Carrinho = () => {
                             }}
                         />
                     </div>
-                    <div className="IconeCarinho"><ShoppingCart  stroke={"#fefefe"}/></div>
+                    <div className="IconeCarinho">
+                        <ShoppingCart stroke={"#fefefe"}/>
+                    </div>
                 </div>
             ) : (
                 <div className='divCarrinhoAberto'>
@@ -78,37 +91,60 @@ const Carrinho = () => {
                         <h1 style={{ fontWeight: "bold" }}>Carrinho</h1>
                         <X onClick={() => setCarrinhoAberto(false)}/>
                     </div>
-                    <div className="ItensCarrinho">
-                        {itensCarrinho.map((item, index) => (
-                            <ItemCarrinho
-                                key={index}
-                                imgAnuncio={item.imgAnuncio}
-                                nomeProduto={item.nomeProduto}
-                                nomeVendedor={item.nomeVendedor}
-                                preco={item.preco}
-                            />
-                        ))}
-                    </div>
-                    <div className="ResultadoCarrinho">
-                        <div className="divValoresPesquisa">
-                            <div>
-                                <h2>Produtos:</h2>
-                                <h2>R$ {valorProdutos.toFixed(2).replace('.', ',')}</h2>
-                            </div>
-                            <div>
-                                <h2>Total Frete:</h2>
-                                <h2>R$ {valorFreteTotal.toFixed(2).replace('.', ',')}</h2>
-                            </div>
-                            <div>
-                                <h2>Total:</h2>
-                                <h2 className="bold">R$ {valorTotal.toFixed(2).replace('.', ',')}</h2>
-                            </div>
+
+                    {carregando ? (
+                        <div style={{ padding: '20px', textAlign: 'center' }}>
+                            Carregando carrinho...
                         </div>
-                    </div>
-                    <button className="btnComprarAgora" onClick={handlePagamento}>Comprar agora</button>
+                    ) : erro ? (
+                        <div style={{ padding: '20px', textAlign: 'center', color: 'red' }}>
+                            {erro}
+                        </div>
+                    ) : !carrinhoData || carrinhoData.total_items === 0 ? (
+                        <div style={{ padding: '20px', textAlign: 'center' }}>
+                            Seu carrinho está vazio
+                        </div>
+                    ) : (
+                        <>
+                            <div className="ItensCarrinho">
+                                {carrinhoData.items.map((item) => (
+                                    <ItemCarrinho
+                                        key={item.id}
+                                        imgAnuncio={item.listing_image_url || 'https://via.placeholder.com/100x100?text=Sem+Imagem'}
+                                        nomeProduto={item.listing_title}
+                                        nomeVendedor={`Vendedor ID: ${item.listing_seller_id}`}
+                                        preco={item.listing_price_cents / 100}
+                                        itemId={item.id}
+                                        listingId={item.listing_id}
+                                        onRemove={buscarCarrinho}
+                                    />
+                                ))}
+                            </div>
+                            <div className="ResultadoCarrinho">
+                                <div className="divValoresPesquisa">
+                                    <div>
+                                        <h2>Produtos:</h2>
+                                        <h2>R$ {formatarPreco(carrinhoData.subtotal_cents)}</h2>
+                                    </div>
+                                    <div>
+                                        <h2>Total Frete:</h2>
+                                        <h2>R$ {formatarPreco(carrinhoData.shipping_total_cents)}</h2>
+                                    </div>
+                                    <div>
+                                        <h2>Total:</h2>
+                                        <h2 className="bold">R$ {formatarPreco(carrinhoData.total_cents)}</h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <button className="btnComprarAgora" onClick={handlePagamento}>
+                                Comprar agora
+                            </button>
+                        </>
+                    )}
                 </div>
             )}
         </>
     );
 };
+
 export default Carrinho;

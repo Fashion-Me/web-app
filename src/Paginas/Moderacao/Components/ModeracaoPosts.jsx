@@ -8,8 +8,8 @@ import imgPerfilVH from "../../../Imagens/FotoPerfilVH.jpg"
 import imgPerfil from "../../../Imagens/FotoPerfil.png"
 
 import imgAnuncioCamiseta from "../../../Imagens/AnuncioCamisa.png";
-import imgAnuncioCasaco from "../../../Imagens/AnuncioCasaco.png";
-import imgAnuncioCalcado from "../../../Imagens/AnuncioCalcado.png";
+import imgAnuncioCasaco from "../../../Imagens/FotoPerfilCaue.jpg";
+import imgAnuncioCalcado from "../../../Imagens/FotoDaniel.jpg";
 import {useNavigate} from "react-router-dom";
 
 const TITULO_PAGINA = "POSTS";
@@ -45,17 +45,17 @@ const ModeracaoPerfil = () => {
         {
             id: 1,
             fotoAnuncio: imgPerfilVH ,
-            TipoDenuncia: "Conteúdo se trata à um golpe",
+            TipoDenuncia: "Conteúdo de cunho sexual, nudez",
         },
         {
             id: 2,
             fotoAnuncio: imgPerfilEnzo ,
-            TipoDenuncia: "Conteúdo de cunho sexual, nudez",
+            TipoDenuncia: "Conteúdo se trata à um golpe",
         },
         {
             id: 3,
             fotoAnuncio: imgPerfil,
-            TipoDenuncia: "Conteúdo de cunho sexual, nudez",
+            TipoDenuncia: "Conteúdo ilícito",
         },
         {
             id: 4,
@@ -70,7 +70,7 @@ const ModeracaoPerfil = () => {
         {
             id: 6,
             fotoAnuncio: imgAnuncioCalcado,
-            TipoDenuncia: "Conteúdo de cunho sexual, nudez",
+            TipoDenuncia: "Conteúdo ilícito",
         },
 
         // Adicionar mais anúncios conforme necessário

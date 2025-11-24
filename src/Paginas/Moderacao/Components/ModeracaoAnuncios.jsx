@@ -4,8 +4,8 @@ import "./ModeracaoPerfils.css"
 import "./ModeracaoAnuncios.css"
 
 import imgPerfilEnzo from "../../../Imagens/FotoPerfilEnzo.png"
-import imgPerfilVH from "../../../Imagens/FotoPerfilVH.jpg"
-import imgPerfil from "../../../Imagens/FotoPerfil.png"
+import imgPerfilVH from "../../../Imagens/FotoAnuncioTigrinho.png"
+import imgPerfil from "../../../Imagens/LogoSImples.png"
 import camisetaVermelha from "../../../Imagens/CamisetaVermelha1.webp"
 
 import imgAnuncioCamiseta from "../../../Imagens/AnuncioCamisa.png";

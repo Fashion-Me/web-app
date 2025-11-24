@@ -28,6 +28,7 @@ const Mensagens = () => {
     const [contatos, setContatos] = useState([]);
     const [carregando, setCarregando] = useState(true);
     const [carregandoMensagens, setCarregandoMensagens] = useState(false);
+    const [pesquisa, setPesquisa] = useState("");
 
     const lastMessageIdRef = useRef(null);
     const pollIntervalRef = useRef(null);
@@ -259,6 +260,11 @@ const Mensagens = () => {
         buscarContatos();
     }, []);
 
+    const contatosFiltrados = contatos.filter(chat => {
+        const nomeContato = (chat.peer?.name || chat.peer?.username || "").toLowerCase();
+        return nomeContato.includes(pesquisa.toLowerCase());
+    });
+
     return (
         <div className='Home'>
             {menuTipo === "mobile" ? (
@@ -275,8 +281,10 @@ const Mensagens = () => {
                         setMostrarAreaConfig={setMostrarAreaConfig}
                         setMostrarMenu={setMostrarMenu}
                         setContatoSelecionado={setContatoSelecionado}
-                        contatos={contatos}
+                        contatos={contatosFiltrados}
                         carregando={carregando}
+                        pesquisa={pesquisa}
+                        setPesquisa={setPesquisa}
                     />
                 }
                 {mostrarAreaConfig &&
@@ -332,14 +340,19 @@ const Contato = ({ nome, ultimaMensagem, numNovaMensagem, ContatoFoto, conversat
     </div>
 );
 
-const AbaMensagens = ({setMostrarAbaConfig, setMostrarAreaConfig, setMostrarMenu, setContatoSelecionado, contatos, carregando}) => (
+const AbaMensagens = ({setMostrarAbaConfig, setMostrarAreaConfig, setMostrarMenu, setContatoSelecionado, contatos, carregando, pesquisa, setPesquisa}) => (
     <div className="AbaMensagens">
         <div className="divTituloCaixaEntrada">
             <h2 className="semibold">Mensagens</h2>
         </div>
         <div className="divConfigPesquisa">
             <div className="barraPesquisa">
-                <input type="text" placeholder="Pesquisar" />
+                <input
+                    type="text"
+                    placeholder="Pesquisar"
+                    value={pesquisa}
+                    onChange={(e) => setPesquisa(e.target.value)}
+                />
                 <Search className="iconeLupa" size={24} color="#efefef" />
             </div>
         </div>
@@ -375,7 +388,9 @@ const AbaMensagens = ({setMostrarAbaConfig, setMostrarAreaConfig, setMostrarMenu
                     );
                 })
             ) : (
-                <p style={{textAlign: 'center', padding: '20px'}}>Nenhuma conversa encontrada</p>
+                <p style={{textAlign: 'center', padding: '20px'}}>
+                    {pesquisa ? 'Nenhum contato encontrado' : 'Nenhuma conversa encontrada'}
+                </p>
             )}
         </div>
     </div>

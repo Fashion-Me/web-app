@@ -13,11 +13,15 @@ import api from "../../services/authApi";
 
 // Imagens padrão
 import imgAnuncioCamiseta from "../../Imagens/AnuncioCamisa.png";
+import imgAnuncioCamiseta2 from "../../Imagens/CamisaPretaLisa.jpg";
 import CamisetaVermelha from "../../Imagens/CamisetaVermelha1.webp";
 import imgAnuncioCasaco from "../../Imagens/AnuncioCasaco.png";
 import imgAnuncioCalca from "../../Imagens/AnuncioCalca.png";
+import imgAnuncioCalca2 from "../../Imagens/CalcaPreta.webp";
 import imgAnuncioCalcado from "../../Imagens/AnuncioCalcado.png";
+import imgAnuncioCalcado2 from "../../Imagens/SapatoCouroMarrom.jpg";
 import imgAnuncioAcessorio from "../../Imagens/AnuncioAcessorio.png";
+import imgAnuncioAcessorio2 from "../../Imagens/FundoBtnAcessorios.png";
 
 import FundoPerfil from "../../Imagens/camisetas.png";
 import fotoPerfil from "../../Imagens/FotoPerfil.png";
@@ -105,9 +109,9 @@ const Perfil = (props) => {
     const produtosCamisetas = [
         { preco: '450', imagem: CamisetaVermelha },
         { preco: '35', imagem: imgAnuncioCamiseta },
-        { preco: '45', imagem: imgAnuncioCamiseta },
+        { preco: '45', imagem: imgAnuncioCamiseta2 },
         { preco: '55', imagem: imgAnuncioCamiseta },
-        { preco: '65', imagem: imgAnuncioCamiseta },
+        { preco: '65', imagem: imgAnuncioCamiseta2 },
         { preco: '75', imagem: imgAnuncioCamiseta },
         { preco: '85', imagem: imgAnuncioCamiseta },
         { preco: '95', imagem: imgAnuncioCamiseta },
@@ -117,33 +121,33 @@ const Perfil = (props) => {
 
     const produtosCalcas = [
         { preco: '25', imagem: imgAnuncioCalca },
-        { preco: '35', imagem: imgAnuncioCalca },
+        { preco: '35', imagem: imgAnuncioCalca2 },
         { preco: '45', imagem: imgAnuncioCalca },
-        { preco: '55', imagem: imgAnuncioCalca },
+        { preco: '55', imagem: imgAnuncioCalca2 },
         { preco: '65', imagem: imgAnuncioCalca },
-        { preco: '75', imagem: imgAnuncioCalca },
+        { preco: '75', imagem: imgAnuncioCalca2 },
         { preco: '85', imagem: imgAnuncioCalca },
-        { preco: '95', imagem: imgAnuncioCalca },
+        { preco: '95', imagem: imgAnuncioCalca2 },
     ];
 
     const produtosCalcados = [
         { preco: '25', imagem: imgAnuncioCalcado },
-        { preco: '35', imagem: imgAnuncioCalcado },
+        { preco: '35', imagem: imgAnuncioCalcado2 },
         { preco: '45', imagem: imgAnuncioCalcado },
-        { preco: '55', imagem: imgAnuncioCalcado },
+        { preco: '55', imagem: imgAnuncioCalcado2 },
         { preco: '65', imagem: imgAnuncioCalcado },
-        { preco: '75', imagem: imgAnuncioCalcado },
+        { preco: '75', imagem: imgAnuncioCalcado2 },
         { preco: '85', imagem: imgAnuncioCalcado },
         { preco: '95', imagem: imgAnuncioCalcado },
     ];
 
     const produtosAcessorios = [
         { preco: '25', imagem: imgAnuncioAcessorio },
-        { preco: '35', imagem: imgAnuncioAcessorio },
+        { preco: '35', imagem: imgAnuncioAcessorio2 },
         { preco: '45', imagem: imgAnuncioAcessorio },
-        { preco: '55', imagem: imgAnuncioAcessorio },
+        { preco: '55', imagem: imgAnuncioAcessorio2 },
         { preco: '65', imagem: imgAnuncioAcessorio },
-        { preco: '75', imagem: imgAnuncioAcessorio },
+        { preco: '75', imagem: imgAnuncioAcessorio2 },
         { preco: '85', imagem: imgAnuncioAcessorio },
         { preco: '95', imagem: imgAnuncioAcessorio },
     ];

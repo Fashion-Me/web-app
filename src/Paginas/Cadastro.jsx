@@ -19,7 +19,7 @@ const Cadastro = () => {
 
     useEffect(() => {
         const handleKeyDown = (e) => {
-            if (e.altKey && e.key === 'l') {
+            if (e.ctrlKey && e.key === 'l') {
                 e.preventDefault();
                 preencherAutomatico();
             }
@@ -31,7 +31,7 @@ const Cadastro = () => {
 
     const preencherAutomatico = () => {
         document.getElementById('nome').value = 'Luiz Ricardo';
-        document.getElementById('username').value = 'Luiz Ricardo';
+        document.getElementById('username').value = 'Luiz_ricardo';
         document.getElementById('email').value = 'Luiz.souza@etec.sp.gov.br';
         setTelefone('(11)98851-0353');
         document.getElementById('dataNasc').value = '1970-11-11';

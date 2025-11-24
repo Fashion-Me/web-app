@@ -123,7 +123,7 @@ const ModeracaoEspecAnun = () => {
 
                         <div className="botoes-acao">
                             <button id="btnPunir" onClick={() => setModalPenaAberto(true)}>
-                                MUDAR PENALIDADE
+                                RETIRAR DENUNCIA
                             </button>
                             <button id="btnExcluir">
                                 EXCLUIR POSTAGEM

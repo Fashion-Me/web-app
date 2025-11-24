@@ -42,7 +42,7 @@ const router = createBrowserRouter([
     { path: "/esquecerSenha", element: <EsquecerSenha /> },
     { path: "/home/homeEspecifica", element: <HomeEspecifica /> },
     { path: "/novaSenha", element: <NovaSenha /> },
-    { path: "/AnuncioVer", element: <PagAnuncioVer /> },
+    { path: "/anuncio/:id", element: <PagAnuncioVer /> },
     { path: "/AnuncioAdd", element: <PagAnuncioAdd /> },
     { path: "/AnuncioEdit", element: <PagAnuncioEdit /> },
     { path: "/pagamento", element: <EnderecosNovos /> },

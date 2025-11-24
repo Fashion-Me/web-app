@@ -14,7 +14,7 @@ const Login = () => {
 
     useEffect(() => {
         const handleKeyDown = (e) => {
-            if (e.altKey && e.key === 'l') {
+            if (e.ctrlKey && e.key === 'l') {
                 e.preventDefault();
                 preencherAutomatico();
             }
@@ -25,15 +25,14 @@ const Login = () => {
     }, []);
 
     const preencherAutomatico = () => {
-        document.getElementById('nome').value = 'Luiz Ricardo';
-        document.getElementById('senha').value = 'Luiz12345-';
+        document.getElementById('nome').value = 'luiz_ricardo';
+        document.getElementById('senha').value = 'Luiz#04rr';
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         const username = e.target.nome.value.trim();
         const password = e.target.senha.value.trim();
-
         try {
             await api.post("/auth/login", { username, password });
             navigate(`/home`);// login ok → home

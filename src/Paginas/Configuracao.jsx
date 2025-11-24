@@ -122,104 +122,122 @@ const ItemConfig = ({ icon, texto, onClick }) => (
     </div>
 );
 
-const AbaConfig = ({ setConteudoAtual, setMostrarAbaConfig, setMostrarAreaConfig, setMostrarMenu, setShowLogoutPopup }) => (
-    <div id="divConfig">
-        <div className="divTituloCaixaEntrada">
-            <h2 className="semibold">Configurações</h2>
-        </div>
+const AbaConfig = ({ setConteudoAtual, setMostrarAbaConfig, setMostrarAreaConfig, setMostrarMenu, setShowLogoutPopup }) => {
+    const [textoPesquisa, setTextoPesquisa] = useState('');
 
-        {/* Campo de busca */}
-        <div className="divConfigPesquisa">
-            <div className="barraPesquisa">
-                <input type="text" placeholder="Pesquisar" />
-                <Search className="iconeLupa" size={24} color="#efefef" />
+    const itensConfig = {
+        suaConta: [
+            {
+                icon: <UserRoundPen size={30} />,
+                texto: "Editar Perfil",
+                acao: 'EditarPerfil'
+            },
+            {
+                icon: <KeyRound size={30} />,
+                texto: "Trocar a senha da conta",
+                acao: 'ConfigTrocarSenha'
+            }
+        ],
+        brecho: [
+            {
+                icon: <Star size={30} />,
+                texto: "Anúncios curtidos",
+                acao: 'AnunCurtidos'
+            },
+            {
+                icon: <Megaphone size={30} />,
+                texto: "Seus anúncios",
+                acao: 'AnunProprios'
+            },
+            {
+                icon: <ShoppingBag size={30} />,
+                texto: "Meus Pedidos",
+                acao: 'MeusPedidos'
+            }
+        ]
+    };
+
+    const filtrarItens = (itens) => {
+        if (!textoPesquisa.trim()) return itens;
+        return itens.filter(item =>
+            item.texto.toLowerCase().includes(textoPesquisa.toLowerCase())
+        );
+    };
+
+    const itensSuaContaFiltrados = filtrarItens(itensConfig.suaConta);
+    const itensBrechoFiltrados = filtrarItens(itensConfig.brecho);
+
+    const handleItemClick = (acao) => {
+        setConteudoAtual(acao);
+        if (window.innerWidth < 500) {
+            setMostrarAbaConfig(false);
+            setMostrarAreaConfig(true);
+            setMostrarMenu(false);
+        }
+    };
+
+    return (
+        <div id="divConfig">
+            <div className="divTituloCaixaEntrada">
+                <h2 className="semibold">Configurações</h2>
+            </div>
+
+            <div className="divConfigPesquisa">
+                <div className="barraPesquisa">
+                    <input
+                        type="text"
+                        placeholder="Pesquisar"
+                        value={textoPesquisa}
+                        onChange={(e) => setTextoPesquisa(e.target.value)}
+                    />
+                    <Search className="iconeLupa" size={24} color="#efefef" />
+                </div>
+            </div>
+
+            {itensSuaContaFiltrados.length > 0 && (
+                <>
+                    <div className="linha-titulo">
+                        <span className="texto-linha">Sua conta</span>
+                    </div>
+                    <div className="ConjSuaConta">
+                        {itensSuaContaFiltrados.map((item, index) => (
+                            <ItemConfig
+                                key={index}
+                                icon={item.icon}
+                                texto={item.texto}
+                                onClick={() => handleItemClick(item.acao)}
+                            />
+                        ))}
+                    </div>
+                </>
+            )}
+
+            {itensBrechoFiltrados.length > 0 && (
+                <>
+                    <div className="linha-titulo">
+                        <span className="texto-linha">Brechó</span>
+                    </div>
+                    <div className="ConBrecho">
+                        {itensBrechoFiltrados.map((item, index) => (
+                            <ItemConfig
+                                key={index}
+                                icon={item.icon}
+                                texto={item.texto}
+                                onClick={() => handleItemClick(item.acao)}
+                            />
+                        ))}
+                    </div>
+                </>
+            )}
+
+            <hr />
+
+            <div className="acoes-finais">
+                <button className="btn-vermelho" onClick={() => setShowLogoutPopup(true)}>Sair da conta</button>
             </div>
         </div>
-
-        {/* Seção: Sua conta */}
-        <div className="linha-titulo">
-            <span className="texto-linha">Sua conta</span>
-        </div>
-        <div className="ConjSuaConta">
-            <ItemConfig
-                icon={<UserRoundPen size={30} />}
-                texto="Editar Perfil"
-                onClick={() => {
-                    setConteudoAtual('EditarPerfil');
-                    if (window.innerWidth < 500) {
-                        setMostrarAbaConfig(false);
-                        setMostrarAreaConfig(true);
-                        setMostrarMenu(false)
-                    }
-                }}
-            />
-            <ItemConfig
-                icon={<KeyRound size={30} />}
-                texto="Trocar a senha da conta"
-                onClick={() => {
-                    setConteudoAtual('ConfigTrocarSenha');
-                    if (window.innerWidth < 500) {
-                        setMostrarAbaConfig(false);
-                        setMostrarAreaConfig(true);
-                        setMostrarMenu(false)
-                    }
-                }}
-            />
-        </div>
-
-        {/* Seção: Brechó */}
-        <div className="linha-titulo">
-            <span className="texto-linha">Brechó</span>
-        </div>
-        <div className="ConBrecho">
-            <ItemConfig
-                icon={<Star size={30} />}
-                texto="Anúncios curtidos"
-                onClick={() => {
-                    setConteudoAtual('AnunCurtidos');
-                    if (window.innerWidth < 500) {
-                        setMostrarAbaConfig(false);
-                        setMostrarAreaConfig(true);
-                        setMostrarMenu(false)
-                    }
-                }}
-            />
-            <ItemConfig
-                icon={<Megaphone size={30} />}
-                texto="Seus anúncios"
-                onClick={() => {
-                    setConteudoAtual('AnunProprios');
-                    if (window.innerWidth < 500) {
-                        setMostrarAbaConfig(false);
-                        setMostrarAreaConfig(true);
-                        setMostrarMenu(false)
-                    }
-                }}
-            />
-
-            <ItemConfig
-                icon={<ShoppingBag size={30} />}
-                texto="Meus Pedidos"
-                onClick={() => {
-                    setConteudoAtual('MeusPedidos');
-                    if (window.innerWidth < 500) {
-                        setMostrarAbaConfig(false);
-                        setMostrarAreaConfig(true);
-                        setMostrarMenu(false)
-                    }
-                }}
-            />
-        </div>
-        <hr />
-
-        {/* Ações finais */}
-        <div className="acoes-finais">
-            <button className="btn-vermelho" onClick={() => setShowLogoutPopup(true)}>Sair da conta</button>
-            <hr />
-            <button className="btn-vermelho">Apagar conta</button>
-        </div>
-    </div>
-);
+    );
+};
 
 const AreaConfig = ({ conteudoAtual,setMostrarAbaConfig, setMostrarAreaConfig, setMostrarMenu }) => (
     <div className="AreaConfig" >

@@ -132,7 +132,7 @@ const ModeracaoEspecAnun = () => {
 
                         <div className="botoes-acao">
                             <button id="btnPunir" onClick={() => setModalPenaAberto(true)}>
-                                MUDAR PENALIDADE
+                                RETIRAR DENUNCIA
                             </button>
                             <button id="btnExcluir">
                                 EXCLUIR ANÚNCIO
@@ -184,15 +184,15 @@ const ModeracaoEspecAnun = () => {
                         </div>
                     </div>
                     {/* Localização */}
-                    {produtoExemplo?.localizacao ? (
-                        <div className="info-localizacao">
-                            <h3>Localização</h3>
-                            <div className="localizacao-content">
-                                <MapPin size={30} className="localizacao-icon" />
-                                <span className="localizacao-texto">{produtoExemplo.localizacao}</span>
-                            </div>
-                        </div>
-                    ) : null}
+                    {/*{produtoExemplo?.localizacao ? (*/}
+                    {/*    <div className="info-localizacao">*/}
+                    {/*        <h3>Localização</h3>*/}
+                    {/*        <div className="localizacao-content">*/}
+                    {/*            <MapPin size={30} className="localizacao-icon" />*/}
+                    {/*            <span className="localizacao-texto">{produtoExemplo.localizacao}</span>*/}
+                    {/*        </div>*/}
+                    {/*    </div>*/}
+                    {/*) : null}*/}
 
                     <PerfilHistorico
                         denuncias={denunciasExemplo}

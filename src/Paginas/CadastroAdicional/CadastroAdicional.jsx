@@ -27,7 +27,7 @@ const Cadastro = () => {
 
     useEffect(() => {
         const handleKeyDown = (e) => {
-            if (e.altKey && e.key === 'l') {
+            if (e.ctrlKey && e.key === 'l') {
                 e.preventDefault();
                 preencherAutomatico();
             }

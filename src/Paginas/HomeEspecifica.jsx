@@ -125,7 +125,7 @@ const Home = ({tipoEspec}) => {
                         )}
                     </div>
                 </div>
-                {!carregando && anuncios.length > quantidadeExibida && (
+                {!carregando && quantidadeExibida < anuncios.length && (
                     <button className="btnAdicionarAnuncio" onClick={adicionarAnuncio} type="button">
                         Ver mais
                     </button>
