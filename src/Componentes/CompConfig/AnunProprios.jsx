@@ -31,7 +31,7 @@ const AnunciosProprios = () => {
     }, []);
 
     const onCliqueAnuncio = (anuncio) => {
-        navigate(`/anuncio/${anuncio.id}`);
+        navigate(`/AnuncioEdit/${anuncio.id}`);
     };
 
     return (

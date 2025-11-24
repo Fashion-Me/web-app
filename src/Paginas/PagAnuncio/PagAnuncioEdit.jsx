@@ -1,64 +1,101 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Menu from '../../Componentes/Menu';
 import "./PagAnuncio.css";
 import "./PagAnuncioAdd.css";
 import "@radix-ui/themes/styles.css";
 import HamburgerComponent from '../../Componentes/Menu/Hamburger';
 import useMenuTipo from "../../hooks/useMenuTipo";
-import { ArrowLeft, ArrowRight, Camera, MapPin, Pencil, Plus } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Camera, Pencil, Plus } from 'lucide-react';
 import Carrinho from "../../Componentes/Carrinho";
-import foto1 from "../../Imagens/CamisetaVermelha1.webp";
-import foto2 from "../../Imagens/CamisetaVermelha2.webp";
-import foto3 from "../../Imagens/CamisetaVermelha3.webp";
-import {useNavigate} from "react-router-dom";
-
-const produtoExemplo = {
-    id: 1,
-    titulo: "Camisa vermelha AVENUE",
-    preco: "450",
-    descricao: "Apresentamos a Camisa Avenue vermelha, perfeita para adicionar um toque de estilo ao seu visual! Com um design moderno e vibrante, esta camisa é ideal para diversas ocasiões. Combine conforto e elegância com esta peça única.",
-    estado: "Usado",
-    categoria: "Camiseta",
-    tamanho: 'GG',
-    marca: "AVENUE",
-    localizacao: "AV BRASIL 700",
-    imagens: [foto1, foto2, foto3]
-};
+import { useNavigate, useParams } from "react-router-dom";
+import api from "../../services/authApi";
 
 const PagAnuncioEdit = () => {
+    const { id } = useParams();
     const { menuTipo, menuOpen, setMenuOpen } = useMenuTipo(false);
     const [imagemAtual, setImagemAtual] = useState(0);
-    const [imagens, setImagens] = useState(produtoExemplo.imagens);
+    const [imagens, setImagens] = useState([]);
+    const [imagensParaUpload, setImagensParaUpload] = useState([]);
     const navigate = useNavigate();
+    const [carregando, setCarregando] = useState(true);
+    const [salvando, setSalvando] = useState(false);
+    const [erro, setErro] = useState(null);
+
     const [formData, setFormData] = useState({
-        titulo: produtoExemplo.titulo,
-        preco: `R$ ${produtoExemplo.preco}`,
-        descricao: produtoExemplo.descricao,
-        categoria: produtoExemplo.categoria,
-        tamanho: produtoExemplo.tamanho,
+        titulo: '',
+        preco: '',
+        descricao: '',
+        categoria: '',
+        tamanho: '',
         tamanhoNumerico: '',
-        estado: produtoExemplo.estado,
-        marca: produtoExemplo.marca,
-        localizacao: produtoExemplo.localizacao
+        estado: '',
+        marca: '',
+        status: 'active'
     });
 
-    const categorias = ['Camiseta', 'Casaco', 'Calça', 'Calçados', 'Acessórios'];
+    const categorias = ['CAMISETA', 'CASACO', 'CALÇA', 'CALÇADOS', 'ACESSÓRIOS'];
     const tamanhos = ['PP', 'P', 'M', 'G', 'GG'];
     const estados = ['Novo','Seminovo', 'Bom estado','Usado'];
 
+    useEffect(() => {
+        const buscarAnuncio = async () => {
+            try {
+                setCarregando(true);
+                setErro(null);
+
+                const response = await api.get(`/listings/id/${id}`);
+                const anuncio = response.data;
+
+                setFormData({
+                    titulo: anuncio.title || '',
+                    preco: `R$ ${(anuncio.price_cents / 100).toFixed(2).replace('.', ',')}`,
+                    descricao: anuncio.description || '',
+                    categoria: anuncio.category?.toUpperCase() || '',
+                    tamanho: anuncio.size || '',
+                    tamanhoNumerico: '',
+                    estado: anuncio.condition === 'new' ? 'NOVO' : 'USADO',
+                    marca: '',
+                    status: anuncio.status || 'active'
+                });
+
+                if (anuncio.medias && anuncio.medias.length > 0) {
+                    const imagensOrdenadas = anuncio.medias
+                        .sort((a, b) => a.position - b.position)
+                        .map(m => m.url);
+                    setImagens(imagensOrdenadas);
+                }
+
+            } catch (err) {
+                console.error("Erro ao buscar anúncio:", err);
+                setErro("Não foi possível carregar o anúncio.");
+            } finally {
+                setCarregando(false);
+            }
+        };
+
+        if (id) {
+            buscarAnuncio();
+        }
+    }, [id]);
+
     const precisaTamanhoTexto = () => {
-        return ['Camiseta', 'Casaco', 'Calça'].includes(formData.categoria);
+        return ['CAMISETA', 'CASACO', 'CALÇA'].includes(formData.categoria);
     };
 
     const precisaApenasTamanhoNumerico = () => {
-        return ['Calçados', 'Acessórios'].includes(formData.categoria);
+        return ['CALÇADOS', 'ACESSÓRIOS'].includes(formData.categoria);
     };
 
     const handleImageUpload = (e) => {
         const files = Array.from(e.target.files);
-        const novasImagens = files.map(file => URL.createObjectURL(file));
-        const imagensAtualizadas = [...imagens, ...novasImagens].slice(0, 5);
-        setImagens(imagensAtualizadas);
+        const novasImagens = files.map(file => ({
+            url: URL.createObjectURL(file),
+            file: file
+        }));
+
+        const imagensAtualizadas = [...imagens.map(url => ({ url, file: null })), ...novasImagens].slice(0, 5);
+        setImagens(imagensAtualizadas.map(img => img.url));
+        setImagensParaUpload([...imagensParaUpload, ...novasImagens.filter(img => img.file)]);
     };
 
     const proximaImagem = () => {
@@ -77,7 +114,7 @@ const PagAnuncioEdit = () => {
         const { name, value } = e.target;
         if (name === 'preco') {
             const numeros = value.replace(/[^\d]/g, '');
-            const valorFormatado = numeros ? `R$ ${numeros}` : '';
+            const valorFormatado = numeros ? `R$ ${(parseInt(numeros) / 100).toFixed(2).replace('.', ',')}` : '';
             setFormData(prev => ({
                 ...prev,
                 [name]: valorFormatado
@@ -100,15 +137,147 @@ const PagAnuncioEdit = () => {
         setFormData(prev => ({
             ...prev,
             tamanhoNumerico: value,
-            tamanho: value ? '' : prev.tamanho
+            tamanho: value ? value : prev.tamanho
         }));
     };
 
-    const handleSubmit = () => {
-        console.log('Dados atualizados do anúncio:', formData);
-        console.log('Imagens:', imagens);
-        navigate(`/home`);
+    const handleSubmit = async () => {
+        try {
+            setSalvando(true);
+
+            const precoNumeros = formData.preco.replace(/[^\d]/g, '');
+            const priceCents = parseInt(precoNumeros);
+
+            const tamanhoFinal = formData.tamanhoNumerico || formData.tamanho;
+
+            // Validações básicas
+            if (!formData.titulo) {
+                alert('Por favor, preencha o título do produto');
+                return;
+            }
+            if (!priceCents || priceCents <= 0) {
+                alert('Por favor, informe um preço válido');
+                return;
+            }
+            if (!tamanhoFinal) {
+                alert('Por favor, selecione um tamanho');
+                return;
+            }
+            if (!formData.categoria) {
+                alert('Por favor, selecione uma categoria');
+                return;
+            }
+            if (!formData.descricao) {
+                alert('Por favor, preencha a descrição do produto');
+                return;
+            }
+
+            // Mapear categorias para inglês
+            const categoryMap = {
+                'CAMISETA': 'shirt',
+                'CASACO': 'coat',
+                'CALÇA': 'pants',
+                'CALÇADOS': 'shoes',
+                'ACESSÓRIOS': 'accessories'
+            };
+
+            // Mapear condição para o enum do backend
+            const conditionMap = {
+                'NOVO': 'new',
+                'USADO': 'used'
+            };
+
+            const categoriaEmIngles = categoryMap[formData.categoria] || formData.categoria.toLowerCase();
+            const condicaoEmIngles = conditionMap[formData.estado] || 'used';
+
+            const dadosAtualizacao = {
+                title: formData.titulo,
+                description: formData.descricao,
+                size: tamanhoFinal,
+                category: categoriaEmIngles,
+                condition: condicaoEmIngles,
+                price_cents: priceCents,
+                status: formData.status
+            };
+
+            console.log('Dados para atualização:', dadosAtualizacao);
+            console.log('URL da requisição:', `/listings/${id}`);
+
+            // Usar PUT ao invés de PATCH
+            const response = await api.put(`/listings/${id}`, dadosAtualizacao);
+
+            console.log('Resposta da API:', response.data);
+
+            alert('Anúncio atualizado com sucesso!');
+            navigate(`/anuncio/${id}`);
+        } catch (err) {
+            console.error("Erro ao atualizar anúncio:", err);
+            console.error("Status:", err.response?.status);
+            console.error("Detalhes:", err.response?.data);
+            console.error("Mensagem:", err.message);
+
+            let mensagemErro = 'Erro ao atualizar anúncio. ';
+
+            if (err.response) {
+                // Erro de resposta da API
+                if (err.response.status === 401) {
+                    mensagemErro += 'Você precisa estar logado.';
+                } else if (err.response.status === 403) {
+                    mensagemErro += 'Você não tem permissão para editar este anúncio.';
+                } else if (err.response.status === 404) {
+                    mensagemErro += 'Anúncio não encontrado.';
+                } else if (err.response.status === 422) {
+                    mensagemErro += 'Dados inválidos. Verifique todos os campos.';
+                    if (err.response.data?.detail) {
+                        mensagemErro += '\n' + JSON.stringify(err.response.data.detail);
+                    }
+                } else {
+                    mensagemErro += err.response.data?.message || 'Erro desconhecido.';
+                }
+            } else if (err.request) {
+                // Requisição foi feita mas não houve resposta
+                mensagemErro += 'Sem resposta do servidor. Verifique sua conexão.';
+            } else {
+                // Erro ao configurar a requisição
+                mensagemErro += err.message;
+            }
+
+            alert(mensagemErro);
+        } finally {
+            setSalvando(false);
+        }
     };
+
+    if (carregando) {
+        return (
+            <div className='PagAnuncio'>
+                {menuTipo === "mobile" ? (
+                    <HamburgerComponent menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
+                ) : (
+                    <Menu tipo={menuTipo} />
+                )}
+                <div className="conteudo-anuncio">
+                    <p style={{ textAlign: 'center', padding: '50px' }}>Carregando anúncio...</p>
+                </div>
+            </div>
+        );
+    }
+
+    if (erro) {
+        return (
+            <div className='PagAnuncio'>
+                {menuTipo === "mobile" ? (
+                    <HamburgerComponent menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
+                ) : (
+                    <Menu tipo={menuTipo} />
+                )}
+                <div className="conteudo-anuncio">
+                    <p style={{ textAlign: 'center', padding: '50px', color: 'red' }}>{erro}</p>
+                    <button onClick={() => navigate(-1)}>Voltar</button>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className='PagAnuncio'>
@@ -311,42 +480,17 @@ const PagAnuncioEdit = () => {
                                     ))}
                                 </div>
                             </div>
-
-                            <div className="info-item-add">
-                                <span className="info-label">MARCA</span>
-                                <div className="input-marca-container">
-                                    <input
-                                        type="text"
-                                        name="marca"
-                                        value={formData.marca}
-                                        onChange={handleInputChange}
-                                        placeholder="Digite a marca"
-                                        className="input-marca"
-                                    />
-                                    <Pencil size={16} className="input-icon-marca" />
-                                </div>
-                            </div>
                         </div>
                     </div>
 
-                    {/*<div className="info-localizacao">*/}
-                    {/*    <h3>Localização</h3>*/}
-                    {/*    <div className="localizacao-input-container">*/}
-                    {/*        <MapPin size={24} className="localizacao-icon" />*/}
-                    {/*        <input*/}
-                    {/*            type="text"*/}
-                    {/*            name="localizacao"*/}
-                    {/*            value={formData.localizacao}*/}
-                    {/*            onChange={handleInputChange}*/}
-                    {/*            placeholder="CLIQUE PARA ADICIONAR SUA LOCALIZAÇÃO"*/}
-                    {/*            className="input-localizacao"*/}
-                    {/*        />*/}
-                    {/*    </div>*/}
-                    {/*</div>*/}
-
                     <div className="info-btn">
-                        <button className="btn-Publicar" onClick={handleSubmit}>
-                            SALVAR ALTERAÇÕES
+                        <button
+                            className="btn-Publicar"
+                            onClick={handleSubmit}
+                            disabled={salvando}
+                            style={{ opacity: salvando ? 0.6 : 1 }}
+                        >
+                            {salvando ? 'SALVANDO...' : 'SALVAR ALTERAÇÕES'}
                         </button>
                     </div>
                 </div>

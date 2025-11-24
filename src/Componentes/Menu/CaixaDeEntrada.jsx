@@ -1,14 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { X, Search } from "lucide-react";
 import "../Css/CaixaDeEntrada.css";
-
-import foto1 from '../../Imagens/FotoAnuncioTigrinho.png';
-import foto2 from '../../Imagens/AnuncioCasaco.png';
-import foto3 from '../../Imagens/camisetas.png';
-import foto4 from '../../Imagens/FotoPerfil.png';
-import foto7 from '../../Imagens/FotoPerfilEnzo.png';
-import foto6 from '../../Imagens/FotoPerfilCaue.jpg';
-import foto8 from '../../Imagens/FotoPerfilVH.jpg';
+import api from "../../services/authApi";
 import foto9 from '../../Imagens/FotoPerfilAvatar.png';
 
 // --- DADOS DE EXEMPLO COM DATAS REAIS ---
@@ -26,18 +19,6 @@ const lastYear = new Date();
 lastYear.setFullYear(today.getFullYear() - 1); // 1 ano atrás
 
 
-
-const initialNotifications = [
-    { id: 1, date: today, user: 'Luis Ricardo', text: "postou um outfit no app.", time: 'Há cerca de 30 minutos', avatar: foto4, isRead: false },
-    { id: 2, date: yesterday, user: 'Enzo, O lindo', text: "curtiu seu comentário.", time: 'Há cerca de 20 horas', avatar: foto7, isRead: true },
-    { id: 3, date: thisWeek, user: 'Carlos Souza', text: "começou a seguir você.", time: 'Há 3 dias', avatar: foto9, isRead: false },
-    // Adicionado para o teste de pesquisa "lu..."
-    { id: 7, date: thisWeek, user: 'K.U.E', text: "enviou uma nova mensagem.", time: 'Há 4 dias', avatar: foto6, isRead: false },
-    { id: 4, date: thisMonth, user: 'Luis Ricardo', text: "postou um outfit no app.", time: 'Há 1 semana', avatar: foto4, isRead: false },
-    { id: 5, date: thisYear, user: 'Ana Pereira', text: "comentou na sua foto.", time: 'Há 2 meses', avatar: foto8, isRead: true },
-    { id: 6, date: lastYear, user: 'Luis Ricardo', text: "postou um outfit no app.", time: 'Há 1 ano', avatar: foto4, isRead: true },
-];
-
 // --- ⭐️ LÓGICA DE AGRUPAMENTO DE DATAS ⭐️ ---
 
 // Helper 1: Verifica se duas datas são o mesmo dia
@@ -46,8 +27,6 @@ const isSameDay = (d1, d2) => {
         d1.getMonth() === d2.getMonth() &&
         d1.getDate() === d2.getDate();
 };
-
-
 
 // Helper 2: Retorna o nome do grupo para uma data
 function getNotificationGroup(date) {
@@ -96,6 +75,63 @@ function getNotificationGroup(date) {
     return 'Mais Antigo';
 }
 
+// Função para formatar as notificações a partir dos pedidos
+const formatOrdersToNotifications = (orders) => {
+    return orders.map(order => {
+        const orderDate = new Date(order.created_at);
+        const timeAgo = getTimeAgo(orderDate);
+
+        // Gera texto baseado no status do pedido
+        let notificationText = '';
+        switch(order.status) {
+            case 'paid':
+                notificationText = 'realizou um pedido.';
+                break;
+            case 'shipped':
+                notificationText = 'teve seu pedido enviado.';
+                break;
+            case 'delivered':
+                notificationText = 'recebeu seu pedido.';
+                break;
+            case 'canceled':
+                notificationText = 'cancelou um pedido.';
+                break;
+            default:
+                notificationText = 'tem uma atualização de pedido.';
+        }
+
+        return {
+            id: order.id,
+            date: orderDate,
+            user: order.ship_recipient || 'Cliente',
+            text: notificationText,
+            time: timeAgo,
+            avatar: foto9,
+            isRead: false,
+            orderId: order.id,
+            orderStatus: order.status
+        };
+    });
+};
+
+// Função auxiliar para calcular tempo decorrido
+const getTimeAgo = (date) => {
+    const now = new Date();
+    const diffMs = now - date;
+    const diffMins = Math.floor(diffMs / 60000);
+    const diffHours = Math.floor(diffMs / 3600000);
+    const diffDays = Math.floor(diffMs / 86400000);
+    const diffMonths = Math.floor(diffDays / 30);
+    const diffYears = Math.floor(diffDays / 365);
+
+    if (diffMins < 60) return `Há cerca de ${diffMins} minutos`;
+    if (diffHours < 24) return `Há cerca de ${diffHours} horas`;
+    if (diffDays < 7) return `Há ${diffDays} dias`;
+    if (diffDays < 30) return `Há ${Math.floor(diffDays / 7)} semanas`;
+    if (diffMonths < 12) return `Há ${diffMonths} meses`;
+    return `Há ${diffYears} anos`;
+};
+
 // --- Componente Notificação (Sem mudanças) ---
 const Notificacao = ({ notification, onClick }) => {
     const { user, text, time, avatar, isRead } = notification;
@@ -116,10 +152,31 @@ const Notificacao = ({ notification, onClick }) => {
 
 // --- Componente Principal (Modificado) ---
 const CaixaDeEntrada = ({ setMostrarCaixaDeEntrada }) => {
-    const [notifications, setNotifications] = useState(initialNotifications);
-
-    // ⭐️ 1. ADICIONA ESTADO PARA O TERMO DE PESQUISA
+    const [notifications, setNotifications] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    // Buscar pedidos da API
+    useEffect(() => {
+        const fetchOrders = async () => {
+            try {
+                setLoading(true);
+                const response = await api.get('/orders');
+                const formattedNotifications = formatOrdersToNotifications(response.data);
+                setNotifications(formattedNotifications);
+                setError(null);
+            } catch (err) {
+                console.error('Erro ao buscar pedidos:', err);
+                setError('Erro ao carregar notificações');
+                setNotifications([]);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchOrders();
+    }, []);
 
     const handleNotificationClick = (id) => {
         setNotifications(currentNotifications =>
@@ -129,13 +186,10 @@ const CaixaDeEntrada = ({ setMostrarCaixaDeEntrada }) => {
         );
     };
 
-    // ⭐️ 2. FILTRA AS NOTIFICAÇÕES ANTES DE AGRUPAR
     const filteredNotifications = notifications.filter(notification =>
-        // Verifica se o nome do usuário inclui o termo pesquisado (ignorando maiúsculas/minúsculas)
         notification.user.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-    // ⭐️ 3. AGRUPA AS NOTIFICAÇÕES JÁ FILTRADAS
     const groupedNotifications = filteredNotifications.reduce((acc, notification) => {
         const group = getNotificationGroup(notification.date);
         if (!acc[group]) {
@@ -145,7 +199,6 @@ const CaixaDeEntrada = ({ setMostrarCaixaDeEntrada }) => {
         return acc;
     }, {});
 
-    // Define a ordem correta dos grupos
     const groupOrder = ['Hoje', 'Ontem', 'Essa Semana', 'Esse Mês', 'Esse Ano', 'Mais Antigo'];
 
     return (
@@ -161,7 +214,6 @@ const CaixaDeEntrada = ({ setMostrarCaixaDeEntrada }) => {
 
             <div className="search-bar">
                 <Search className="search-icon" size={18} color="#888" />
-                {/* ⭐️ 4. CONECTA O INPUT AO ESTADO E ATUALIZA O ESTADO 'onChange' ⭐️ */}
                 <input
                     type="text"
                     placeholder="pesquisar por usuário..."
@@ -170,21 +222,33 @@ const CaixaDeEntrada = ({ setMostrarCaixaDeEntrada }) => {
                 />
             </div>
 
-            {/* ⭐️ RENDERIZA OS GRUPOS NA ORDEM CORRETA ⭐️ */}
             <div className="ListaNotificacoes">
+                {loading && (
+                    <p style={{ color: '#888', textAlign: 'center', marginTop: '20px' }}>
+                        Carregando notificações...
+                    </p>
+                )}
 
-                {/* Adiciona uma mensagem se a busca não retornar nada */}
-                {filteredNotifications.length === 0 && searchTerm.length > 0 && (
+                {error && (
+                    <p style={{ color: '#ff6b6b', textAlign: 'center', marginTop: '20px' }}>
+                        {error}
+                    </p>
+                )}
+
+                {!loading && filteredNotifications.length === 0 && searchTerm.length > 0 && (
                     <p style={{ color: '#888', textAlign: 'center', marginTop: '20px' }}>
                         Nenhuma notificação encontrada para "{searchTerm}"
                     </p>
                 )}
 
-                {groupOrder.map(groupName => {
-                    // Usa a lista filtrada para encontrar os itens
-                    const items = groupedNotifications[groupName];
+                {!loading && filteredNotifications.length === 0 && searchTerm.length === 0 && !error && (
+                    <p style={{ color: '#888', textAlign: 'center', marginTop: '20px' }}>
+                        Nenhuma notificação no momento
+                    </p>
+                )}
 
-                    // Pula se o grupo não tiver itens
+                {!loading && groupOrder.map(groupName => {
+                    const items = groupedNotifications[groupName];
                     if (!items || items.length === 0) return null;
 
                     return (

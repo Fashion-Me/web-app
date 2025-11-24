@@ -44,7 +44,7 @@ const router = createBrowserRouter([
     { path: "/novaSenha", element: <NovaSenha /> },
     { path: "/anuncio/:id", element: <PagAnuncioVer /> },
     { path: "/AnuncioAdd", element: <PagAnuncioAdd /> },
-    { path: "/AnuncioEdit", element: <PagAnuncioEdit /> },
+    { path: "/AnuncioEdit/:id", element: <PagAnuncioEdit /> },
     { path: "/pagamento", element: <EnderecosNovos /> },
     { path: "/MeusPedidos", element: <StatusPagamento /> },
 
