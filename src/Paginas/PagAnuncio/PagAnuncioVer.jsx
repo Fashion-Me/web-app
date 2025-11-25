@@ -22,7 +22,8 @@ const PagAnuncioVer = () => {
     const [erro, setErro] = useState(null);
     const [isFavorited, setIsFavorited] = useState(false);
     const [favoritoCarregando, setFavoritoCarregando] = useState(false);
-
+    const [adicionandoCarrinho, setAdicionandoCarrinho] = useState(false);
+    const [iniciandoConversa, setIniciandoConversa] = useState(false);
 
     useEffect(() => {
         const buscarAnuncio = async () => {
@@ -65,6 +66,15 @@ const PagAnuncioVer = () => {
                         const vendedorResponse = await api.get(`/users/${userIdResponse.data.username}`);
                         console.log('Dados completos do vendedor:', vendedorResponse.data);
 
+                        const formatarData = (dataISO) => {
+                            if (!dataISO) return 'Data não disponível';
+                            const data = new Date(dataISO);
+                            const dia = String(data.getDate()).padStart(2, '0');
+                            const mes = String(data.getMonth() + 1).padStart(2, '0');
+                            const ano = data.getFullYear();
+                            return `${dia}/${mes}/${ano}`;
+                        };
+
                         if (vendedorResponse.data) {
                             setVendedor({
                                 id: vendedorResponse.data.id,
@@ -72,9 +82,10 @@ const PagAnuncioVer = () => {
                                 username: vendedorResponse.data.username,
                                 avatar: vendedorResponse.data.profile_url || 'https://via.placeholder.com/80x80?text=Avatar',
                                 produtosAnunciados: vendedorResponse.data.posts_count || 0,
-                                dataCriacao: 'Membro desde início'
+                                dataCriacao: formatarData(vendedorResponse.data.created_at),
                             });
                         } else {
+
                             console.warn('Dados do vendedor vazios');
                             setVendedor(null);
                         }
@@ -135,8 +146,6 @@ const PagAnuncioVer = () => {
         }
     };
 
-    const [adicionandoCarrinho, setAdicionandoCarrinho] = useState(false);
-
     const handleAdicionarCarrinho = async () => {
         if (adicionandoCarrinho) return;
 
@@ -169,6 +178,39 @@ const PagAnuncioVer = () => {
             setAdicionandoCarrinho(false);
         }
     }
+
+    const handleIniciarConversa = async () => {
+        if (iniciandoConversa || !vendedor) return;
+
+        try {
+            setIniciandoConversa(true);
+
+            console.log('Iniciando conversa com vendedor ID:', vendedor.id);
+            await api.post('/chats', {
+                other_user_id: vendedor.id
+            });
+
+            console.log('Conversa iniciada com sucesso');
+            navigate('/mensagens');
+
+        } catch (err) {
+            console.error("Erro ao iniciar conversa:", err);
+            console.error("Detalhes do erro:", err.response?.data);
+
+            if (err.response?.status === 401) {
+                alert('Você precisa estar logado para enviar mensagens');
+                navigate('/login');
+            } else if (err.response?.status === 400) {
+                // Conversa já existe, apenas redirecionar
+                console.log('Conversa já existe, redirecionando...');
+                navigate('/mensagens');
+            } else {
+                alert('Erro ao iniciar conversa. Tente novamente.');
+            }
+        } finally {
+            setIniciandoConversa(false);
+        }
+    };
 
     const handleLinkVendedor = () => {
         if (produto) {
@@ -287,7 +329,15 @@ const PagAnuncioVer = () => {
                                 style={{ cursor: favoritoCarregando ? 'wait' : 'pointer' }}
                             />
                         </button>
-                        <button className="icon-btn">
+                        <button
+                            className="icon-btn"
+                            onClick={handleIniciarConversa}
+                            disabled={iniciandoConversa || !vendedor}
+                            style={{
+                                opacity: (iniciandoConversa || !vendedor) ? 0.6 : 1,
+                                cursor: (iniciandoConversa || !vendedor) ? 'not-allowed' : 'pointer'
+                            }}
+                        >
                             <MessagesSquare size={40} />
                         </button>
                         <button className="icon-btn" onClick={() => setModalDenunciaAberto(true)}>
@@ -455,3 +505,4 @@ const PagAnuncioVer = () => {
 };
 
 export default PagAnuncioVer;
+

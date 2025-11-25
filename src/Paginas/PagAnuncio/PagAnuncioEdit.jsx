@@ -5,7 +5,7 @@ import "./PagAnuncioAdd.css";
 import "@radix-ui/themes/styles.css";
 import HamburgerComponent from '../../Componentes/Menu/Hamburger';
 import useMenuTipo from "../../hooks/useMenuTipo";
-import { ArrowLeft, ArrowRight, Camera, Pencil, Plus } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Camera, Pencil, Plus, Trash2 } from 'lucide-react';
 import Carrinho from "../../Componentes/Carrinho";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "../../services/authApi";
@@ -14,8 +14,8 @@ const PagAnuncioEdit = () => {
     const { id } = useParams();
     const { menuTipo, menuOpen, setMenuOpen } = useMenuTipo(false);
     const [imagemAtual, setImagemAtual] = useState(0);
-    const [imagens, setImagens] = useState([]);
-    const [imagensParaUpload, setImagensParaUpload] = useState([]);
+    const [imagens, setImagens] = useState([]); // Array de objetos { url, mediaId, file }
+    const [imagensParaDeletar, setImagensParaDeletar] = useState([]);
     const navigate = useNavigate();
     const [carregando, setCarregando] = useState(true);
     const [salvando, setSalvando] = useState(false);
@@ -46,14 +46,38 @@ const PagAnuncioEdit = () => {
                 const response = await api.get(`/listings/id/${id}`);
                 const anuncio = response.data;
 
+                // Mapear categoria de inglês para português (reverso)
+                const categoryReverseMap = {
+                    'shirt': 'CAMISETA',
+                    'coat': 'CASACO',
+                    'pants': 'CALÇA',
+                    'shoes': 'CALÇADOS',
+                    'accessories': 'ACESSÓRIOS'
+                };
+
+                // Mapear condição de inglês para português (reverso)
+                const conditionReverseMap = {
+                    'new': 'Novo',
+                    'like_new': 'Seminovo',
+                    'good': 'Bom estado',
+                    'fair': 'Usado'
+                };
+
+                const categoriaEmPortugues = categoryReverseMap[anuncio.category?.toLowerCase()] || '';
+                const estadoEmPortugues = conditionReverseMap[anuncio.condition?.toLowerCase()] || '';
+
+                // Determinar se o tamanho é numérico ou texto
+                const tamanhosPadrao = ['PP', 'P', 'M', 'G', 'GG'];
+                const ehTamanhoTexto = tamanhosPadrao.includes(anuncio.size?.toUpperCase());
+
                 setFormData({
                     titulo: anuncio.title || '',
                     preco: `R$ ${(anuncio.price_cents / 100).toFixed(2).replace('.', ',')}`,
                     descricao: anuncio.description || '',
-                    categoria: anuncio.category?.toUpperCase() || '',
-                    tamanho: anuncio.size || '',
-                    tamanhoNumerico: '',
-                    estado: anuncio.condition === 'new' ? 'NOVO' : 'USADO',
+                    categoria: categoriaEmPortugues,
+                    tamanho: ehTamanhoTexto ? anuncio.size?.toUpperCase() : '',
+                    tamanhoNumerico: ehTamanhoTexto ? '' : anuncio.size || '',
+                    estado: estadoEmPortugues,
                     marca: '',
                     status: anuncio.status || 'active'
                 });
@@ -61,7 +85,11 @@ const PagAnuncioEdit = () => {
                 if (anuncio.medias && anuncio.medias.length > 0) {
                     const imagensOrdenadas = anuncio.medias
                         .sort((a, b) => a.position - b.position)
-                        .map(m => m.url);
+                        .map(m => ({
+                            url: m.url,
+                            mediaId: m.id,
+                            file: null
+                        }));
                     setImagens(imagensOrdenadas);
                 }
 
@@ -90,12 +118,32 @@ const PagAnuncioEdit = () => {
         const files = Array.from(e.target.files);
         const novasImagens = files.map(file => ({
             url: URL.createObjectURL(file),
+            mediaId: null,
             file: file
         }));
 
-        const imagensAtualizadas = [...imagens.map(url => ({ url, file: null })), ...novasImagens].slice(0, 5);
-        setImagens(imagensAtualizadas.map(img => img.url));
-        setImagensParaUpload([...imagensParaUpload, ...novasImagens.filter(img => img.file)]);
+        const imagensAtualizadas = [...imagens, ...novasImagens].slice(0, 5);
+        setImagens(imagensAtualizadas);
+    };
+
+    const removerImagem = (index) => {
+        const imagemRemovida = imagens[index];
+
+        // Se a imagem tem mediaId, adiciona na lista para deletar
+        if (imagemRemovida.mediaId) {
+            setImagensParaDeletar(prev => [...prev, imagemRemovida.mediaId]);
+        }
+
+        // Remove a imagem da lista
+        const novasImagens = imagens.filter((_, i) => i !== index);
+        setImagens(novasImagens);
+
+        // Ajusta o índice da imagem atual se necessário
+        if (imagemAtual >= novasImagens.length && novasImagens.length > 0) {
+            setImagemAtual(novasImagens.length - 1);
+        } else if (novasImagens.length === 0) {
+            setImagemAtual(0);
+        }
     };
 
     const proximaImagem = () => {
@@ -147,7 +195,6 @@ const PagAnuncioEdit = () => {
 
             const precoNumeros = formData.preco.replace(/[^\d]/g, '');
             const priceCents = parseInt(precoNumeros);
-
             const tamanhoFinal = formData.tamanhoNumerico || formData.tamanho;
 
             // Validações básicas
@@ -184,27 +231,51 @@ const PagAnuncioEdit = () => {
             // Mapear condição para o enum do backend
             const conditionMap = {
                 'NOVO': 'new',
-                'USADO': 'used'
+                'SEMINOVO': 'like_new',
+                'BOM ESTADO': 'good',
+                'USADO': 'fair'
             };
 
             const categoriaEmIngles = categoryMap[formData.categoria] || formData.categoria.toLowerCase();
-            const condicaoEmIngles = conditionMap[formData.estado] || 'used';
+            const condicaoEmIngles = conditionMap[formData.estado.toUpperCase()] || 'fair';
 
-            const dadosAtualizacao = {
+            // Criar FormData para enviar arquivos
+            const formDataToSend = new FormData();
+
+            // Adicionar campos de texto
+            formDataToSend.append('title', formData.titulo);
+            formDataToSend.append('description', formData.descricao);
+            formDataToSend.append('size', tamanhoFinal);
+            formDataToSend.append('category', categoriaEmIngles);
+            formDataToSend.append('condition', condicaoEmIngles);
+            formDataToSend.append('price_cents', priceCents.toString());
+            formDataToSend.append('listing_status', formData.status);
+
+            // Adicionar IDs das imagens para deletar
+            if (imagensParaDeletar.length > 0) {
+                formDataToSend.append('delete_media_ids', imagensParaDeletar.join(','));
+            }
+
+            // Adicionar novos arquivos de imagem
+            const novosArquivos = imagens.filter(img => img.file !== null);
+            novosArquivos.forEach(img => {
+                formDataToSend.append('files', img.file);
+            });
+
+            console.log('Enviando atualização:', {
                 title: formData.titulo,
-                description: formData.descricao,
-                size: tamanhoFinal,
                 category: categoriaEmIngles,
                 condition: condicaoEmIngles,
                 price_cents: priceCents,
-                status: formData.status
-            };
+                delete_media_ids: imagensParaDeletar.join(','),
+                novos_arquivos: novosArquivos.length
+            });
 
-            console.log('Dados para atualização:', dadosAtualizacao);
-            console.log('URL da requisição:', `/listings/${id}`);
-
-            // Usar PUT ao invés de PATCH
-            const response = await api.put(`/listings/${id}`, dadosAtualizacao);
+            const response = await api.patch(`/listings/${id}`, formDataToSend, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
 
             console.log('Resposta da API:', response.data);
 
@@ -214,12 +285,10 @@ const PagAnuncioEdit = () => {
             console.error("Erro ao atualizar anúncio:", err);
             console.error("Status:", err.response?.status);
             console.error("Detalhes:", err.response?.data);
-            console.error("Mensagem:", err.message);
 
             let mensagemErro = 'Erro ao atualizar anúncio. ';
 
             if (err.response) {
-                // Erro de resposta da API
                 if (err.response.status === 401) {
                     mensagemErro += 'Você precisa estar logado.';
                 } else if (err.response.status === 403) {
@@ -235,10 +304,8 @@ const PagAnuncioEdit = () => {
                     mensagemErro += err.response.data?.message || 'Erro desconhecido.';
                 }
             } else if (err.request) {
-                // Requisição foi feita mas não houve resposta
                 mensagemErro += 'Sem resposta do servidor. Verifique sua conexão.';
             } else {
-                // Erro ao configurar a requisição
                 mensagemErro += err.message;
             }
 
@@ -305,7 +372,14 @@ const PagAnuncioEdit = () => {
                             )}
                             {imagens.length > 0 ? (
                                 <div className="imagem-principal">
-                                    <img src={imagens[imagemAtual]} alt="Produto" />
+                                    <img src={imagens[imagemAtual].url} alt="Produto" />
+                                    <button
+                                        className="btn-deletar-imagem"
+                                        onClick={() => removerImagem(imagemAtual)}
+                                        title="Remover imagem"
+                                    >
+                                        <Trash2 size={20} />
+                                    </button>
                                 </div>
                             ) : (
                                 <div className="imagem-principal upload-placeholder-main">
@@ -337,26 +411,17 @@ const PagAnuncioEdit = () => {
                                     className={`thumbnail ${index === imagemAtual ? 'active' : ''}`}
                                     onClick={() => selecionarImagem(index)}
                                 >
-                                    <img src={imagem} alt={`Thumbnail ${index + 1}`} />
-                                    <label htmlFor={`upload-thumb-${index}`} className="thumbnail-edit-overlay">
-                                        <Camera size={20} />
-                                        <input
-                                            id={`upload-thumb-${index}`}
-                                            type="file"
-                                            accept="image/*"
-                                            onChange={(e) => {
-                                                const file = e.target.files[0];
-                                                if (file) {
-                                                    const novaImagem = URL.createObjectURL(file);
-                                                    const imagensAtualizadas = [...imagens];
-                                                    imagensAtualizadas[index] = novaImagem;
-                                                    setImagens(imagensAtualizadas);
-                                                }
-                                            }}
-                                            style={{ display: 'none' }}
-                                            onClick={(e) => e.stopPropagation()}
-                                        />
-                                    </label>
+                                    <img src={imagem.url} alt={`Thumbnail ${index + 1}`} />
+                                    <button
+                                        className="thumbnail-delete-btn"
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            removerImagem(index);
+                                        }}
+                                        title="Remover imagem"
+                                    >
+                                        <Trash2 size={16} />
+                                    </button>
                                 </div>
                             ))}
                             {imagens.length < 5 && (

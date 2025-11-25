@@ -86,24 +86,67 @@ const Configuracao = () => {
 export default Configuracao;
 
 const AbaConfig = ({ setMostrarAbaConfig, setMostrarAreaConfig }) => {
-    const itensCarrinho = [
-        { imgAnuncio: foto1, nomeProduto: "Camisa preta lisa", nomeVendedor: "Caue Santos", preco: 45, frete: 15.00 },
-        { imgAnuncio: foto2, nomeProduto: "Sapato de couro marrom", nomeVendedor: "Luiza mel", preco: 82, frete: 25.00 },
-        { imgAnuncio: foto3, nomeProduto: "Calça preta", nomeVendedor: "Carlos biritno", preco: 65, frete: 18.00 },
-        { imgAnuncio: foto4, nomeProduto: "Casaco preto para motos", nomeVendedor: "Fabricio antonio", preco: 83, frete: 14.00 }
-    ];
+    const [carrinhoData, setCarrinhoData] = useState(null);
+    const [carregando, setCarregando] = useState(true);
+    const [erro, setErro] = useState(null);
 
-    const valorProdutos = useMemo(() => {
-        return itensCarrinho.reduce((total, item) => total + item.preco, 0);
-    }, [itensCarrinho]);
+    useEffect(() => {
+        buscarCarrinho();
+    }, []);
 
-    const valorFreteTotal = useMemo(() => {
-        return itensCarrinho.reduce((total, item) => total + item.frete, 0);
-    }, [itensCarrinho]);
+    const buscarCarrinho = async () => {
+        try {
+            setCarregando(true);
+            setErro(null);
+            const response = await api.get("/cart");
+            setCarrinhoData(response.data);
+        } catch (err) {
+            console.error("Erro ao buscar carrinho:", err);
+            setErro(err.response?.data?.message || "Erro ao carregar o carrinho");
+        } finally {
+            setCarregando(false);
+        }
+    };
 
-    const valorTotal = useMemo(() => {
-        return valorProdutos + valorFreteTotal;
-    }, [valorProdutos, valorFreteTotal]);
+    const formatarPreco = (centavos) => {
+        return (centavos / 100).toFixed(2).replace('.', ',');
+    };
+
+    if (carregando) {
+        return (
+            <div id="ResumoCompra">
+                <div className='divResumoCompraAberto'>
+                    <div className="TituloResumoCompra">
+                        <h1 style={{ fontWeight: "bold" }}>Carregando...</h1>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    if (erro) {
+        return (
+            <div id="ResumoCompra">
+                <div className='divResumoCompraAberto'>
+                    <div className="TituloResumoCompra">
+                        <h1 style={{ fontWeight: "bold", color: 'red' }}>{erro}</h1>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    if (!carrinhoData || carrinhoData.total_items === 0) {
+        return (
+            <div id="ResumoCompra">
+                <div className='divResumoCompraAberto'>
+                    <div className="TituloResumoCompra">
+                        <h1 style={{ fontWeight: "bold" }}>Carrinho vazio</h1>
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div id="ResumoCompra">
@@ -114,17 +157,17 @@ const AbaConfig = ({ setMostrarAbaConfig, setMostrarAreaConfig }) => {
                     </div>
                     <div className="divValoresPesquisa">
                         <h2 id='produtos'>Produtos:</h2>
-                        <h2 id='preco'>R$ {valorProdutos.toFixed(2).replace('.', ',')}</h2>
+                        <h2 id='preco'>R$ {formatarPreco(carrinhoData.subtotal_cents)}</h2>
                     </div>
                 </div>
                 <div className="ItensComprados">
-                    {itensCarrinho.map((item, index) => (
+                    {carrinhoData.items.map((item) => (
                         <ItemCarrinho
-                            key={index}
-                            imgAnuncio={item.imgAnuncio}
-                            nomeProduto={item.nomeProduto}
-                            nomeVendedor={item.nomeVendedor}
-                            preco={item.preco}
+                            key={item.id}
+                            imgAnuncio={item.listing_image_url || 'https://via.placeholder.com/100x100?text=Sem+Imagem'}
+                            nomeProduto={item.listing_title}
+                            nomeVendedor={`Vendedor ID: ${item.listing_seller_id}`}
+                            preco={item.listing_price_cents / 100}
                         />
                     ))}
                 </div>
@@ -134,20 +177,12 @@ const AbaConfig = ({ setMostrarAbaConfig, setMostrarAreaConfig }) => {
                     <div className="divValoresColumn">
                         <div className='Frete Fretetotal'>
                             <h2>Frete Total:</h2>
-                            <h2 className="bold">R$ {valorFreteTotal.toFixed(2).replace('.', ',')}</h2>
-                        </div>
-                        <div className="listaFretesResumo">
-                            {itensCarrinho.map((item, index) => (
-                                <div key={index} className='Frete'>
-                                    <h2>{item.nomeProduto}:</h2>
-                                    <h2>R$ {item.frete.toFixed(2).replace('.', ',')}</h2>
-                                </div>
-                            ))}
+                            <h2 className="bold">R$ {formatarPreco(carrinhoData.shipping_total_cents)}</h2>
                         </div>
                     </div>
                     <div className="divValores">
                         <h2>Total:</h2>
-                        <h2 className="bold">R$ {valorTotal.toFixed(2).replace('.', ',')}</h2>
+                        <h2 className="bold">R$ {formatarPreco(carrinhoData.total_cents)}</h2>
                     </div>
                     <div id='buttonResumo'>
                         <button
@@ -375,44 +410,37 @@ const EnderecosNovos = ({
 const EnderecoCadastrados = ({ setMostrarAbaConfig, setMostrarAreaConfig, setMostrarMenu, setConteudoAtual }) => {
     const navigate = useNavigate();
     const [enderecoSelecionado, setEnderecoSelecionado] = useState(null);
+    const [enderecosCadastrados, setEnderecosCadastrados] = useState([]);
+    const [carregando, setCarregando] = useState(true);
+    const [erro, setErro] = useState(null);
 
-    const enderecosCadastrados = [
-        {
-            id: 1,
-            nome: "Casinha da Vovó",
-            endereco: "Estrada das Acasisas - Mascios, XiqueXique, SP",
-            cep: "06334024",
-            frete: 72.00
-        },
-        {
-            id: 2,
-            nome: "Casa Principal",
-            endereco: "Rua das Flores, 123 - Centro, São Paulo, SP",
-            cep: "01234567",
-            frete: 250.50
-        },
-        {
-            id: 3,
-            nome: "Trabalho",
-            endereco: "Avenida Paulista, 1000 - Bela Vista, São Paulo, SP",
-            cep: "01310100",
-            frete: 180.00
-        },
-        {
-            id: 4,
-            nome: "Casa da Praia",
-            endereco: "Rua Beira Mar, 456 - Praia Grande, Santos, SP",
-            cep: "11700000",
-            frete: 302.00
-        },
-        {
-            id: 5,
-            nome: "Sítio",
-            endereco: "Estrada Rural, Km 15 - Zona Rural, Ibiúna, SP",
-            cep: "18150000",
-            frete: 230.00
+    useEffect(() => {
+        buscarEnderecos();
+    }, []);
+
+    const buscarEnderecos = async () => {
+        try {
+            setCarregando(true);
+            setErro(null);
+            const response = await api.get("/addresses");
+            setEnderecosCadastrados(response.data);
+        } catch (err) {
+            console.error("Erro ao buscar endereços:", err);
+            setErro(err.response?.data?.message || "Erro ao carregar endereços");
+        } finally {
+            setCarregando(false);
         }
-    ];
+    };
+
+    if (carregando) {
+        return (
+            <div className="AreaTotal">
+                <div className="divEspacoTodo">
+                    <h2 className="titulo">Carregando endereços...</h2>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="AreaTotal">
@@ -425,6 +453,12 @@ const EnderecoCadastrados = ({ setMostrarAbaConfig, setMostrarAreaConfig, setMos
                     </div>
 
                     <h2 className="titulo">Endereço(s) Cadastrado(s)</h2>
+
+                    {erro && (
+                        <div style={{ padding: '20px', textAlign: 'center', color: 'red' }}>
+                            {erro}
+                        </div>
+                    )}
 
                     <div id="AreaEnderecos">
                         {enderecosCadastrados.map((endereco) => (
@@ -441,10 +475,11 @@ const EnderecoCadastrados = ({ setMostrarAbaConfig, setMostrarAreaConfig, setMos
                                     />
                                 </div>
                                 <div className="informacoesendereco">
-                                    <h2 className="bold">{endereco.nome}</h2>
-                                    <p>{endereco.endereco}</p>
-                                    <p>{endereco.cep}</p>
-                                    <h2 className="bold">R$ {endereco.frete.toFixed(2).replace('.', ',')}</h2>
+                                    <h2 className="bold">{endereco.label}</h2>
+                                    <p>{endereco.line1}</p>
+                                    {endereco.line2 && <p>{endereco.line2}</p>}
+                                    <p>{endereco.neighborhood}, {endereco.city} - {endereco.state}</p>
+                                    <p>{endereco.postal_code}</p>
                                 </div>
                                 <div className="editarendereco">
                                     <ArrowRight/>
@@ -736,10 +771,24 @@ const FinalizarPedido = ({ setMostrarAbaConfig, setMostrarAreaConfig, setMostrar
 const PedidoFinalizado = ({ setMostrarAbaConfig, setMostrarAreaConfig, setMostrarMenu, setConteudoAtual }) => {
     const [concorda, setConcorda] = useState(false);
     const navigate = useNavigate();
+    const [processando, setProcessando] = useState(false);
 
-    const handleFinalizado = ()  => {
-        navigate("/configuracao/MeusPedidos")
-    }
+    const handleFinalizado = async () => {
+        try {
+            setProcessando(true);
+
+            // Limpa o carrinho
+            await api.delete("/cart");
+
+            // Navega para a página de pedidos
+            navigate("/configuracao/MeusPedidos");
+        } catch (err) {
+            console.error("Erro ao finalizar pedido:", err);
+            alert("Erro ao finalizar pedido. Tente novamente.");
+        } finally {
+            setProcessando(false);
+        }
+    };
 
     return (
         <div className="AreaTotal">
@@ -763,7 +812,14 @@ const PedidoFinalizado = ({ setMostrarAbaConfig, setMostrarAreaConfig, setMostra
                 </div>
 
                 <div className="BotoesFinalizadosPedido">
-                    <button className="btnProximo" onClick={handleFinalizado} >Pronto</button>
+                    <button
+                        className="btnProximo"
+                        onClick={handleFinalizado}
+                        disabled={processando}
+                        style={{ opacity: processando ? 0.6 : 1 }}
+                    >
+                        {processando ? "Finalizando..." : "Pronto"}
+                    </button>
                 </div>
             </div>
         </div>
