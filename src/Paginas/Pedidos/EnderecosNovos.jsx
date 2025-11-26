@@ -30,10 +30,11 @@ const Configuracao = () => {
     const { menuTipo, menuOpen, setMenuOpen } = useMenuTipo(false);
     const [mostrarMenu, setMostrarMenu] = useState(true);
     const navigate = useNavigate();
-    const [conteudoAtual, setConteudoAtual] = useState('EnderecoCadastrados'); //pagina Padrao
+    const [conteudoAtual, setConteudoAtual] = useState('EnderecoCadastrados');
     const [mostrarAbaConfig, setMostrarAbaConfig] = useState(true);
     const [mostrarAreaConfig, setMostrarAreaConfig] = useState(true);
-    const [showLogoutPopup, setShowLogoutPopup] = useState(false); // Novo estado para o pop-up
+    const [showLogoutPopup, setShowLogoutPopup] = useState(false);
+    const [enderecoSelecionado, setEnderecoSelecionado] = useState(null);
 
     useEffect(() => {
         let previousWidth = window.innerWidth;
@@ -74,10 +75,10 @@ const Configuracao = () => {
                         setMostrarAbaConfig={setMostrarAbaConfig}
                         setMostrarAreaConfig={setMostrarAreaConfig}
                         setMostrarMenu={setMostrarMenu}
-                        mostrarAreaConfig={mostrarAreaConfig} // ← adicionado
+                        mostrarAreaConfig={mostrarAreaConfig}
+                        enderecoSelecionado={enderecoSelecionado}
+                        setEnderecoSelecionado={setEnderecoSelecionado}
                     />}
-
-
             </main>
         </div>
     );
@@ -89,20 +90,46 @@ const AbaConfig = ({ setMostrarAbaConfig, setMostrarAreaConfig }) => {
     const [carrinhoData, setCarrinhoData] = useState(null);
     const [carregando, setCarregando] = useState(true);
     const [erro, setErro] = useState(null);
+    const [imagensAnuncios, setImagensAnuncios] = useState({});
 
     useEffect(() => {
         buscarCarrinho();
     }, []);
 
+    const buscarImagemAnuncio = async (listingId) => {
+        try {
+            const response = await api.get(`/listings/id/${listingId}`);
+            const primeiraImagem = response.data.medias?.[0]?.url || null;
+            return primeiraImagem;
+        } catch (err) {
+            console.error(`Erro ao buscar imagem do anúncio ${listingId}:`, err);
+            return null;
+        }
+    };
+
     const buscarCarrinho = async () => {
         try {
             setCarregando(true);
             setErro(null);
-            const response = await api.get("/cart");
+            const response = await api.get("/orders/summary");
             setCarrinhoData(response.data);
+
+            // Buscar imagens de todos os anúncios
+            const imagensPromises = response.data.items.map(async (item) => {
+                const imagem = await buscarImagemAnuncio(item.listing_id);
+                return { listingId: item.listing_id, imagem };
+            });
+
+            const imagensResultados = await Promise.all(imagensPromises);
+            const imagensMap = {};
+            imagensResultados.forEach(({ listingId, imagem }) => {
+                imagensMap[listingId] = imagem;
+            });
+            setImagensAnuncios(imagensMap);
+
         } catch (err) {
-            console.error("Erro ao buscar carrinho:", err);
-            setErro(err.response?.data?.message || "Erro ao carregar o carrinho");
+            console.error("Erro ao buscar resumo do pedido:", err);
+            setErro(err.response?.data?.message || "Erro ao carregar o resumo do pedido");
         } finally {
             setCarregando(false);
         }
@@ -163,11 +190,13 @@ const AbaConfig = ({ setMostrarAbaConfig, setMostrarAreaConfig }) => {
                 <div className="ItensComprados">
                     {carrinhoData.items.map((item) => (
                         <ItemCarrinho
-                            key={item.id}
-                            imgAnuncio={item.listing_image_url || 'https://via.placeholder.com/100x100?text=Sem+Imagem'}
+                            key={item.listing_id}
+                            imgAnuncio={imagensAnuncios[item.listing_id] || 'https://via.placeholder.com/100x100?text=Sem+Imagem'}
                             nomeProduto={item.listing_title}
-                            nomeVendedor={`Vendedor ID: ${item.listing_seller_id}`}
+                            nomeVendedor={item.seller_username || `Vendedor ID: ${item.seller_id}`}
                             preco={item.listing_price_cents / 100}
+                            itemId={item.listing_id}
+                            onRemove={buscarCarrinho}
                         />
                     ))}
                 </div>
@@ -207,7 +236,9 @@ const AreaConfig = ({
                         setMostrarAreaConfig,
                         setMostrarMenu,
                         setConteudoAtual,
-                        mostrarAreaConfig // ← adicione aqui
+                        mostrarAreaConfig,
+                        enderecoSelecionado,
+                        setEnderecoSelecionado
                     }) => (
 
     <div className="AreaTotal" >
@@ -217,10 +248,9 @@ const AreaConfig = ({
                 setMostrarAbaConfig={setMostrarAbaConfig}
                 setMostrarAreaConfig={setMostrarAreaConfig}
                 setMostrarMenu={setMostrarMenu}
-                mostrarAreaConfig={mostrarAreaConfig} // ← adicionado
+                mostrarAreaConfig={mostrarAreaConfig}
             />
         }
-
 
         {conteudoAtual === 'EnderecoCadastrados' &&
             <>
@@ -229,6 +259,8 @@ const AreaConfig = ({
                     setMostrarAbaConfig={setMostrarAbaConfig}
                     setMostrarAreaConfig={setMostrarAreaConfig}
                     setMostrarMenu={setMostrarMenu}
+                    enderecoSelecionado={enderecoSelecionado}
+                    setEnderecoSelecionado={setEnderecoSelecionado}
                 />
             </>
         }
@@ -259,6 +291,7 @@ const AreaConfig = ({
                     setMostrarAbaConfig={setMostrarAbaConfig}
                     setMostrarAreaConfig={setMostrarAreaConfig}
                     setMostrarMenu={setMostrarMenu}
+                    enderecoSelecionado={enderecoSelecionado}
                 />
             </>
         }
@@ -272,9 +305,8 @@ const EnderecosNovos = ({
                             setMostrarAreaConfig,
                             setMostrarMenu,
                             setConteudoAtual,
-                            mostrarAreaConfig // ← adicionado
+                            mostrarAreaConfig
                         }) => {
-
 
     const [formData, setFormData] = useState({
         cep: "",
@@ -287,9 +319,9 @@ const EnderecosNovos = ({
     });
 
     const [formValido, setFormValido] = useState(false);
+    const [salvando, setSalvando] = useState(false);
 
     useEffect(() => {
-        // Verifica se todos os campos estão preenchidos
         const tudoPreenchido = Object.values(formData).every((valor) => valor.trim() !== "");
         setFormValido(tudoPreenchido);
     }, [formData]);
@@ -299,9 +331,35 @@ const EnderecosNovos = ({
         setFormData({ ...formData, [name]: value });
     };
 
+    const handleConfirmar = async () => {
+        if (!formValido || salvando) return;
+
+        try {
+            setSalvando(true);
+
+            const dadosEndereco = {
+                postal_code: formData.cep,
+                line1: formData.rua,
+                line2: formData.complemento,
+                neighborhood: formData.bairro,
+                city: formData.cidade,
+                state: formData.estado,
+                label: formData.nome
+            };
+
+            await api.post('/addresses', dadosEndereco);
+            setConteudoAtual("EnderecoCadastrados");
+
+        } catch (err) {
+            console.error("Erro ao salvar endereço:", err);
+            alert(err.response?.data?.message || "Erro ao salvar endereço. Tente novamente.");
+        } finally {
+            setSalvando(false);
+        }
+    };
+
     return (
         <div className={`AreaTotal ${mostrarAreaConfig ? "mostrarArea" : ""}`}>
-
             <>
                 <div className="divEspacoTodo">
                     <h2 className="titulo">Adicionar Novo Endereço</h2>
@@ -393,12 +451,11 @@ const EnderecosNovos = ({
                         </button>
                         <button
                             className={`btnProximo ${!formValido ? "desativado" : ""}`}
-                            disabled={!formValido}
-                            onClick={() => {
-                                if (formValido) setConteudoAtual("EnderecoCadastrados");
-                            }}
+                            disabled={!formValido || salvando}
+                            onClick={handleConfirmar}
+                            style={{ opacity: salvando ? 0.6 : 1 }}
                         >
-                            Confirmar
+                            {salvando ? "Salvando..." : "Confirmar"}
                         </button>
                     </div>
                 </div>
@@ -407,9 +464,15 @@ const EnderecosNovos = ({
     );
 };
 
-const EnderecoCadastrados = ({ setMostrarAbaConfig, setMostrarAreaConfig, setMostrarMenu, setConteudoAtual }) => {
+const EnderecoCadastrados = ({
+    setMostrarAbaConfig,
+    setMostrarAreaConfig,
+    setMostrarMenu,
+    setConteudoAtual,
+    enderecoSelecionado,
+    setEnderecoSelecionado
+}) => {
     const navigate = useNavigate();
-    const [enderecoSelecionado, setEnderecoSelecionado] = useState(null);
     const [enderecosCadastrados, setEnderecosCadastrados] = useState([]);
     const [carregando, setCarregando] = useState(true);
     const [erro, setErro] = useState(null);
@@ -768,23 +831,47 @@ const FinalizarPedido = ({ setMostrarAbaConfig, setMostrarAreaConfig, setMostrar
     );
 };
 
-const PedidoFinalizado = ({ setMostrarAbaConfig, setMostrarAreaConfig, setMostrarMenu, setConteudoAtual }) => {
-    const [concorda, setConcorda] = useState(false);
+const PedidoFinalizado = ({
+    setMostrarAbaConfig,
+    setMostrarAreaConfig,
+    setMostrarMenu,
+    setConteudoAtual,
+    enderecoSelecionado
+}) => {
     const navigate = useNavigate();
     const [processando, setProcessando] = useState(false);
 
     const handleFinalizado = async () => {
+        if (!enderecoSelecionado) {
+            alert("Por favor, volte e selecione um endereço de entrega.");
+            return;
+        }
+
+        if (processando) return;
+
         try {
             setProcessando(true);
 
-            // Limpa o carrinho
+            console.log('Criando pedido com address_id:', enderecoSelecionado);
+            await api.post('/orders', {
+                address_id: enderecoSelecionado
+            });
+
+            console.log('Limpando carrinho...');
             await api.delete("/cart");
 
-            // Navega para a página de pedidos
             navigate("/configuracao/MeusPedidos");
         } catch (err) {
             console.error("Erro ao finalizar pedido:", err);
-            alert("Erro ao finalizar pedido. Tente novamente.");
+            console.error("Detalhes:", err.response?.data);
+
+            if (err.response?.status === 400) {
+                alert(err.response?.data?.message || "Erro ao criar pedido. Verifique os dados.");
+            } else if (err.response?.status === 404) {
+                alert("Endereço não encontrado. Volte e selecione outro endereço.");
+            } else {
+                alert("Erro ao finalizar pedido. Tente novamente.");
+            }
         } finally {
             setProcessando(false);
         }
@@ -815,8 +902,11 @@ const PedidoFinalizado = ({ setMostrarAbaConfig, setMostrarAreaConfig, setMostra
                     <button
                         className="btnProximo"
                         onClick={handleFinalizado}
-                        disabled={processando}
-                        style={{ opacity: processando ? 0.6 : 1 }}
+                        disabled={processando || !enderecoSelecionado}
+                        style={{
+                            opacity: processando || !enderecoSelecionado ? 0.6 : 1,
+                            cursor: processando || !enderecoSelecionado ? 'not-allowed' : 'pointer'
+                        }}
                     >
                         {processando ? "Finalizando..." : "Pronto"}
                     </button>

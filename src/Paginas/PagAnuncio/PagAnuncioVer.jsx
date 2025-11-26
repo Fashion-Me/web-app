@@ -179,6 +179,33 @@ const PagAnuncioVer = () => {
         }
     }
 
+
+    const handleComprarCarrinho = async () => {
+
+        try {
+            const response = await api.post('/cart/items', {
+                listing_id: produto.id
+            });
+
+            console.log('Resposta ao adicionar ao carrinho:', response.data);
+
+            navigate("/Pagamento");
+
+        } catch (err) {
+            console.error("Erro ao adicionar ao carrinho:", err);
+            console.error("Detalhes do erro:", err.response?.data);
+
+            if (err.response?.status === 401) {
+                alert('Você precisa estar logado para adicionar ao carrinho');
+                navigate('/login');
+            } else if (err.response?.status === 400) {
+                alert('Este produto já está no seu carrinho');
+            } else {
+                alert('Erro ao adicionar ao carrinho. Tente novamente.');
+            }
+        }
+    };
+
     const handleIniciarConversa = async () => {
         if (iniciandoConversa || !vendedor) return;
 
@@ -350,7 +377,10 @@ const PagAnuncioVer = () => {
                         <p className="produto-preco">{produto.preco}</p>
 
                         <div className="botoes-acao">
-                            <button className="btn-comprar">
+                            <button
+                                className="btn-comprar"
+                                onClick={handleComprarCarrinho}
+                            >
                                 COMPRAR AGORA
                             </button>
                             <button

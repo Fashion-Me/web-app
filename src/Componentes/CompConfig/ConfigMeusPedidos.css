@@ -82,6 +82,11 @@
     transform: scale(0.95);
 }
 
+.status {
+    font-weight: bold;
+    font-size: 13px;
+}
+
 @media (max-width: 768px) {
     .itemPedido {
         flex-direction: column;
@@ -98,4 +103,3 @@
         height: 60px;
     }
 }
-

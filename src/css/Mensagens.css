@@ -131,6 +131,7 @@
     border-radius: 50%;
     height: 100%;
     object-fit: fill; /* Evita deformação */
+    aspect-ratio: 1/1;
 }
 
 .Contato .textoContato{
@@ -190,6 +191,7 @@
     border-radius: 25%;
     height: 100%;
     object-fit: fill; /* Evita deformação */
+    aspect-ratio: 1/1;
 }
 
 .divConversa {
