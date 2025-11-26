@@ -2,7 +2,7 @@
   "name": "fashion-me",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://fashion-me.github.io/",
+  "homepage": "https://fashion-me.github.io/web-app/",
   "dependencies": {
     "@radix-ui/themes": "^3.2.1",
     "@tailwindcss/vite": "^4.1.7",
