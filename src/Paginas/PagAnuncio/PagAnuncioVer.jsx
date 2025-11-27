@@ -170,7 +170,7 @@ const PagAnuncioVer = () => {
                 alert('Você precisa estar logado para adicionar ao carrinho');
                 navigate('/login');
             } else if (err.response?.status === 400) {
-                alert('Este produto já está no seu carrinho');
+                alert(err.response?.data?.detail);
             } else {
                 alert('Erro ao adicionar ao carrinho. Tente novamente.');
             }
@@ -199,10 +199,56 @@ const PagAnuncioVer = () => {
                 alert('Você precisa estar logado para adicionar ao carrinho');
                 navigate('/login');
             } else if (err.response?.status === 400) {
-                alert('Este produto já está no seu carrinho');
+                alert(err.response?.data?.detail);
             } else {
                 alert('Erro ao adicionar ao carrinho. Tente novamente.');
             }
+        }
+    };
+
+    const [descricaoDenuncia, setDescricaoDenuncia] = useState('');
+    const [enviandoDenuncia, setEnviandoDenuncia] = useState(false);
+
+
+    const handleEnviarDenuncia = async () => {
+        if (!opcaoDenuncia || enviandoDenuncia) return;
+
+        try {
+            setEnviandoDenuncia(true);
+
+            const payload = {
+                target_type: "listing",
+                target_id: produto.id,
+                reason: opcaoDenuncia,
+                description: descricaoDenuncia.trim() || "Sem descrição adicional"
+            };
+
+            console.log('Enviando denúncia:', payload);
+            const response = await api.post('/moderation/reports', payload);
+            console.log('Resposta da denúncia:', response.data);
+
+            alert('Denúncia enviada com sucesso!');
+            setModalDenunciaAberto(false);
+            setOpcaoDenuncia('');
+            setDescricaoDenuncia('');
+        } catch (err) {
+            const detalhe = err.response?.data?.detail
+                || err.response?.data?.message
+                || (err.response?.data ? JSON.stringify(err.response.data) : err.message);
+
+            console.error("Erro ao enviar denúncia:", err);
+            console.error("Detalhes do erro:", detalhe);
+
+            if (err.response?.status === 401) {
+                alert('Você precisa estar logado para enviar denúncias');
+                navigate('/login');
+            } else if (err.response?.status === 400) {
+                alert(detalhe);
+            } else {
+                alert('Erro ao enviar denúncia. Tente novamente.');
+            }
+        } finally {
+            setEnviandoDenuncia(false);
         }
     };
 
@@ -449,7 +495,11 @@ const PagAnuncioVer = () => {
                                     <CircleAlert size={32} className="modal-icon" />
                                     <h2>Denunciar</h2>
                                     <button
-                                        onClick={() => setModalDenunciaAberto(false)}
+                                        onClick={() => {
+                                            setModalDenunciaAberto(false);
+                                            setOpcaoDenuncia('');
+                                            setDescricaoDenuncia('');
+                                        }}
                                         style={{
                                             marginLeft: 'auto',
                                             background: 'none',
@@ -512,17 +562,36 @@ const PagAnuncioVer = () => {
                                     </label>
                                 </div>
 
+                                <textarea
+                                    className="modal-descricao-input"
+                                    placeholder="Descrição adicional (opcional)"
+                                    value={descricaoDenuncia}
+                                    onChange={(e) => setDescricaoDenuncia(e.target.value)}
+                                    rows={4}
+                                    style={{
+                                        width: '100%',
+                                        padding: '10px',
+                                        marginTop: '15px',
+                                        borderRadius: '8px',
+                                        border: '1px solid #A3A3A3',
+                                        backgroundColor: '#2C2C2C',
+                                        color: '#EFEFEF',
+                                        fontSize: '14px',
+                                        resize: 'vertical'
+                                    }}
+                                />
+
                                 <div className="modal-botoes">
                                     <button
                                         className="btn-confirmar"
-                                        disabled={!opcaoDenuncia}
-                                        onClick={() => {
-                                            console.log('Denúncia:', opcaoDenuncia);
-                                            setModalDenunciaAberto(false);
-                                            setOpcaoDenuncia('');
+                                        disabled={!opcaoDenuncia || enviandoDenuncia}
+                                        onClick={handleEnviarDenuncia}
+                                        style={{
+                                            opacity: (!opcaoDenuncia || enviandoDenuncia) ? 0.6 : 1,
+                                            cursor: (!opcaoDenuncia || enviandoDenuncia) ? 'not-allowed' : 'pointer'
                                         }}
                                     >
-                                        CONFIRMAR
+                                        {enviandoDenuncia ? 'ENVIANDO...' : 'CONFIRMAR'}
                                     </button>
                                 </div>
                             </div>

@@ -33,11 +33,30 @@ const Login = () => {
         e.preventDefault();
         const username = e.target.nome.value.trim();
         const password = e.target.senha.value.trim();
+
         try {
             await api.post("/auth/login", { username, password });
-            navigate(`/home`);// login ok → home
+
+            // busca os dados do usuário logado
+            const response = await api.get("/users/me");
+            console.log('Dados do usuário:', response.data);
+
+            const role = response.data.role;
+
+            if (role === "admin") {
+                navigate('/moderacao');
+            } else {
+                navigate('/home');
+            }
         } catch (err) {
-             alert("Usuário ou senha inválidos");
+            const detalhe = err.response?.data?.detail
+                || err.response?.data?.message
+                || err.message;
+
+            console.error("Erro no login:", err);
+            console.error("Detalhes do erro:", detalhe);
+
+            alert("Usuário ou senha inválidos");
         }
     };
 

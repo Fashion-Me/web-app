@@ -1,22 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ChevronDown, ArrowRight } from 'lucide-react';
-import "./ModeracaoPerfils.css"
-import PerfilHistorico from './PerfilHistorico';
-
-import imgPerfilEnzo from "../../../Imagens/FotoPerfilEnzo.png"
-import imgPerfilVH from "../../../Imagens/FotoPerfilVH.jpg"
-import imgPerfil from "../../../Imagens/FotoPerfil.png"
-import imgPerfilDaniel from "../../../Imagens/FotoDaniel.jpg"
-import imgPerfilCaue from "../../../Imagens/FotoPerfilCaue.jpg"
-import imgPerfilAvatar from "../../../Imagens/FotoPerfilAvatar.png"
-import {useNavigate} from "react-router-dom";
-
+import "./ModeracaoPerfils.css";
+import api from "../../../services/authApi";
+import { useNavigate } from "react-router-dom";
 
 const TITULO_PAGINA = "PERFILS";
 const OPCOES_FILTRO = ["Ordem Alfabética", "Mais Denúncias", "Mais Recentes"];
 const MENU_OPCOES = ["DENUNCIADOS", "PUNIDOS"];
 
-const PerfilDenuncia = ({ fotoPerfil, nomePerfil, descricao, numDenuncias, tipoMenu, onVisualizar, onAcao }) => {
+const PerfilDenuncia = ({ fotoPerfil, nomePerfil, numDenuncias, tipoMenu, onVisualizar, onAcao }) => {
     return (
         <div className="anuncio-denuncia-item">
             <div className="anuncio-info">
@@ -47,10 +39,85 @@ const ModeracaoPerfil = () => {
     const [filtroSelecionado, setFiltroSelecionado] = useState(OPCOES_FILTRO[0]);
     const [menuAtivo, setMenuAtivo] = useState(MENU_OPCOES[0]);
     const [pesquisa, setPesquisa] = useState("");
+    const [perfis, setPerfis] = useState([]);
+    const [carregando, setCarregando] = useState(false);
     const navigate = useNavigate();
 
-    const ordenarPerfis = (perfis) => {
-        const perfisOrdenados = [...perfis];
+    useEffect(() => {
+        buscarPerfis();
+    }, [menuAtivo]);
+
+    const buscarPerfis = async () => {
+        try {
+            setCarregando(true);
+
+            // Buscar denúncias de usuários
+            const responseDenuncias = await api.get('/moderation/reports', {
+                params: {
+                    target_type: 'user',
+                    skip: 0,
+                    limit: 100
+                }
+            });
+
+            console.log('Denúncias de perfis:', responseDenuncias.data);
+
+            // Agrupar denúncias por target_id
+            const denunciasAgrupadas = responseDenuncias.data.reduce((acc, denuncia) => {
+                const id = denuncia.target_id;
+                if (!acc[id]) {
+                    acc[id] = {
+                        id,
+                        numDenuncias: 0,
+                        denuncias: []
+                    };
+                }
+                acc[id].numDenuncias++;
+                acc[id].denuncias.push(denuncia);
+                return acc;
+            }, {});
+
+            // Buscar dados completos dos usuários
+            const perfisComDados = await Promise.all(
+                Object.values(denunciasAgrupadas).map(async (perfil) => {
+                    try {
+                        const responseUsuario = await api.get(`/users/id/${perfil.id}`);
+                        const usuarioData = responseUsuario.data;
+
+                        return {
+                            id: perfil.id,
+                            numDenuncias: perfil.numDenuncias,
+                            denuncias: perfil.denuncias,
+                            fotoPerfil: usuarioData.profile_url || "/placeholder.png",
+                            nomePerfil: usuarioData.username || `Usuário #${perfil.id}`,
+                            name: usuarioData.name || ""
+                        };
+                    } catch (err) {
+                        console.error(`Erro ao buscar usuário ${perfil.id}:`, err);
+                        return {
+                            id: perfil.id,
+                            numDenuncias: perfil.numDenuncias,
+                            denuncias: perfil.denuncias,
+                            fotoPerfil: "/placeholder.png",
+                            nomePerfil: `Usuário #${perfil.id}`,
+                            name: ""
+                        };
+                    }
+                })
+            );
+
+            setPerfis(perfisComDados);
+        } catch (err) {
+            console.error("Erro ao buscar denúncias de perfis:", err);
+            const detalhe = err.response?.data?.detail || err.message;
+            console.error("Detalhes do erro:", detalhe);
+        } finally {
+            setCarregando(false);
+        }
+    };
+
+    const ordenarPerfis = (perfisLista) => {
+        const perfisOrdenados = [...perfisLista];
 
         switch (filtroSelecionado) {
             case "Ordem Alfabética":
@@ -58,124 +125,35 @@ const ModeracaoPerfil = () => {
                     a.nomePerfil.localeCompare(b.nomePerfil)
                 );
             case "Mais Denúncias":
-                return perfisOrdenados.sort((a, b) =>
-                    b.numDenuncias - a.numDenuncias
-                );
+                return perfisOrdenados.sort((a, b) => b.numDenuncias - a.numDenuncias);
             case "Mais Recentes":
-                return perfisOrdenados.sort((a, b) =>
-                    b.id - a.id
-                );
+                return perfisOrdenados.sort((a, b) => b.id - a.id);
             default:
                 return perfisOrdenados;
         }
     };
 
-    const obterAnunciosPorMenu = () => {
-        let perfis = [];
-        if (menuAtivo === "DENUNCIADOS") {
-            perfis = anunciosExemploDenunciados;
-        } else if (menuAtivo === "PUNIDOS") {
-            perfis = anunciosExemploExcluidos;
-        }
+    const obterPerfisFiltrados = () => {
+        let perfisFiltrados = perfis;
 
-        // Aplicar filtro de pesquisa
         if (pesquisa.trim()) {
-            perfis = perfis.filter(perfil =>
+            perfisFiltrados = perfisFiltrados.filter(perfil =>
+                perfil.id.toString().includes(pesquisa) ||
                 perfil.nomePerfil.toLowerCase().includes(pesquisa.toLowerCase())
             );
         }
 
-        return ordenarPerfis(perfis);
+        return ordenarPerfis(perfisFiltrados);
     };
-
-    // Dados de exemplo - substituir pela API real
-    const anunciosExemploDenunciados = [
-        {
-            id: 1,
-            fotoPerfil: imgPerfilEnzo ,
-            nomePerfil: "Enzo deu o Medico",
-            numDenuncias: 80
-        },
-        {
-            id: 2,
-            fotoPerfil: imgPerfilVH ,
-            nomePerfil: "Victor Hugo",
-            numDenuncias: 80
-        },
-        {
-            id: 3,
-            fotoPerfil:  imgPerfil,
-            nomePerfil: "Luiz Ricardo",
-            numDenuncias: 55
-        },
-        {
-            id: 4,
-            fotoPerfil:  imgPerfilDaniel,
-            nomePerfil: "Daniel I AmaMoto",
-            numDenuncias: 3456
-        },
-        {
-            id: 5,
-            fotoPerfil:  imgPerfilCaue,
-            nomePerfil: "Caue",
-            numDenuncias: 800
-        },
-        {
-            id: 6,
-            fotoPerfil:  imgPerfilAvatar,
-            nomePerfil: "Carlos Abe_rto",
-            numDenuncias: 80
-        },
-        // Adicionar mais anúncios conforme necessário
-    ];
-    const anunciosExemploExcluidos = [
-        {
-            id: 1,
-            fotoPerfil: imgPerfilVH  ,
-            nomePerfil: "Jacinto Leite",
-            numDenuncias: 80
-        },
-        {
-            id: 2,
-            fotoPerfil: imgPerfilEnzo ,
-            nomePerfil: "Atual do VH",
-            numDenuncias: 80
-        },
-        {
-            id: 3,
-            fotoPerfil:  imgPerfil,
-            nomePerfil: "Luis Ricardo",
-            numDenuncias: 55
-        },
-        {
-            id: 4,
-            fotoPerfil:  imgPerfilCaue,
-            nomePerfil: "K.U.E",
-            numDenuncias: 3456
-        },
-        {
-            id: 5,
-            fotoPerfil: imgPerfilDaniel,
-            nomePerfil: "Amor ao Davi",
-            numDenuncias: 800
-        },
-        {
-            id: 6,
-            fotoPerfil:  imgPerfilAvatar,
-            nomePerfil: "Tomas Urbano",
-            numDenuncias: 80
-        },
-        // Adicionar mais anúncios conforme necessário
-    ];
 
     const handleVisualizar = (id) => {
-        // Navegar para o perfil
-        console.log("Visualizar anúncio:", id);
-        navigate(`/moderacao/verPerfil`);
+        console.log("Visualizar perfil:", id);
+        navigate(`/moderacao/verPerfil/${id}`);
     };
+
     const handleNavegacao = (id) => {
-        console.log("Navegar anúncio:", id);
-        navigate(`/moderacao/especPerfil`);
+        console.log("Navegar perfil:", id);
+        navigate(`/moderacao/especPerfil/${id}`);
     };
 
     return (
@@ -229,20 +207,25 @@ const ModeracaoPerfil = () => {
                 ))}
             </div>
 
-            <div className="lista-anuncios">
-                {obterAnunciosPorMenu().map((anuncio) => (
-                    <PerfilDenuncia
-                        key={anuncio.id}
-                        fotoPerfil={anuncio.fotoPerfil}
-                        nomePerfil={anuncio.nomePerfil}
-                        descricao={anuncio.descricao}
-                        numDenuncias={anuncio.numDenuncias}
-                        tipoMenu={menuAtivo}
-                        onVisualizar={() => handleVisualizar(anuncio.id)}
-                        onAcao={() => handleNavegacao(anuncio.id)}
-                    />
-                ))}
-            </div>
+            {carregando ? (
+                <div style={{ textAlign: 'center', padding: '40px', color: '#EFEFEF' }}>
+                    Carregando denúncias...
+                </div>
+            ) : (
+                <div className="lista-anuncios">
+                    {obterPerfisFiltrados().map((perfil) => (
+                        <PerfilDenuncia
+                            key={perfil.id}
+                            fotoPerfil={perfil.fotoPerfil}
+                            nomePerfil={perfil.nomePerfil}
+                            numDenuncias={perfil.numDenuncias}
+                            tipoMenu={menuAtivo}
+                            onVisualizar={() => handleVisualizar(perfil.id)}
+                            onAcao={() => handleNavegacao(perfil.id)}
+                        />
+                    ))}
+                </div>
+            )}
         </div>
     );
 };

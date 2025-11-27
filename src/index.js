@@ -68,9 +68,9 @@ const router = createBrowserRouter([
     { path: "/moderacao/anuncios", element: <Moderacao pag={"anuncios"}  /> },
     { path: "/moderacao/posts", element: <Moderacao pag={"posts"}  /> },
     { path: "/moderacao/cadastro", element: <Moderacao pag={"cadastro"}  /> },
-    { path: "/moderacao/especPerfil", element: <ModeracaoEspecPerfil/> },
-    { path: "/moderacao/especPost", element: <ModeracaoEspecPost /> },
-    { path: "/moderacao/especAnuncio", element: <ModeracaoEspecAnun /> },
+    { path: "/moderacao/especPerfil/:id", element: <ModeracaoEspecPerfil/> },
+    { path: "/moderacao/especPost/:id", element: <ModeracaoEspecPost /> },
+    { path: "/moderacao/especAnuncio/:id", element: <ModeracaoEspecAnun /> },
 
 ]);
 
